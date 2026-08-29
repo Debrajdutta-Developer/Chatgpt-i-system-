@@ -15,26 +15,46 @@ concurrency:
 jobs:
   factory-cycle:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
       - name: Validate factory before cycle
         run: python -m unittest discover -s tests -v
-      - name: Run one factory cycle
-        run: python -m factory
-      - name: Revalidate factory and all released projects
+
+      - name: Run one Gemini-powered factory cycle
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: gemini-3.7-flash
+        run: |
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "GEMINI_API_KEY repository secret is required for autonomous AI discovery."
+            exit 2
+          fi
+          python -m factory
+
+      - name: Revalidate factory and released projects
         run: |
           python -m unittest discover -s tests -v
           for project in projects/*; do
             if [ -d "$project/tests" ]; then
               (cd "$project" && python -m unittest discover -s tests -v && python -m compileall -q .)
             fi
+            if [ -f "$project/app.js" ]; then
+              node --check "$project/app.js"
+            fi
           done
+
       - name: Commit and push validated changes
         shell: bash
         run: |
@@ -49,8 +69,9 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "factory: publish validated daily project"
+          git commit -m "factory: publish validated daily project $(date -u +'%Y-%m-%d') [skip ci]"
           git push
+
       - name: Upload cycle reports
         if: always()
         uses: actions/upload-artifact@v4
