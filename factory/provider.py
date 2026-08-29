@@ -356,10 +356,12 @@ Do not add, rename or omit canonical files.
 Implement every major feature with real standard-library-only code. Central parsing,
 indexing, storage, protocol, state-machine or execution logic must be implemented in
 this repository. Unit and integration tests must execute the real engine and each suite
-must have at least 8 meaningful checks. Include malformed/boundary behavior. No TODOs,
-fake results, shell/subprocess execution, credential access, public-network calls,
-self-modifying code or external packages. README must document architecture, algorithms,
-build/run/test commands, supported scope and honest limitations.
+must have at least 10 explicit, independent assertion/check invocations so the factory
+can verify test depth mechanically. Include normal, malformed, boundary, persistence or
+state-transition cases where relevant. No TODOs, fake results, shell/subprocess execution,
+credential access, public-network calls, self-modifying code or external packages.
+README must document architecture, algorithms, build/run/test commands, supported scope
+and honest limitations.
 REPAIR_FEEDBACK={json.dumps(feedback, ensure_ascii=False)}
 """
     if profile == "systems-java":
@@ -367,19 +369,28 @@ REPAIR_FEEDBACK={json.dumps(feedback, ensure_ascii=False)}
 All Java files use package `factory`. Core.java contains the reusable engine. Main.java
 provides the real CLI/server. For cache/protocol projects, a localhost TCP server and
 bounded protocol parsing are appropriate. CoreTest and IntegrationTest are executable
-classes with public static void main and dependency-free assertions. Java 21, no preview.
+classes with public static void main. In EACH test file use explicit calls whose names
+start with assert/check/verify/expect/require at least 10 times; do not hide many cases
+behind a single loop or one helper invocation. Prefer a small `check(boolean,String)`
+helper and call it independently for each tested behavior. Java 21, no preview.
+When writing Java regex literals, double-escape backslashes correctly for Java source.
+Avoid hand-built JSON string literals that require complex nested quoting; use simple
+plain-text sample values unless JSON itself is part of the feature under test.
 """
     if profile == "systems-c":
         return common + """
 Portable C11. engine.h defines API/ownership/error contracts; engine.c implements the
 engine; main.c is a real CLI. Tests each contain main, return nonzero on failure, free
-owned allocations, and compile with -Wall -Wextra -Werror -pedantic. No system/popen.
+owned allocations, and compile with -Wall -Wextra -Werror -pedantic. In EACH test file
+make at least 10 explicit calls to assert/check/verify/expect/require-style helpers.
+No system/popen.
 """
     return common + """
 Python 3.12 standard library only. engine.py contains the real engine; cli.py uses
-argparse and calls it. Both unittest files exercise real state/persistence. Private
-search must implement tokenization/inverted index/ranking locally. A safe learning agent
-may implement local memory/scoring/feedback updates but no arbitrary code execution.
+argparse and calls it. Both unittest files exercise real state/persistence and each must
+contain at least 10 explicit `self.assert...(...)` or bare assert checks. Private search
+must implement tokenization/inverted index/ranking locally. A safe learning agent may
+implement local memory/scoring/feedback updates but no arbitrary code execution.
 """
 
 
