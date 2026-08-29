@@ -1,0 +1,1 @@
+Branch assembled from the reviewed V2 tree and Gemini provider changes. Connector-level compare confirms this branch is based directly on main. Local clone validation was attempted but the execution environment could not resolve github.com, so final execution validation should be performed by GitHub Actions after merge/manual dispatch.
