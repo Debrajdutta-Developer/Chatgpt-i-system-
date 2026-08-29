@@ -10,7 +10,7 @@ from factory.history import is_duplicate, load_history, write_history
 from factory.models import Idea, ValidationResult
 from factory.orchestrator import recent_ideas, run_cycle
 from factory.planner import discover, select
-from factory.provider import _files_map, _idea_items
+from factory.provider import _canonicalize_files, _files_map, _idea_items
 from factory.utils import FactoryLocked, Lock
 from factory.validator import classify
 from factory.validator import validate
@@ -63,11 +63,23 @@ class FactoryTests(unittest.TestCase):
   self.assertEqual(_idea_items({"ideas":ideas}),ideas)
   self.assertEqual(_idea_items(ideas),ideas)
   with self.assertRaises(RuntimeError): _idea_items("bad")
- def test_gemini_build_payload_accepts_single_wrapped_list(self):
+ def test_gemini_build_payload_accepts_object_list_and_file_list(self):
   files={"README.md":"x"}
   self.assertEqual(_files_map({"files":files}),files)
   self.assertEqual(_files_map([{"files":files}]),files)
+  listed={"files":[{"path":"README.md","content":"x"}]}
+  self.assertEqual(_files_map(listed),files)
   with self.assertRaises(RuntimeError): _files_map([])
+ def test_gemini_java_paths_are_safely_canonicalized_by_unique_basename(self):
+  expected={"README.md","src/main/java/factory/Core.java","src/main/java/factory/Main.java","src/test/java/factory/CoreTest.java","src/test/java/factory/IntegrationTest.java"}
+  files={"README.md":"readme","Core.java":"core","Main.java":"main","CoreTest.java":"ct","IntegrationTest.java":"it","EXTRA.txt":"ignored"}
+  mapped=_canonicalize_files(files,expected)
+  self.assertEqual(set(mapped),expected)
+  self.assertEqual(mapped["src/main/java/factory/Core.java"],"core")
+  self.assertNotIn("EXTRA.txt",mapped)
+ def test_gemini_canonicalizer_rejects_missing_and_traversal_paths(self):
+  expected={"README.md","src/main/java/factory/Core.java"}
+  with self.assertRaises(RuntimeError): _canonicalize_files({"README.md":"x","../Core.java":"bad"},expected)
  def test_lock_prevents_concurrent_cycle(self):
   with TemporaryDirectory() as d:
    path=Path(d)/"lock"
