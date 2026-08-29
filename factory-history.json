@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Env Sentinel",
+    "date": "2026-08-28",
+    "problem": "Environment-variable usage, example contracts, and local configuration drift apart and cause late deployment failures.",
+    "solution": "A dependency-free local CLI that statically scans source references and compares key names with dotenv contract and configuration files without exposing values.",
+    "path": "."
+  }
+]
