@@ -1,0 +1,23 @@
+{
+  "name": "Cron Horizon",
+  "slug": "cron-horizon",
+  "target_user": "Developers, DevOps engineers, and system administrators.",
+  "problem": "Cron expressions are hard to read, debug, and predict, leading to unexpected job execution times or resource-heavy overlaps.",
+  "pain": "Setting up a cron expression and accidentally triggering a heavy script every minute instead of every hour, or having two resource-intensive jobs run simultaneously and crash the server.",
+  "solution": "A local-first cron visualizer that parses standard cron syntax, generates an interactive 12-month calendar projection, and flags potential concurrency conflicts.",
+  "verification": "Paste a specific cron expression (e.g., '*/15 9-17 * * 1-5'), verify that the generated run-times list matches expected 15-minute intervals during business hours on weekdays.",
+  "category": "developer tooling",
+  "keywords": [
+    "cron",
+    "scheduler",
+    "sysadmin",
+    "devops",
+    "calendar-projection"
+  ],
+  "major_features": [
+    "Interactive 12-month calendar run-time projection",
+    "Confrontation detector for overlapping schedule configurations",
+    "Human-readable natural language translation of cron syntax"
+  ],
+  "technology": "HTML/CSS/JavaScript"
+}

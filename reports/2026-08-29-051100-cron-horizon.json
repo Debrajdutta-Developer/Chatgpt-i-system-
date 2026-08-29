@@ -1,0 +1,205 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "developer tooling",
+      "keywords": [
+        "cron",
+        "scheduler",
+        "sysadmin",
+        "devops",
+        "calendar-projection"
+      ],
+      "major_features": [
+        "Interactive 12-month calendar run-time projection",
+        "Confrontation detector for overlapping schedule configurations",
+        "Human-readable natural language translation of cron syntax"
+      ],
+      "name": "Cron Horizon",
+      "pain": "Setting up a cron expression and accidentally triggering a heavy script every minute instead of every hour, or having two resource-intensive jobs run simultaneously and crash the server.",
+      "problem": "Cron expressions are hard to read, debug, and predict, leading to unexpected job execution times or resource-heavy overlaps.",
+      "slug": "cron-horizon",
+      "solution": "A local-first cron visualizer that parses standard cron syntax, generates an interactive 12-month calendar projection, and flags potential concurrency conflicts.",
+      "target_user": "Developers, DevOps engineers, and system administrators.",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Paste a specific cron expression (e.g., '*/15 9-17 * * 1-5'), verify that the generated run-times list matches expected 15-minute intervals during business hours on weekdays."
+    },
+    {
+      "category": "accessibility",
+      "keywords": [
+        "subtitles",
+        "srt",
+        "webvtt",
+        "transcription",
+        "local-first"
+      ],
+      "major_features": [
+        "Tap-to-sync time stamping with spacebar keypresses",
+        "Real-time visual wave preview of loaded local media",
+        "Instant export to standard SRT and WebVTT formats"
+      ],
+      "name": "SubSync Studio",
+      "pain": "Free tools are filled with ads or upload data to remote servers, while manual timestamp editing in a text editor is slow and error-prone.",
+      "problem": "Generating SRT/WebVTT subtitles for short videos without expensive cloud services or uploading sensitive files is tedious.",
+      "slug": "subsync-studio",
+      "solution": "A client-side HTML5 app where you load a local media file and a plain-text transcript, then 'tap-to-sync' by pressing spacebar as the audio plays to record exact timestamps, exporting a clean SRT file.",
+      "target_user": "Content creators, educators, and accessibility specialists.",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Load a sample audio file and text paragraph, tap spacebar at intervals, and verify the exported SRT file contains correct progressive timestamps."
+    },
+    {
+      "category": "data-quality",
+      "keywords": [
+        "markdown",
+        "documentation",
+        "link-checker",
+        "broken-links",
+        "static-site"
+      ],
+      "major_features": [
+        "Local directory drag-and-drop structural parsing",
+        "Interactive dependency tree mapping files and assets",
+        "Broken link and orphaned image asset diagnostic report"
+      ],
+      "name": "DocuLink Validator",
+      "pain": "Broken links in static-site documentation are often only caught after production deployment or by frustrated users filing issues.",
+      "problem": "Reorganizing markdown documentation folders breaks relative file paths and image references.",
+      "slug": "doculink-validator",
+      "solution": "A browser-based folder auditor that parses dropped markdown folders, maps all relative links, and outputs an interactive error log of broken references and orphaned images.",
+      "target_user": "Technical writers, product managers, and developers.",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Drag and drop a mock folder structure containing markdown files with broken relative paths and verify the application highlights the exact files and line numbers with broken links."
+    },
+    {
+      "category": "developer tooling",
+      "keywords": [
+        "css-grid",
+        "flexbox",
+        "layout-generator",
+        "css-generator",
+        "frontend"
+      ],
+      "major_features": [
+        "Interactive visual grid builder with click-and-drag cell merging",
+        "Nested CSS Flexbox alignment and spacing controller",
+        "Real-time responsive viewport simulation with clean code exporter"
+      ],
+      "name": "FlexGrid Scaffolder",
+      "pain": "Writing CSS layout code by hand often leads to layout shifts, redundant wrapper divs, and bloated CSS files.",
+      "problem": "Translating a visual layout design into clean, responsive CSS Grid and Flexbox code requires tedious manual coordinate calculations.",
+      "slug": "flexgrid-scaffolder",
+      "solution": "A visual canvas where users drag and resize layout cells, nest flex containers, and instantly copy clean, semantic HTML and CSS with zero external dependencies.",
+      "target_user": "Frontend developers and UI/UX designers.",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Create a 3x3 grid, merge two cells, adjust fractional widths, and verify that the exported CSS contains valid grid-template-columns and grid-area definitions."
+    },
+    {
+      "category": "personal-organization",
+      "keywords": [
+        "json-generator",
+        "mock-data",
+        "testing-tool",
+        "offline-generator",
+        "schema-builder"
+      ],
+      "major_features": [
+        "Visual drag-and-drop JSON schema builder",
+        "Local, deterministic mock data generation with zero external APIs",
+        "Bulk export options for JSON, CSV, and SQL insert formats"
+      ],
+      "name": "SchemaMock Artisan",
+      "pain": "Using public web APIs to generate mock data can expose proprietary database schemas or sensitive data structures to third parties.",
+      "problem": "Developers need realistic mock JSON datasets adhering to specific schemas for testing, but writing custom generator scripts takes too much time.",
+      "slug": "schemamock-artisan",
+      "solution": "A local-first JSON generator where users visually construct schema models (e.g., nested objects, arrays, specific data types like names, emails, UUIDs) and instantly export thousands of valid mock records.",
+      "target_user": "Frontend developers and QA engineers.",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Define a schema with user profiles containing names and emails, generate 100 records, and verify the output is valid JSON matching the exact schema constraints."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20260829T051100Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "files_created": [
+    "README.md",
+    "app.js",
+    "index.html",
+    "project.json",
+    "style.css"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; it does not claim live market research.",
+    "Generated projects are constrained to dependency-free local browser apps for safe deterministic validation."
+  ],
+  "problem": "Cron expressions are hard to read, debug, and predict, leading to unexpected job execution times or resource-heavy overlaps.",
+  "project_name": "Cron Horizon",
+  "project_path": "projects/cron-horizon",
+  "quality_scores": {
+    "completeness": 20,
+    "correctness": 20,
+    "documentation": 10,
+    "novelty": 5,
+    "security": 10,
+    "testing": 15,
+    "usefulness": 20
+  },
+  "reason": "project passed critical validation and quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 80,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [],
+  "selected_idea": {
+    "category": "developer tooling",
+    "keywords": [
+      "cron",
+      "scheduler",
+      "sysadmin",
+      "devops",
+      "calendar-projection"
+    ],
+    "major_features": [
+      "Interactive 12-month calendar run-time projection",
+      "Confrontation detector for overlapping schedule configurations",
+      "Human-readable natural language translation of cron syntax"
+    ],
+    "name": "Cron Horizon",
+    "pain": "Setting up a cron expression and accidentally triggering a heavy script every minute instead of every hour, or having two resource-intensive jobs run simultaneously and crash the server.",
+    "problem": "Cron expressions are hard to read, debug, and predict, leading to unexpected job execution times or resource-heavy overlaps.",
+    "slug": "cron-horizon",
+    "solution": "A local-first cron visualizer that parses standard cron syntax, generates an interactive 12-month calendar projection, and flags potential concurrency conflicts.",
+    "target_user": "Developers, DevOps engineers, and system administrators.",
+    "technology": "HTML/CSS/JavaScript",
+    "verification": "Paste a specific cron expression (e.g., '*/15 9-17 * * 1-5'), verify that the generated run-times list matches expected 15-minute intervals during business hours on weekdays."
+  },
+  "slug": "cron-horizon",
+  "target_user": "Developers, DevOps engineers, and system administrators.",
+  "technology": "HTML/CSS/JavaScript",
+  "timestamp": "2026-08-29T05:11:00.025347+00:00",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-web-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "required files, local-only policy, and document structure passed"
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "app.js"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    }
+  ]
+}

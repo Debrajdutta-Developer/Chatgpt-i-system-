@@ -121,5 +121,47 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "developer tooling",
+    "commit_hash": null,
+    "cycle": "cycle-20260829T051100Z",
+    "date": "2026-08-29",
+    "keywords": [
+      "cron",
+      "scheduler",
+      "sysadmin",
+      "devops",
+      "calendar-projection"
+    ],
+    "major_features": [
+      "Interactive 12-month calendar run-time projection",
+      "Confrontation detector for overlapping schedule configurations",
+      "Human-readable natural language translation of cron syntax"
+    ],
+    "name": "Cron Horizon",
+    "problem": "Cron expressions are hard to read, debug, and predict, leading to unexpected job execution times or resource-heavy overlaps.",
+    "purpose": "A local-first cron visualizer that parses standard cron syntax, generates an interactive 12-month calendar projection, and flags potential concurrency conflicts.",
+    "quality_score": 100,
+    "report_path": "reports/2026-08-29-051100-cron-horizon.json",
+    "slug": "cron-horizon",
+    "technology": "HTML/CSS/JavaScript",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-web-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "node",
+          "--check",
+          "app.js"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]

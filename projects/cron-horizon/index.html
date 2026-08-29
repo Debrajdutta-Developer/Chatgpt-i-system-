@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cron Horizon — Local-First Cron Visualizer & Conflict Detector</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-container">
+      <div class="logo-area">
+        <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        <div>
+          <h1>Cron Horizon</h1>
+          <p class="subtitle">Local-first cron visualizer, calendar projector, and conflict detector</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="btn-load-demo" class="btn btn-secondary">Load Demo Jobs</button>
+        <button id="btn-reset" class="btn btn-danger-outline">Reset All</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-layout">
+    <!-- Sidebar: Job Manager -->
+    <aside class="sidebar">
+      <div class="card">
+        <h2 class="card-title">Add / Edit Job</h2>
+        <form id="job-form" class="job-form">
+          <input type="hidden" id="job-id">
+          <div class="form-group">
+            <label for="job-name">Job Name</label>
+            <input type="text" id="job-name" placeholder="e.g., Database Backup" required>
+          </div>
+          <div class="form-group">
+            <label for="job-cron">Cron Expression</label>
+            <input type="text" id="job-cron" placeholder="e.g., */15 9-17 * * 1-5" required>
+            <div id="cron-live-translation" class="live-translation">Enter a valid cron expression</div>
+          </div>
+          <div class="form-group">
+            <label>Job Color</label>
+            <div class="color-picker-grid" id="color-picker">
+              <!-- Generated dynamically -->
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" id="btn-save-job" class="btn btn-primary">Save Job</button>
+            <button type="button" id="btn-cancel-edit" class="btn btn-secondary hidden">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="card-header-flex">
+          <h2 class="card-title">Active Jobs</h2>
+          <span class="badge badge-neutral" id="job-count">0 Jobs</span>
+        </div>
+        <div class="job-list" id="job-list">
+          <!-- Generated dynamically -->
+          <div class="empty-state">No jobs configured. Add a job above or load the demo set!</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <section class="main-content">
+      <!-- Tab Navigation -->
+      <nav class="tab-navigation">
+        <button class="tab-btn active" data-tab="tab-calendar">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          12-Month Calendar
+        </button>
+        <button class="tab-btn" data-tab="tab-conflicts">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          Conflict Detector
+          <span class="badge badge-danger hidden" id="conflict-badge">0</span>
+        </button>
+        <button class="tab-btn" data-tab="tab-sandbox">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          Sandbox & Verification
+        </button>
+      </nav>
+
+      <!-- Tab Panels -->
+      <div class="tab-panels">
+        <!-- Tab: Calendar Projection -->
+        <div class="tab-panel active" id="tab-calendar">
+          <div class="panel-header">
+            <div>
+              <h2>12-Month Run-Time Projection</h2>
+              <p class="panel-subtitle">Visualizing scheduled executions starting from this month. Click any day to view detailed schedules.</p>
+            </div>
+            <div class="legend">
+              <span class="legend-item"><span class="dot dot-run"></span> Scheduled Run</span>
+              <span class="legend-item"><span class="dot dot-conflict"></span> Conflict (Overlap)</span>
+            </div>
+          </div>
+          <div class="calendar-grid" id="calendar-projection">
+            <!-- 12 Months rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- Tab: Conflict Detector -->
+        <div class="tab-panel" id="tab-conflicts">
+          <div class="panel-header">
+            <h2>Confrontation & Overlap Detector</h2>
+            <p class="panel-subtitle">Scans all active jobs to find schedules that trigger at the exact same minute. Overlapping jobs can cause resource starvation or race conditions.</p>
+          </div>
+          <div id="conflict-results">
+            <!-- Generated dynamically -->
+          </div>
+        </div>
+
+        <!-- Tab: Sandbox & Verification -->
+        <div class="tab-panel" id="tab-sandbox">
+          <div class="panel-header">
+            <h2>Cron Sandbox & Verification</h2>
+            <p class="panel-subtitle">Test, verify, and analyze a specific cron expression against standard interval expectations.</p>
+          </div>
+          <div class="sandbox-layout">
+            <div class="card">
+              <h3 class="card-title">Test Expression</h3>
+              <div class="sandbox-presets">
+                <span class="preset-label">Presets:</span>
+                <button class="preset-tag" data-cron="*/15 9-17 * * 1-5">*/15 9-17 * * 1-5 (Business 15m)</button>
+                <button class="preset-tag" data-cron="0 0 1 * *">0 0 1 * * (Monthly Midnight)</button>
+                <button class="preset-tag" data-cron="0 4 * * 0">0 4 * * 0 (Weekly Sunday)</button>
+                <button class="preset-tag" data-cron="*/5 * * * *">*/5 * * * * (Every 5 mins)</button>
+              </div>
+              <div class="form-group">
+                <input type="text" id="sandbox-cron-input" value="*/15 9-17 * * 1-5" class="input-large">
+                <div id="sandbox-validation-feedback" class="validation-feedback"></div>
+              </div>
+              <div class="sandbox-translation-box">
+                <h4>Natural Language Translation</h4>
+                <p id="sandbox-translation" class="translation-text"></p>
+              </div>
+            </div>
+
+            <div class="grid-2-col">
+              <div class="card">
+                <h3 class="card-title">Automated Verification Report</h3>
+                <div id="verification-report-content">
+                  <!-- Generated dynamically -->
+                </div>
+              </div>
+              <div class="card">
+                <h3 class="card-title">Next 15 Projected Runs</h3>
+                <ul class="runs-list" id="sandbox-runs-list">
+                  <!-- Generated dynamically -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Day Details Modal -->
+  <div class="modal-backdrop hidden" id="day-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-date-title">Schedule Details</h3>
+        <button class="btn-close" id="btn-close-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-summary" id="modal-day-summary"></div>
+        <div class="timeline-container">
+          <h4>Chronological Timeline</h4>
+          <div class="timeline" id="modal-timeline">
+            <!-- Timeline items generated dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
