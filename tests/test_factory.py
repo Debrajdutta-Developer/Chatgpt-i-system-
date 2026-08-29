@@ -1,8 +1,10 @@
 from datetime import datetime, timezone
 import json
+import os
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 from factory.config import Config
 from factory.builder import build
 from factory.evaluator import evaluate
@@ -12,7 +14,7 @@ from factory.orchestrator import recent_ideas, run_cycle
 from factory.planner import discover, select
 from factory.provider import _canonicalize_files, _files_map, _idea_items
 from factory.utils import FactoryLocked, Lock
-from factory.validator import classify, _source_safety_errors
+from factory.validator import classify, _assertion_signals, _source_safety_errors, _validation_env
 from factory.validator import validate
 
 class FactoryTests(unittest.TestCase):
@@ -86,6 +88,18 @@ class FactoryTests(unittest.TestCase):
   dangerous={"src/engine.c":"#include <stdlib.h>\nint main(void){return system(\"echo blocked\");}"}
   errors=_source_safety_errors(dangerous)
   self.assertTrue(any("system(" in item for item in errors))
+ def test_assertion_signal_counter_accepts_named_check_helpers(self):
+  source='''
+  verifyEquals(a,b); verifyTrue(ok); checkState(x); checkRange(y); expectValue(z);
+  requireValid(a); assertTrue(b); assertEquals(c,d);
+  '''
+  self.assertGreaterEqual(_assertion_signals(source),8)
+ def test_validation_environment_scrubs_repository_secrets(self):
+  with patch.dict(os.environ,{"GEMINI_API_KEY":"super-secret","FACTORY_GITHUB_TOKEN":"also-secret","PATH":os.environ.get("PATH","")},clear=False):
+   env=_validation_env()
+  self.assertNotIn("GEMINI_API_KEY",env)
+  self.assertNotIn("FACTORY_GITHUB_TOKEN",env)
+  self.assertIn("PATH",env)
  def test_lock_prevents_concurrent_cycle(self):
   with TemporaryDirectory() as d:
    path=Path(d)/"lock"
