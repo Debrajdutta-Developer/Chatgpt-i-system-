@@ -1,0 +1,41 @@
+[
+  {
+    "category": "developer tooling",
+    "commit_hash": "141d5d3",
+    "cycle": "legacy-2026-08-28-env-sentinel",
+    "date": "2026-08-28",
+    "keywords": [
+      "environment variables",
+      "dotenv",
+      "configuration drift",
+      "static analysis"
+    ],
+    "major_features": [
+      "dotenv contract parsing",
+      "source reference scanning",
+      "CI-friendly JSON output"
+    ],
+    "name": "Env Sentinel",
+    "path": "projects/env-sentinel",
+    "problem": "Environment-variable usage, example contracts, and local configuration drift apart and cause late deployment failures.",
+    "purpose": "A dependency-free local CLI that statically scans source references and compares key names with dotenv contract and configuration files without exposing values.",
+    "quality_score": null,
+    "report_path": null,
+    "slug": "env-sentinel",
+    "technology": "Python standard library",
+    "validation_summary": [
+      {
+        "command": [
+          "python",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-v"
+        ],
+        "status": "PASS"
+      }
+    ]
+  }
+]
