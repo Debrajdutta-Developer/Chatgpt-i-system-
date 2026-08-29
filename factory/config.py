@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 @dataclass(frozen=True)
 class Config:
     root: Path = ROOT
-    release_threshold: int = 90
+    release_threshold: int = 95
     max_repair_attempts: int = 3
 
     @property
