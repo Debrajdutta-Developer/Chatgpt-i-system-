@@ -23,8 +23,8 @@ def classify(stderr: str, exit_code: int, kind: str) -> str | None:
     text = stderr.lower()
     if any(token in text for token in (
         "no module named", "command not found", "not recognized as an internal",
-        "could not find a version", "npm err! code e404", "cannot find symbol",
-    )) and kind == "dependency":
+        "could not find a version", "npm err! code e404",
+    )):
         return "DEPENDENCY_FAILURE"
     if any(token in text for token in ("temporary failure", "connection reset", "etimedout", "econnreset")):
         return "NETWORK_FAILURE"
@@ -234,6 +234,7 @@ def _validate_systems(project: Path, profile: str, metadata: dict) -> list[Valid
         return results
 
     if profile == "systems-java":
+        (build / "classes").mkdir(parents=True, exist_ok=True)
         sources = sorted(str(p.relative_to(project)) for p in (project / "src").rglob("*.java"))
         results.append(_run(project, ["javac", "-Xlint:all", "-Werror", "-d", "build/classes", *sources], "build", timeout=240))
         if results[-1].exit_code == 0:
