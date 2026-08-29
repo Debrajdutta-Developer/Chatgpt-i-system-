@@ -33,17 +33,34 @@ jobs:
         run: python -m unittest discover -s tests -v
 
       - name: Run one Gemini-powered factory cycle
+        id: factory
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_MODEL: gemini-3.5-flash
           GEMINI_FALLBACK_MODELS: gemini-3.5-flash-lite,gemini-3.1-flash-lite,gemini-2.5-flash-lite,gemini-2.5-flash
           GEMINI_RETRY_ATTEMPTS: "2"
+        shell: bash
         run: |
           if [ -z "$GEMINI_API_KEY" ]; then
             echo "GEMINI_API_KEY repository secret is required for autonomous AI discovery."
             exit 2
           fi
+
+          BEFORE_REPORTS="$(mktemp)"
+          find reports -maxdepth 1 -type f -name '*.json' -printf '%f\n' 2>/dev/null | sort > "$BEFORE_REPORTS"
+
           python -m factory
+
+          CURRENT_REPORT="$(comm -13 "$BEFORE_REPORTS" <(find reports -maxdepth 1 -type f -name '*.json' -printf '%f\n' 2>/dev/null | sort) | tail -n 1)"
+          rm -f "$BEFORE_REPORTS"
+
+          if [ -z "$CURRENT_REPORT" ]; then
+            echo "Factory completed without creating a new report."
+            exit 2
+          fi
+
+          echo "report=reports/$CURRENT_REPORT" >> "$GITHUB_OUTPUT"
+          echo "Current cycle report: reports/$CURRENT_REPORT"
 
       - name: Revalidate factory and released projects
         run: |
@@ -78,6 +95,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.FACTORY_GITHUB_TOKEN }}
           GH_OWNER: ${{ github.repository_owner }}
+          REPORT: ${{ steps.factory.outputs.report }}
         shell: bash
         run: |
           if [ -z "$GH_TOKEN" ]; then
@@ -85,15 +103,14 @@ jobs:
             exit 0
           fi
 
-          REPORT="$(ls -1t reports/*.json 2>/dev/null | head -n 1 || true)"
-          if [ -z "$REPORT" ]; then
-            echo "No factory report found; nothing to publish."
-            exit 0
+          if [ -z "$REPORT" ] || [ ! -f "$REPORT" ]; then
+            echo "Current factory report is unavailable; refusing to publish an unrelated project."
+            exit 2
           fi
 
           STATUS="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8")).get("status", ""))' "$REPORT")"
           if [ "$STATUS" != "SUCCESS" ]; then
-            echo "Latest factory cycle was not SUCCESS; no standalone repository will be created."
+            echo "Current factory cycle was not SUCCESS; no standalone repository will be created."
             exit 0
           fi
 
