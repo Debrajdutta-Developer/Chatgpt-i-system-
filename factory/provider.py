@@ -14,17 +14,23 @@ from pathlib import Path
 
 from .models import Idea
 
-MODEL = os.getenv("GEMINI_MODEL", "gemini-3.7-flash").strip()
+# Prefer a stable high-throughput model instead of the newest model so daily
+# automation is less likely to fail during launch-demand spikes. Operators can
+# still override the order from workflow/repository variables.
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash").strip()
 FALLBACK_MODELS = tuple(
     item.strip()
-    for item in os.getenv("GEMINI_FALLBACK_MODELS", "gemini-2.5-flash").split(",")
+    for item in os.getenv(
+        "GEMINI_FALLBACK_MODELS",
+        "gemini-3.5-flash-lite,gemini-3.1-flash-lite,gemini-2.5-flash-lite,gemini-2.5-flash",
+    ).split(",")
     if item.strip()
 )
 API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
 API_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
 ALLOWED_FILES = {"README.md", "index.html", "style.css", "app.js"}
 RETRYABLE_HTTP_CODES = {429, 500, 502, 503, 504}
-MAX_ATTEMPTS_PER_MODEL = max(1, int(os.getenv("GEMINI_RETRY_ATTEMPTS", "4")))
+MAX_ATTEMPTS_PER_MODEL = max(1, int(os.getenv("GEMINI_RETRY_ATTEMPTS", "2")))
 
 
 def available() -> bool:
@@ -79,16 +85,16 @@ def _request(prompt: str, temperature: float = 0.5) -> dict:
                 if exc.code not in RETRYABLE_HTTP_CODES:
                     break
                 if attempt < MAX_ATTEMPTS_PER_MODEL:
-                    time.sleep(min(2 ** (attempt - 1), 8))
+                    time.sleep(min(2 ** (attempt - 1), 4))
             except (urllib.error.URLError, TimeoutError) as exc:
                 failures.append(f"{model} attempt {attempt}: network failure: {exc}")
                 if attempt < MAX_ATTEMPTS_PER_MODEL:
-                    time.sleep(min(2 ** (attempt - 1), 8))
+                    time.sleep(min(2 ** (attempt - 1), 4))
             except RuntimeError as exc:
                 failures.append(str(exc))
                 break
 
-    summary = " | ".join(failures[-6:])
+    summary = " | ".join(failures[-10:])
     raise RuntimeError(f"All Gemini model attempts failed: {summary}")
 
 
