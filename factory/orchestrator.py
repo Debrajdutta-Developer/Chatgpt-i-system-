@@ -63,7 +63,7 @@ def run_cycle(config: Config, dry_run: bool = False, now: datetime | None = None
             "timestamp": now.isoformat(),
             "dry_run": dry_run,
             "discovery_mode": "gemini" if provider_available() else "reviewed-fallback",
-            "validation_profile": "production-fullstack-v1" if using_ai else "reviewed-blueprint",
+            "validation_profile": "hard-systems-v1" if using_ai else "reviewed-blueprint",
             "candidate_ideas": [x.to_dict() for x in candidates],
             "rejected_candidate_ideas": rejected,
             "selected_idea": idea.to_dict() if idea else None,
@@ -79,8 +79,9 @@ def run_cycle(config: Config, dry_run: bool = False, now: datetime | None = None
             "end_to_end_status": "PENDING" if using_ai else "NOT_APPLICABLE",
             "known_limitations": [
                 "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
-                "A passing release proves deterministic domain/API tests, a frontend production build, Docker image build, and factory quality gates; it does not by itself prove real-world adoption, penetration testing, or unlimited production scale.",
-                "Generated full-stack products are intentionally self-hostable and avoid paid or unverifiable third-party integrations.",
+                "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+                "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+                "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope.",
             ],
         }
         suffix = idea.slug if idea else "no-release"
@@ -112,7 +113,7 @@ def run_cycle(config: Config, dry_run: bool = False, now: datetime | None = None
                     break
                 report["repair_attempts"].append({
                     "attempt": attempt + 1,
-                    "action": "regenerated project with bounded validation feedback" if using_ai else "recreated project from reviewed blueprint",
+                    "action": "regenerated systems project with bounded validation feedback" if using_ai else "recreated project from reviewed blueprint",
                     "failure_classes": [x.failure_class for x in final_results if x.failure_class],
                     "summaries": failures[:8],
                 })
@@ -132,7 +133,7 @@ def run_cycle(config: Config, dry_run: bool = False, now: datetime | None = None
                     end_to_end_status="FAILED",
                     standalone_status="NOT_ATTEMPTED",
                     failure_class=failure_class,
-                    reason="critical production validation or quality threshold failed",
+                    reason="critical systems validation or quality threshold failed",
                     remote_status="NOT_ATTEMPTED",
                 )
                 atomic_json(report_path, report)
@@ -170,7 +171,7 @@ def run_cycle(config: Config, dry_run: bool = False, now: datetime | None = None
                 remote_status=publication,
                 standalone_status="PENDING" if using_ai else "NOT_APPLICABLE",
                 end_to_end_status="PENDING" if using_ai else "SUCCESS",
-                reason="project passed critical production validation and the quality gate",
+                reason="project passed critical systems compilation/testing and the quality gate",
             )
             atomic_json(report_path, report)
             return CycleResult("SUCCESS", str(report_path), str(target), report["reason"])
