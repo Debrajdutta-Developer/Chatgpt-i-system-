@@ -7,26 +7,54 @@ from __future__ import annotations
 import json
 import os
 import re
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
 
 from .models import Idea
 
-MODEL = os.getenv("GEMINI_MODEL", "gemini-3.7-flash")
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.7-flash").strip()
+FALLBACK_MODELS = tuple(
+    item.strip()
+    for item in os.getenv("GEMINI_FALLBACK_MODELS", "gemini-2.5-flash").split(",")
+    if item.strip()
+)
 API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
 API_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
 ALLOWED_FILES = {"README.md", "index.html", "style.css", "app.js"}
+RETRYABLE_HTTP_CODES = {429, 500, 502, 503, 504}
+MAX_ATTEMPTS_PER_MODEL = max(1, int(os.getenv("GEMINI_RETRY_ATTEMPTS", "4")))
 
 
 def available() -> bool:
     return bool(API_KEY)
 
 
+def _models() -> tuple[str, ...]:
+    ordered: list[str] = []
+    for name in (MODEL, *FALLBACK_MODELS):
+        if name and name not in ordered:
+            ordered.append(name)
+    return tuple(ordered)
+
+
+def _request_once(model: str, body: bytes) -> dict:
+    url = f"{API_BASE}/{model}:generateContent"
+    request = urllib.request.Request(
+        url,
+        data=body,
+        headers={"Content-Type": "application/json", "x-goog-api-key": API_KEY},
+        method="POST",
+    )
+    with urllib.request.urlopen(request, timeout=120) as response:
+        return json.loads(response.read().decode("utf-8"))
+
+
 def _request(prompt: str, temperature: float = 0.5) -> dict:
     if not API_KEY:
         raise RuntimeError("GEMINI_API_KEY is not configured")
-    url = f"{API_BASE}/{MODEL}:generateContent"
+
     body = json.dumps({
         "contents": [{"role": "user", "parts": [{"text": prompt}]}],
         "generationConfig": {
@@ -34,26 +62,34 @@ def _request(prompt: str, temperature: float = 0.5) -> dict:
             "responseMimeType": "application/json",
         },
     }).encode("utf-8")
-    request = urllib.request.Request(
-        url,
-        data=body,
-        headers={"Content-Type": "application/json", "x-goog-api-key": API_KEY},
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(request, timeout=120) as response:
-            payload = json.loads(response.read().decode("utf-8"))
-    except urllib.error.HTTPError as exc:
-        detail = exc.read().decode("utf-8", errors="replace")[:500]
-        raise RuntimeError(f"Gemini HTTP {exc.code}: {detail}") from exc
-    except (urllib.error.URLError, TimeoutError) as exc:
-        raise RuntimeError(f"Gemini network failure: {exc}") from exc
 
-    try:
-        text = payload["candidates"][0]["content"]["parts"][0]["text"]
-        return json.loads(text)
-    except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
-        raise RuntimeError("Gemini returned invalid structured output") from exc
+    failures: list[str] = []
+    for model in _models():
+        for attempt in range(1, MAX_ATTEMPTS_PER_MODEL + 1):
+            try:
+                payload = _request_once(model, body)
+                try:
+                    text = payload["candidates"][0]["content"]["parts"][0]["text"]
+                    return json.loads(text)
+                except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
+                    raise RuntimeError(f"Gemini model {model} returned invalid structured output") from exc
+            except urllib.error.HTTPError as exc:
+                detail = exc.read().decode("utf-8", errors="replace")[:500]
+                failures.append(f"{model} attempt {attempt}: HTTP {exc.code}: {detail}")
+                if exc.code not in RETRYABLE_HTTP_CODES:
+                    break
+                if attempt < MAX_ATTEMPTS_PER_MODEL:
+                    time.sleep(min(2 ** (attempt - 1), 8))
+            except (urllib.error.URLError, TimeoutError) as exc:
+                failures.append(f"{model} attempt {attempt}: network failure: {exc}")
+                if attempt < MAX_ATTEMPTS_PER_MODEL:
+                    time.sleep(min(2 ** (attempt - 1), 8))
+            except RuntimeError as exc:
+                failures.append(str(exc))
+                break
+
+    summary = " | ".join(failures[-6:])
+    raise RuntimeError(f"All Gemini model attempts failed: {summary}")
 
 
 def _slug(value: str) -> str:
