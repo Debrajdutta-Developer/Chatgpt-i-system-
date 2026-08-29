@@ -201,7 +201,6 @@ def _files_map(payload) -> dict:
         raise RuntimeError("Gemini build response is not a JSON object")
     files = candidate.get("files")
     if isinstance(files, list):
-        # Also accept [{path:"...",content:"..."}, ...] while keeping path allowlisting later.
         converted = {}
         for item in files:
             if isinstance(item, dict) and isinstance(item.get("path"), str) and isinstance(item.get("content"), str):
@@ -215,18 +214,23 @@ def _files_map(payload) -> dict:
 def _canonicalize_files(files: dict, expected: set[str]) -> dict[str, str]:
     """Map harmless Gemini path variations to fixed trusted paths.
 
-    Exact canonical paths win. Otherwise an expected path may be matched by its
-    unique basename (for example Core.java -> src/main/java/factory/Core.java).
-    No model-provided path is ever written directly.
+    Traversal/absolute paths are rejected before any cleanup. Exact canonical paths
+    win; otherwise an expected path may be matched by a unique basename. Model paths
+    are never used as write destinations.
     """
     clean: dict[str, str] = {}
     normalized: dict[str, str] = {}
     for raw_path, content in files.items():
         if not isinstance(raw_path, str) or not isinstance(content, str):
             continue
-        path = raw_path.replace("\\", "/").strip().lstrip("./")
-        if not path or path.startswith("/") or ".." in PurePosixPath(path).parts:
-            continue
+        path = raw_path.replace("\\", "/").strip()
+        parts = PurePosixPath(path).parts
+        if not path or path.startswith("/") or ".." in parts:
+            raise RuntimeError(f"unsafe Gemini file path rejected: {raw_path}")
+        while path.startswith("./"):
+            path = path[2:]
+        if not path:
+            raise RuntimeError(f"unsafe Gemini file path rejected: {raw_path}")
         normalized[path] = content
 
     for canonical in expected:
@@ -385,8 +389,6 @@ def build_project(idea: Idea, destination: Path, repair_feedback: list[str] | No
     expected = PROFILE_FILES[profile]
     last_error: RuntimeError | None = None
 
-    # A schema/path miss is a generation-format failure, not an environment failure.
-    # Give Gemini one focused regeneration chance before the orchestrator's repair loop.
     for schema_attempt in range(2):
         prompt = _implementation_contract(idea, profile, feedback)
         try:
