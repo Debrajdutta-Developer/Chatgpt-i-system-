@@ -15,7 +15,7 @@ concurrency:
 jobs:
   factory-cycle:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
         with:
@@ -71,6 +71,13 @@ jobs:
             fi
             if [ -f "$project/app.js" ]; then
               node --check "$project/app.js"
+            fi
+            if [ -f "$project/core.js" ]; then
+              node --check "$project/core.js"
+            fi
+            if [ -f "$project/test-core.js" ]; then
+              node --check "$project/test-core.js"
+              (cd "$project" && node test-core.js)
             fi
           done
 
@@ -128,7 +135,7 @@ jobs:
             exit 0
           fi
 
-          DESCRIPTION="Autonomously generated and validated by Chatgpt-i-system- software factory."
+          DESCRIPTION="Autonomously generated, functionally tested, and validated by Chatgpt-i-system- software factory."
           gh repo create "$GH_OWNER/$PROJECT_SLUG" --public --description "$DESCRIPTION"
 
           (
