@@ -1,141 +1,125 @@
 # Autonomous Software Factory
 
-This repository is a local-first, zero-touch pipeline that discovers, builds,
-validates, quality-gates, archives, and—when run by its authenticated GitHub
-workflow—publishes one small software product per successful cycle. Actual
-subprocess exit codes determine success. A cycle may honestly finish as
-`SUCCESS`, `NO_RELEASE`, or `FAILED`.
+This repository runs a zero-touch software-factory cycle that can discover a new useful problem, build a small local-first app, validate it, repair failures within a bounded loop, quality-gate the result, record evidence, and publish only validated changes.
 
-Env Sentinel, the repository's first completed product, is preserved separately
-at [`projects/env-sentinel`](projects/env-sentinel/README.md).
+Env Sentinel, the first completed product, is preserved at [`projects/env-sentinel`](projects/env-sentinel/README.md).
 
-## Architecture
+## Daily lifecycle
 
 ```text
-factory/                  lifecycle implementation
-  orchestrator.py         one-cycle entry point and transactional coordination
-  planner.py              candidate discovery and selection
-  builder.py              reviewed, dependency-free product blueprints
-  validator.py            allowlisted validation commands and failure classes
-  evaluator.py            evidence-based quality gate
-  history.py              semantic duplicate checks and atomic history writes
-  publisher.py            atomic promotion and honest remote status
-  config.py, models.py    configuration and typed lifecycle records
-  prompts/                contract for a future pluggable model provider
-projects/                 isolated, released products
-reports/                  machine-readable cycle evidence
-factory-history.json      metadata for successful releases
-.github/workflows/        scheduled and manual automation
+DISCOVER -> DEDUPLICATE -> SELECT -> BUILD -> VALIDATE -> REPAIR
+         -> QUALITY GATE -> PROMOTE -> HISTORY/REPORT -> COMMIT/PUSH
 ```
 
-The factory currently uses three reviewed local blueprints rather than an AI
-service. This makes the complete pipeline deterministic, testable offline, and
-free from credential requirements. The provider boundary is documented so a
-future model can propose content, but generated text will remain untrusted and
-will never control validation commands.
+The scheduled GitHub Actions workflow runs at **03:00 UTC / 08:30 IST** and can also be started manually.
 
-## Run one cycle
+## AI discovery and building
 
-Python 3.10 or newer is the only requirement.
+When `GEMINI_API_KEY` is configured, `factory/provider.py` uses Gemini to propose multiple distinct candidate problems. Existing `factory-history.json`, successful reports, and existing project slugs are screened before selection so the factory does not knowingly repeat an old project.
 
-```bash
-python -m factory
+The selected AI idea is built as a dependency-free local browser application using only:
+
+- `index.html`
+- `style.css`
+- `app.js`
+- `README.md`
+- generated `project.json` metadata
+
+The provider is intentionally constrained. Generated text is **untrusted data**: it cannot choose shell commands, change the validator allowlist, access repository secrets, or claim that validation passed.
+
+If no Gemini key is present during a local run, the factory falls back to the reviewed deterministic blueprint catalog. The scheduled GitHub workflow requires the key so scheduled releases use AI discovery instead of silently pretending to be AI-powered.
+
+## Required GitHub secret
+
+Create this repository Actions secret:
+
+```text
+GEMINI_API_KEY
 ```
 
-One invocation inspects history, existing projects, and recent report paths;
-considers multiple technical-product candidates; rejects semantic duplicates;
-builds the first eligible candidate in `.factory-work/<cycle>/`; runs controlled
-tests and compilation; evaluates the quality gate; and promotes the directory
-only after it passes. The staging tree is cleaned whether the cycle succeeds or
-fails.
+The workflow supplies it only to the factory-cycle process. GitHub's built-in `GITHUB_TOKEN` is used for repository publishing; no PAT is required in source code.
 
-Planning without generating or publishing is safe and explicit:
+The model can be changed with `GEMINI_MODEL`. The workflow currently sets:
 
-```bash
-python -m factory --dry-run
+```text
+gemini-3.7-flash
 ```
 
-Dry-run creates a report with `NO_RELEASE`, but cannot create a project, change
-history, commit, or push. Local successful runs report
-`LOCAL_COMPLETE_REMOTE_NOT_PUBLISHED`; they do not claim remote publication.
+## Validation
 
-## Validation and repair
+Validation commands are selected by trusted factory code, never by generated files.
 
-The validation engine runs only factory-owned allowlisted commands: Python
-`unittest` and `compileall`. Each result records the argv, exit code, output
-summary, criticality, and a failure class such as `TEST_FAILURE`,
-`BUILD_FAILURE`, `DEPENDENCY_FAILURE`, or `NETWORK_FAILURE`. Arbitrary commands
-from generated files, comments, READMEs, or fetched content are never executed.
+Reviewed Python CLI products run controlled `unittest` and `compileall` checks. AI-generated browser apps run factory-owned static checks plus `node --check app.js`. The web validator requires complete local files, HTML references to local CSS/JS, meaningful file sizes, and rejects obvious placeholders and remote/dynamic behaviors such as `fetch()`, remote URLs, `eval()`, WebSocket use, and dynamic code injection.
 
-A failing staged blueprint is discarded and recreated, then validated again,
-with at most three repair attempts. A remaining critical failure produces
-`FAILED`; the candidate is not promoted and history is not updated.
-
-Run all current checks manually:
-
-```bash
-python -m unittest discover -s tests -v
-(cd projects/env-sentinel && python -m unittest discover -s tests -v)
-python -m compileall -q factory tests projects/env-sentinel
-```
+A failed generated app may be regenerated with a short validation-error summary, up to the configured repair limit. If critical validation still fails, the cycle reports `FAILED` and does not promote the app.
 
 ## Quality gate
 
-A project needs at least 80/100:
+A release needs at least **80/100** and all critical validation must pass.
 
 | Dimension | Points |
 |---|---:|
 | Usefulness | 20 |
 | Completeness | 20 |
 | Correctness | 20 |
-| Testing | 15 |
+| Testing/validation | 15 |
 | Documentation | 10 |
 | Security | 10 |
 | Novelty | 5 |
 
-Scores are evidence-based checks, not permission to ignore failures. Failed
-critical tests/builds, absent source or documentation, or a sub-threshold score
-always block release. If every candidate duplicates history or existing project
-slugs, the cycle returns `NO_RELEASE` rather than manufacturing novelty.
+A high numerical score never overrides a critical validation failure.
 
-## History and reports
+## Repository layout
 
-`factory-history.json` records only successfully released projects, including
-problem, purpose, category, keywords, major features, technology, validation,
-quality, report, and real commit information when known. Writes use a temporary
-file plus atomic replacement. Duplicate detection compares tokenized names,
-problems, purposes, categories, features, and keywords using Jaccard similarity,
-not just exact names.
+```text
+factory/
+  orchestrator.py      cycle coordination
+  planner.py           AI/fallback discovery and duplicate-aware selection
+  provider.py          Gemini API boundary and generated-file contract
+  builder.py           reviewed deterministic fallback blueprints
+  validator.py         allowlisted validation
+  evaluator.py         quality gate
+  history.py           semantic duplicate checks + atomic history writes
+  publisher.py         promotion/publication state
+  config.py, models.py configuration and typed records
+projects/              released products
+reports/               machine-readable cycle evidence
+factory-history.json   successful release history
+.github/workflows/     scheduled/manual automation
+```
 
-Every attempted cycle writes JSON under `reports/` with its timestamp, selected
-and rejected ideas, validation evidence, repair attempts, scores, status,
-limitations, and publication state. Commit fields remain `null` unless a commit
-is actually known.
+## Local commands
 
-## Automation and publishing
+Run the factory tests without requiring Gemini/network access:
 
-`daily-factory.yml` runs manually and daily at **03:00 UTC**, which is **08:30
-Asia/Kolkata**, with a non-overlapping concurrency group. It validates the
-factory, runs one cycle, validates all projects, stages only `projects/`,
-`reports/`, and history, avoids empty commits, and pushes through the checkout's
-built-in `GITHUB_TOKEN` authentication. Reports are uploaded even on failure.
+```bash
+python -m unittest discover -s tests -v
+```
 
-The workflow requests only `contents: write`. No personal access token is used.
-No repository secret is currently required. GitHub supplies `GITHUB_TOKEN`
-automatically. If a future optional Gemini provider is implemented, its only
-accepted key name will be `GEMINI_API_KEY`; the current factory does not read or
-require it.
+Run one local factory cycle:
 
-## Security model and limitations
+```bash
+GEMINI_API_KEY="..." python -m factory
+```
 
-- Secrets and dotenv files are ignored; secret values are never included in
-  project reports.
-- An exclusive local lock plus workflow concurrency prevents overlapping cycles.
-- Validation commands are code-owned and allowlisted; project prose is untrusted.
-- Blueprints use only the Python standard library, avoiding registry and package
-  lifecycle risk.
-- The finite reviewed blueprint catalog deliberately yields `NO_RELEASE` after
-  all unique products have shipped. Expanding the catalog or adding a carefully
-  sandboxed provider is required for indefinite generation.
-- Static duplicate similarity is useful but not a semantic language model; its
-  threshold is transparent and tested.
+Plan only, without creating or publishing a project:
+
+```bash
+GEMINI_API_KEY="..." python -m factory --dry-run
+```
+
+Validate Env Sentinel:
+
+```bash
+(cd projects/env-sentinel && python -m unittest discover -s tests -v)
+```
+
+## Reports and truthful status
+
+Every attempted cycle writes JSON evidence under `reports/`, including candidate ideas, duplicate rejections, validation output, repair attempts, quality scores, final status, and publication state. Valid final states include `SUCCESS`, `NO_RELEASE`, and `FAILED`.
+
+Local execution never claims that GitHub was updated. Only the authenticated workflow performs the final commit/push step.
+
+## Limits
+
+Gemini discovery is generative reasoning from the model's knowledge; the factory does not claim it performed live market research or user interviews. Generated products are deliberately restricted to small local-first browser apps so they can be validated safely and automatically. Duplicate detection is heuristic, so it reduces repeats but cannot mathematically guarantee every future idea is globally unique.
