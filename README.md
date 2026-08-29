@@ -1,87 +1,135 @@
-# Autonomous Software Factory
+# Autonomous Systems Software Factory
 
-This repository runs a zero-touch software-factory cycle that discovers a distinct useful problem, builds a substantial self-hosted product, validates real behavior, repairs bounded failures, quality-gates the result, records evidence, and publishes successful releases as standalone GitHub repositories.
+This repository runs a zero-touch software factory that discovers a difficult systems-engineering problem, builds a real runnable implementation, validates the implementation with factory-owned compile/test commands, repairs bounded failures, quality-gates the result, records evidence, and publishes successful releases as standalone GitHub repositories.
 
-The factory is designed to reject pretty-but-fake demos. A generated product is not releasable merely because files exist or the UI renders.
+The target is **not ordinary CRUD/SaaS apps**. The target is engineering-heavy work in the spirit of a Java mini Redis, private search/index engine, small database engine, safe local learning/evaluation agent, C compiler/interpreter, message queue, parser, VM, storage engine, scheduler, or similarly deep infrastructure project.
 
 ## Daily lifecycle
 
 ```text
-DISCOVER -> DEDUPLICATE -> SELECT -> ARCHITECT -> BUILD
-         -> STATIC GATE -> DOMAIN TESTS -> API TESTS -> FRONTEND BUILD
-         -> DOCKER BUILD -> REPAIR -> 95/100 QUALITY GATE
-         -> PROMOTE -> COMMIT -> STANDALONE REPO -> FINAL REPORT
+DISCOVER HARD SYSTEMS IDEA
+  -> DEDUPLICATE
+  -> SELECT LANGUAGE/PROFILE
+  -> GENERATE REAL ENGINE + CLI/SERVER + TESTS
+  -> STATIC SAFETY/DEPTH GATE
+  -> COMPILE / BYTE-COMPILE
+  -> UNIT TEST
+  -> INTEGRATION TEST
+  -> REPAIR (BOUNDED)
+  -> 95/100 QUALITY GATE
+  -> PROMOTE
+  -> COMMIT
+  -> STANDALONE REPOSITORY
+  -> END-TO-END REPORT
 ```
 
 The scheduled GitHub Actions workflow runs at **03:00 UTC / 08:30 IST** and can also be started manually.
 
-## Production product profile
+## Systems-first discovery
 
-New AI-selected products use a fixed production-style profile:
+Gemini is instructed to reject calculators, converters, note apps, landing pages, thin dashboards, basic CRUD products, API wrappers and superficial AI chat UIs.
 
-- React + TypeScript frontend
-- Node.js REST backend
-- SQLite persistence through Node's built-in `node:sqlite`
-- pure domain/business-logic layer
-- database/schema layer
-- real HTTP API integration tests
-- domain unit tests
-- Vite production frontend build
-- multi-stage Docker image
-- per-product GitHub Actions CI
-- standalone public GitHub repository after every successful cycle
+New candidates must be **HARD or EXTREME** and contain at least eight connected features. Preferred project families include:
 
-The factory chooses problems that can remain genuinely useful when run locally or self-hosted. It does not invent paid-service integrations or pretend that unavailable third-party systems are connected.
+- compiler / interpreter / bytecode VM
+- database / storage / query engine
+- cache / protocol server
+- private search / inverted-index / ranking engine
+- message queue / event log
+- version-control or build-system internals
+- parser / static analyzer
+- safe local agent with explicit memory, evaluation and feedback
+- scheduler / observability / data-structure engine
 
-## Real-product gate
+A project must implement its central mechanism itself instead of delegating the hard part to a cloud API or third-party package.
 
-Gemini must propose at least six connected product capabilities. Toy calculators, trivial converters, basic CRUD lists, thin dashboards, note apps, landing pages and superficial demos are explicitly rejected at discovery/build time.
+## Supported generation profiles
 
-Generated source must contain a substantial domain engine, server-side validation, persistent SQLite operations, real same-origin `/api/...` frontend calls, multi-step workflows, and honest error/empty/loading states. The product must include both domain tests and API integration tests. Tests execute the same domain/server code used by the product.
+The factory currently chooses exactly one of three deterministic profiles based on the problem.
 
-The dependency manifest, TypeScript/Vite configuration, Dockerfile and product CI workflow are owned by trusted factory code rather than Gemini. Generated source cannot choose the validation commands.
+### Java 21 systems profile
 
-## Validation
+Typical fit: mini Redis/cache server, protocol server, message broker, scheduler or concurrent state engine.
 
-For the production full-stack profile the factory performs all of these before release:
+Generated code includes a substantial reusable `Core.java`, runnable `Main.java`, a dependency-free unit suite and an integration suite. Local loopback networking is allowed for a real server project; public-network actions are not.
+
+Validation includes strict Java compilation plus both executable test suites:
 
 ```text
-static architecture/security checks
-npm install --ignore-scripts --no-audit --no-fund
-npm test
-npm run build
-docker build
+javac -Xlint:all -Werror ...
+java -ea -cp build/classes factory.CoreTest
+java -ea -cp build/classes factory.IntegrationTest
 ```
 
-The static gate checks required architecture, minimum implementation depth, React/API wiring, `node:sqlite` persistence, exported testable HTTP server, domain/API test structure, documentation, dependency allowlists, unfinished markers, dangerous dynamic/system behavior, and unexpected public-network URLs.
+### C11 systems profile
 
-The Node test suite must exercise domain behavior and a real ephemeral local HTTP server backed by a temporary SQLite database. A build/test/container failure is a critical failure; numerical quality points cannot override it.
+Typical fit: compiler, interpreter, parser, VM, storage/page engine or low-level data structure implementation.
 
-A failed AI build can be regenerated with validation feedback up to the configured repair limit. If the final attempt still fails, the cycle reports `FAILED` and the project is not published.
+Generated code includes `engine.h`, substantial `engine.c`, a real CLI in `main.c`, unit tests and integration tests.
 
-Reviewed deterministic Python fallback products retain their own controlled unittest/compile validation path.
+Validation uses strict portable C flags:
+
+```text
+cc -std=c11 -Wall -Wextra -Werror -pedantic ...
+./build/test_engine
+./build/test_integration
+```
+
+The final runnable application must compile too.
+
+### Python 3.12 systems profile
+
+Typical fit: private search engine, local indexing/ranking system, safe feedback-learning agent, query engine, analysis engine or complex developer tool.
+
+Generated code uses the standard library only. The central implementation lives in `src/engine.py`; `src/cli.py` must be a real argparse CLI. Unit and integration suites are validated separately.
+
+```text
+python -m compileall -q src tests
+python -m unittest discover -s tests -p 'test_engine.py' -v
+python -m unittest discover -s tests -p 'test_integration.py' -v
+```
+
+## Real-engine gate
+
+A pretty interface or large amount of code is not enough. New systems projects must include all of the following:
+
+- at least eight declared connected capabilities
+- a substantial central engine, parser, protocol, index, state machine, execution layer or equivalent mechanism
+- a useful runnable CLI or local server
+- real malformed-input and boundary handling
+- at least eight meaningful checks in the unit suite
+- at least eight meaningful checks in the integration suite
+- tests that execute the same engine used by the product
+- honest README architecture, invariants, algorithms, supported scope and limitations
+- no fake benchmarks, fake test claims, TODOs, placeholders or hard-coded success paths
+- no shell/subprocess execution, self-modifying code, credentials, trackers or autonomous public-network actions
+
+A safe learning agent may update local memory, scores, ranking or policies from explicit user-provided feedback. It may not execute arbitrary code, change its own source or pretend to train a neural model that it does not actually implement.
 
 ## Quality gate
 
-Production AI releases require **95/100** plus every critical validation to pass.
+New systems releases require **95/100** and every critical validation must pass.
 
 | Dimension | Points |
 |---|---:|
-| Real problem/use case | 10 |
-| Production architecture | 15 |
-| Correctness / critical validation | 20 |
-| Functional domain + API testing | 20 |
-| Production frontend build | 10 |
-| Container build | 5 |
+| Real problem / use case | 10 |
+| Systems architecture | 15 |
+| Correctness / all critical checks | 25 |
+| Unit testing | 12 |
+| Integration testing | 13 |
+| Reproducible build | 10 |
 | Documentation | 10 |
-| Security hygiene | 5 |
 | Feature depth | 5 |
 
-A project with fake controls, disconnected UI logic, failed tests, failed build, failed Docker image, inadequate architecture, or fewer than six substantial features cannot be released as a production-profile success.
+A numerical score can never override a compile failure, unit-test failure or integration-test failure.
+
+## Repair behavior
+
+When generated code fails static validation, compilation or tests, the validator returns bounded failure evidence to Gemini. The factory regenerates the selected project with that feedback up to the configured repair limit. If the final attempt still fails, the cycle records `FAILED` and does not publish the project.
 
 ## Standalone repository publishing
 
-The main factory repository keeps the project, history and machine-readable report. After a successful production gate, the workflow re-runs the release-boundary tests and creates a separate public repository named after the project slug.
+After a systems project passes the factory gate, the workflow runs the language-specific verification again at the release boundary. Only then does it create a separate public GitHub repository and push the validated project, including its own `.github/workflows/ci.yml`.
 
 Required repository secrets:
 
@@ -90,34 +138,35 @@ GEMINI_API_KEY
 FACTORY_GITHUB_TOKEN
 ```
 
-Never commit either value. `GEMINI_API_KEY` is supplied only to the Gemini factory step. `FACTORY_GITHUB_TOKEN` is supplied only to the standalone publishing step.
+Never commit or paste either secret into source or chat logs.
 
-The workflow currently starts with `gemini-3.5-flash` and rotates through configured stable fallback models when a retryable provider failure occurs.
+## Truthful status
+
+Every cycle creates a JSON report under `reports/` containing candidate ideas, selected technology, validation profile, validation output, repair attempts, quality score, project path and publication state.
+
+`final_status: SUCCESS` means the generated project passed the factory's technical gate. For AI releases, `end_to_end_status` becomes `SUCCESS` only after the standalone repository is actually created and pushed.
+
+A passing project is a **real tested scoped implementation**, not a claim of complete Redis compatibility, full SQL compatibility, industrial C compiler completeness, frontier AI capability, proven market demand, security certification or unlimited production scale unless separate evidence genuinely proves those things.
 
 ## Repository layout
 
 ```text
 factory/
-  orchestrator.py      cycle coordination and truthful reporting
-  planner.py           discovery + duplicate-aware selection
-  provider.py          Gemini boundary + trusted production scaffold
-  builder.py           reviewed deterministic fallback blueprints
-  validator.py         allowlisted static/functional/build/container validation
-  evaluator.py         95-point production quality gate
-  history.py           duplicate evidence + atomic history writes
-  publisher.py         safe promotion/publication state
-  config.py, models.py configuration and typed records
-projects/              validated products retained in the factory monorepo
-reports/               machine-readable cycle evidence
-factory-history.json   successful release history
-.github/workflows/     scheduled/manual automation
+  provider.py       systems discovery + language-specific generation contract
+  validator.py      factory-owned compile/unit/integration validation
+  evaluator.py      95/100 evidence-based quality gate
+  orchestrator.py   cycle, repair, reporting and promotion
+  planner.py        duplicate-aware selection
+  builder.py        reviewed deterministic fallback projects
+projects/           validated releases retained in the factory monorepo
+reports/            machine-readable cycle evidence
+factory-history.json
+.github/workflows/daily-factory.yml
 ```
 
-A generated standalone full-stack product contains a React/TypeScript `src/`, Node/SQLite `server/`, `tests/`, `package.json`, Vite/TypeScript configuration, Dockerfile, project metadata, README and its own `.github/workflows/ci.yml`.
+## Local factory checks
 
-## Local factory commands
-
-Run trusted factory tests without requiring Gemini:
+Factory tests do not require Gemini:
 
 ```bash
 python -m unittest discover -s tests -v
@@ -129,16 +178,8 @@ Run one AI cycle:
 GEMINI_API_KEY="..." python -m factory
 ```
 
-Plan without generation/publication:
+Plan only:
 
 ```bash
 GEMINI_API_KEY="..." python -m factory --dry-run
 ```
-
-## Truthful status
-
-Every attempted cycle writes JSON evidence under `reports/`, including candidate ideas, rejections, selected architecture, validation commands/results, repair attempts, quality scores, project path, publication state and known limitations.
-
-`final_status: SUCCESS` means the product passed the factory's production validation gate. AI releases then enter `standalone_status: PENDING`; the workflow changes `standalone_status` and `end_to_end_status` to `SUCCESS` only after the separate repository is actually created and pushed.
-
-The factory does **not** claim that a technically validated product has proven market demand, real users, penetration-test certification, or unlimited production scalability. Those require evidence outside automated generation. It does claim only what its recorded tests/builds actually prove.
