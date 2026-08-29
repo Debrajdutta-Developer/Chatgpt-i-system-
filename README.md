@@ -1,125 +1,144 @@
 # Autonomous Software Factory
 
-This repository runs a zero-touch software-factory cycle that can discover a new useful problem, build a small local-first app, validate it, repair failures within a bounded loop, quality-gate the result, record evidence, and publish only validated changes.
+This repository runs a zero-touch software-factory cycle that discovers a distinct useful problem, builds a substantial self-hosted product, validates real behavior, repairs bounded failures, quality-gates the result, records evidence, and publishes successful releases as standalone GitHub repositories.
 
-Env Sentinel, the first completed product, is preserved at [`projects/env-sentinel`](projects/env-sentinel/README.md).
+The factory is designed to reject pretty-but-fake demos. A generated product is not releasable merely because files exist or the UI renders.
 
 ## Daily lifecycle
 
 ```text
-DISCOVER -> DEDUPLICATE -> SELECT -> BUILD -> VALIDATE -> REPAIR
-         -> QUALITY GATE -> PROMOTE -> HISTORY/REPORT -> COMMIT/PUSH
+DISCOVER -> DEDUPLICATE -> SELECT -> ARCHITECT -> BUILD
+         -> STATIC GATE -> DOMAIN TESTS -> API TESTS -> FRONTEND BUILD
+         -> DOCKER BUILD -> REPAIR -> 95/100 QUALITY GATE
+         -> PROMOTE -> COMMIT -> STANDALONE REPO -> FINAL REPORT
 ```
 
 The scheduled GitHub Actions workflow runs at **03:00 UTC / 08:30 IST** and can also be started manually.
 
-## AI discovery and building
+## Production product profile
 
-When `GEMINI_API_KEY` is configured, `factory/provider.py` uses Gemini to propose multiple distinct candidate problems. Existing `factory-history.json`, successful reports, and existing project slugs are screened before selection so the factory does not knowingly repeat an old project.
+New AI-selected products use a fixed production-style profile:
 
-The selected AI idea is built as a dependency-free local browser application using only:
+- React + TypeScript frontend
+- Node.js REST backend
+- SQLite persistence through Node's built-in `node:sqlite`
+- pure domain/business-logic layer
+- database/schema layer
+- real HTTP API integration tests
+- domain unit tests
+- Vite production frontend build
+- multi-stage Docker image
+- per-product GitHub Actions CI
+- standalone public GitHub repository after every successful cycle
 
-- `index.html`
-- `style.css`
-- `app.js`
-- `README.md`
-- generated `project.json` metadata
+The factory chooses problems that can remain genuinely useful when run locally or self-hosted. It does not invent paid-service integrations or pretend that unavailable third-party systems are connected.
 
-The provider is intentionally constrained. Generated text is **untrusted data**: it cannot choose shell commands, change the validator allowlist, access repository secrets, or claim that validation passed.
+## Real-product gate
 
-If no Gemini key is present during a local run, the factory falls back to the reviewed deterministic blueprint catalog. The scheduled GitHub workflow requires the key so scheduled releases use AI discovery instead of silently pretending to be AI-powered.
+Gemini must propose at least six connected product capabilities. Toy calculators, trivial converters, basic CRUD lists, thin dashboards, note apps, landing pages and superficial demos are explicitly rejected at discovery/build time.
 
-## Required GitHub secret
+Generated source must contain a substantial domain engine, server-side validation, persistent SQLite operations, real same-origin `/api/...` frontend calls, multi-step workflows, and honest error/empty/loading states. The product must include both domain tests and API integration tests. Tests execute the same domain/server code used by the product.
 
-Create this repository Actions secret:
-
-```text
-GEMINI_API_KEY
-```
-
-The workflow supplies it only to the factory-cycle process. GitHub's built-in `GITHUB_TOKEN` is used for repository publishing; no PAT is required in source code.
-
-The model can be changed with `GEMINI_MODEL`. The workflow currently sets:
-
-```text
-gemini-3.7-flash
-```
+The dependency manifest, TypeScript/Vite configuration, Dockerfile and product CI workflow are owned by trusted factory code rather than Gemini. Generated source cannot choose the validation commands.
 
 ## Validation
 
-Validation commands are selected by trusted factory code, never by generated files.
+For the production full-stack profile the factory performs all of these before release:
 
-Reviewed Python CLI products run controlled `unittest` and `compileall` checks. AI-generated browser apps run factory-owned static checks plus `node --check app.js`. The web validator requires complete local files, HTML references to local CSS/JS, meaningful file sizes, and rejects obvious placeholders and remote/dynamic behaviors such as `fetch()`, remote URLs, `eval()`, WebSocket use, and dynamic code injection.
+```text
+static architecture/security checks
+npm install --ignore-scripts --no-audit --no-fund
+npm test
+npm run build
+docker build
+```
 
-A failed generated app may be regenerated with a short validation-error summary, up to the configured repair limit. If critical validation still fails, the cycle reports `FAILED` and does not promote the app.
+The static gate checks required architecture, minimum implementation depth, React/API wiring, `node:sqlite` persistence, exported testable HTTP server, domain/API test structure, documentation, dependency allowlists, unfinished markers, dangerous dynamic/system behavior, and unexpected public-network URLs.
+
+The Node test suite must exercise domain behavior and a real ephemeral local HTTP server backed by a temporary SQLite database. A build/test/container failure is a critical failure; numerical quality points cannot override it.
+
+A failed AI build can be regenerated with validation feedback up to the configured repair limit. If the final attempt still fails, the cycle reports `FAILED` and the project is not published.
+
+Reviewed deterministic Python fallback products retain their own controlled unittest/compile validation path.
 
 ## Quality gate
 
-A release needs at least **80/100** and all critical validation must pass.
+Production AI releases require **95/100** plus every critical validation to pass.
 
 | Dimension | Points |
 |---|---:|
-| Usefulness | 20 |
-| Completeness | 20 |
-| Correctness | 20 |
-| Testing/validation | 15 |
+| Real problem/use case | 10 |
+| Production architecture | 15 |
+| Correctness / critical validation | 20 |
+| Functional domain + API testing | 20 |
+| Production frontend build | 10 |
+| Container build | 5 |
 | Documentation | 10 |
-| Security | 10 |
-| Novelty | 5 |
+| Security hygiene | 5 |
+| Feature depth | 5 |
 
-A high numerical score never overrides a critical validation failure.
+A project with fake controls, disconnected UI logic, failed tests, failed build, failed Docker image, inadequate architecture, or fewer than six substantial features cannot be released as a production-profile success.
+
+## Standalone repository publishing
+
+The main factory repository keeps the project, history and machine-readable report. After a successful production gate, the workflow re-runs the release-boundary tests and creates a separate public repository named after the project slug.
+
+Required repository secrets:
+
+```text
+GEMINI_API_KEY
+FACTORY_GITHUB_TOKEN
+```
+
+Never commit either value. `GEMINI_API_KEY` is supplied only to the Gemini factory step. `FACTORY_GITHUB_TOKEN` is supplied only to the standalone publishing step.
+
+The workflow currently starts with `gemini-3.5-flash` and rotates through configured stable fallback models when a retryable provider failure occurs.
 
 ## Repository layout
 
 ```text
 factory/
-  orchestrator.py      cycle coordination
-  planner.py           AI/fallback discovery and duplicate-aware selection
-  provider.py          Gemini API boundary and generated-file contract
+  orchestrator.py      cycle coordination and truthful reporting
+  planner.py           discovery + duplicate-aware selection
+  provider.py          Gemini boundary + trusted production scaffold
   builder.py           reviewed deterministic fallback blueprints
-  validator.py         allowlisted validation
-  evaluator.py         quality gate
-  history.py           semantic duplicate checks + atomic history writes
-  publisher.py         promotion/publication state
+  validator.py         allowlisted static/functional/build/container validation
+  evaluator.py         95-point production quality gate
+  history.py           duplicate evidence + atomic history writes
+  publisher.py         safe promotion/publication state
   config.py, models.py configuration and typed records
-projects/              released products
+projects/              validated products retained in the factory monorepo
 reports/               machine-readable cycle evidence
 factory-history.json   successful release history
 .github/workflows/     scheduled/manual automation
 ```
 
-## Local commands
+A generated standalone full-stack product contains a React/TypeScript `src/`, Node/SQLite `server/`, `tests/`, `package.json`, Vite/TypeScript configuration, Dockerfile, project metadata, README and its own `.github/workflows/ci.yml`.
 
-Run the factory tests without requiring Gemini/network access:
+## Local factory commands
+
+Run trusted factory tests without requiring Gemini:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-Run one local factory cycle:
+Run one AI cycle:
 
 ```bash
 GEMINI_API_KEY="..." python -m factory
 ```
 
-Plan only, without creating or publishing a project:
+Plan without generation/publication:
 
 ```bash
 GEMINI_API_KEY="..." python -m factory --dry-run
 ```
 
-Validate Env Sentinel:
+## Truthful status
 
-```bash
-(cd projects/env-sentinel && python -m unittest discover -s tests -v)
-```
+Every attempted cycle writes JSON evidence under `reports/`, including candidate ideas, rejections, selected architecture, validation commands/results, repair attempts, quality scores, project path, publication state and known limitations.
 
-## Reports and truthful status
+`final_status: SUCCESS` means the product passed the factory's production validation gate. AI releases then enter `standalone_status: PENDING`; the workflow changes `standalone_status` and `end_to_end_status` to `SUCCESS` only after the separate repository is actually created and pushed.
 
-Every attempted cycle writes JSON evidence under `reports/`, including candidate ideas, duplicate rejections, validation output, repair attempts, quality scores, final status, and publication state. Valid final states include `SUCCESS`, `NO_RELEASE`, and `FAILED`.
-
-Local execution never claims that GitHub was updated. Only the authenticated workflow performs the final commit/push step.
-
-## Limits
-
-Gemini discovery is generative reasoning from the model's knowledge; the factory does not claim it performed live market research or user interviews. Generated products are deliberately restricted to small local-first browser apps so they can be validated safely and automatically. Duplicate detection is heuristic, so it reduces repeats but cannot mathematically guarantee every future idea is globally unique.
+The factory does **not** claim that a technically validated product has proven market demand, real users, penetration-test certification, or unlimited production scalability. Those require evidence outside automated generation. It does claim only what its recorded tests/builds actually prove.
