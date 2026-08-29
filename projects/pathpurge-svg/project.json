@@ -1,0 +1,23 @@
+{
+  "name": "PathPurge SVG",
+  "slug": "pathpurge-svg",
+  "target_user": "Frontend developers and UI designers",
+  "problem": "Exported SVGs contain bloated paths, redundant commands, and excessive decimal precision that increase asset size and complicate CSS animations.",
+  "pain": "Command-line optimizers lack an interactive visual preview of how individual path changes (like rounding decimals or converting absolute to relative commands) affect the rendering.",
+  "solution": "A local-first SVG editor that parses path data, displays an interactive visual canvas showing control points, and provides granular sliders to adjust decimal precision, toggle relative/absolute commands, and instantly export optimized SVG code.",
+  "verification": "Load an SVG path string with high decimal precision, apply a precision-reduction filter via JavaScript, and assert that the resulting path string length is reduced while rendering correctly on an HTML5 canvas.",
+  "category": "developer tooling",
+  "keywords": [
+    "svg",
+    "optimization",
+    "path-parsing",
+    "vector-graphics",
+    "frontend"
+  ],
+  "major_features": [
+    "Interactive node-by-node path coordinate debugger",
+    "Precision decimal rounder with live visual canvas preview",
+    "Absolute-to-relative command converter"
+  ],
+  "technology": "HTML/CSS/JavaScript"
+}

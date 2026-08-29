@@ -163,5 +163,47 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "developer tooling",
+    "commit_hash": null,
+    "cycle": "cycle-20260829T061555Z",
+    "date": "2026-08-29",
+    "keywords": [
+      "svg",
+      "optimization",
+      "path-parsing",
+      "vector-graphics",
+      "frontend"
+    ],
+    "major_features": [
+      "Interactive node-by-node path coordinate debugger",
+      "Precision decimal rounder with live visual canvas preview",
+      "Absolute-to-relative command converter"
+    ],
+    "name": "PathPurge SVG",
+    "problem": "Exported SVGs contain bloated paths, redundant commands, and excessive decimal precision that increase asset size and complicate CSS animations.",
+    "purpose": "A local-first SVG editor that parses path data, displays an interactive visual canvas showing control points, and provides granular sliders to adjust decimal precision, toggle relative/absolute commands, and instantly export optimized SVG code.",
+    "quality_score": 100,
+    "report_path": "reports/2026-08-29-061555-pathpurge-svg.json",
+    "slug": "pathpurge-svg",
+    "technology": "HTML/CSS/JavaScript",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-web-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "node",
+          "--check",
+          "app.js"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]

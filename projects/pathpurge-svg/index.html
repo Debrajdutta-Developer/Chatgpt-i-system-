@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PathPurge SVG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <h1>PathPurge SVG</h1>
+        <div class="editor-grid">
+            <section>
+                <label for="path-input">SVG Path Data (d attribute):</label>
+                <textarea id="path-input" placeholder="M10 10 L20 20..."></textarea>
+                <div class="controls">
+                    <label>Precision: <input type="range" id="precision" min="0" max="5" value="2"> <span id="prec-val">2</span></label>
+                    <button id="convert-btn">Convert to Relative</button>
+                </div>
+            </section>
+            <section>
+                <svg id="preview-canvas" viewBox="0 0 100 100"><path id="display-path" d="" fill="none" stroke="black" stroke-width="1"/></svg>
+                <label for="output">Optimized Path:</label>
+                <textarea id="output" readonly></textarea>
+            </section>
+        </div>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

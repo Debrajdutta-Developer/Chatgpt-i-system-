@@ -1,0 +1,220 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "developer tooling",
+      "keywords": [
+        "svg",
+        "optimization",
+        "path-parsing",
+        "vector-graphics",
+        "frontend"
+      ],
+      "major_features": [
+        "Interactive node-by-node path coordinate debugger",
+        "Precision decimal rounder with live visual canvas preview",
+        "Absolute-to-relative command converter"
+      ],
+      "name": "PathPurge SVG",
+      "pain": "Command-line optimizers lack an interactive visual preview of how individual path changes (like rounding decimals or converting absolute to relative commands) affect the rendering.",
+      "problem": "Exported SVGs contain bloated paths, redundant commands, and excessive decimal precision that increase asset size and complicate CSS animations.",
+      "slug": "pathpurge-svg",
+      "solution": "A local-first SVG editor that parses path data, displays an interactive visual canvas showing control points, and provides granular sliders to adjust decimal precision, toggle relative/absolute commands, and instantly export optimized SVG code.",
+      "target_user": "Frontend developers and UI designers",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Load an SVG path string with high decimal precision, apply a precision-reduction filter via JavaScript, and assert that the resulting path string length is reduced while rendering correctly on an HTML5 canvas."
+    },
+    {
+      "category": "productivity",
+      "keywords": [
+        "markdown",
+        "table-editor",
+        "technical-writing",
+        "documentation",
+        "visual-grid"
+      ],
+      "major_features": [
+        "Interactive spreadsheet-like editing grid",
+        "CSV/Excel paste-to-markdown-table converter",
+        "Auto-padded markdown code exporter with live preview"
+      ],
+      "name": "Markdown Table Architect",
+      "pain": "Simple changes like adding a column or changing text alignment require manually recalculating and spacing out markdown pipe characters in text editors.",
+      "problem": "Creating, editing, and maintaining visually complex tables in Markdown format is tedious and error-prone.",
+      "slug": "markdown-table-architect",
+      "solution": "An interactive, spreadsheet-like visual grid specifically designed for Markdown tables. Users can visually insert/delete rows and columns, toggle alignment, paste CSV/Excel data, and instantly copy beautifully formatted, auto-padded Markdown code.",
+      "target_user": "Technical writers, developers, and documentation managers",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Programmatically populate the visual grid, trigger a column-add event, and verify the exported markdown text contains the new column with correct alignment characters."
+    },
+    {
+      "category": "education",
+      "keywords": [
+        "regex",
+        "state-machine",
+        "visualizer",
+        "compiler",
+        "parser"
+      ],
+      "major_features": [
+        "Visual state machine graph generator for regex syntax",
+        "Interactive step-by-step matching debugger",
+        "Capture-group breakdown and boundary highlighter"
+      ],
+      "name": "Regex FlowMapper",
+      "pain": "Standard regex testers only show if a match succeeded or failed, without explaining how the engine traversed the pattern or where catastrophic backtracking occurred.",
+      "problem": "Complex regular expressions with lookaheads, lookbehinds, and nested capture groups are hard to read and debug.",
+      "slug": "regex-flowmapper",
+      "solution": "A local-first regex parser that translates regex patterns into a visual, interactive state machine graph. It highlights capture groups, quantifiers, and branches, allowing users to step through a test string character-by-character to watch the matching flow.",
+      "target_user": "Software engineers and computer science students",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Input the pattern `/(a|b)+c/` and a test string, and verify that the parser correctly generates a state tree containing nodes for alternation, repetition, and literal matching."
+    },
+    {
+      "category": "developer tooling",
+      "keywords": [
+        "unicode-range",
+        "web-performance",
+        "css-font-face",
+        "localization",
+        "font-optimization"
+      ],
+      "major_features": [
+        "Text-to-unicode range analyzer",
+        "Pre-configured language preset selector",
+        "CSS @font-face generator with optimized unicode-range blocks"
+      ],
+      "name": "Unicode Range Optimizer",
+      "pain": "Developers must lookup unicode hex ranges for specific languages or custom character sets manually, leading to bloated font loading.",
+      "problem": "Manually configuring CSS `@font-face` `unicode-range` descriptors to split large fonts into optimized, lazy-loaded subsets is incredibly tedious.",
+      "slug": "unicode-range-optimizer",
+      "solution": "A local-first tool where users paste their website's text or select target languages. The app analyzes the character set, maps them to exact unicode ranges, groups them into optimized CSS `@font-face` blocks, and visualizes which glyphs are covered.",
+      "target_user": "Web performance engineers and internationalization developers",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Input a string of mixed English and Cyrillic text, and verify that the tool outputs the correct corresponding unicode range string (e.g., `U+0020-007F, U+0400-04FF`)."
+    },
+    {
+      "category": "developer tooling",
+      "keywords": [
+        "css-grid",
+        "flexbox",
+        "layout-debugger",
+        "css-learning",
+        "sandbox"
+      ],
+      "major_features": [
+        "Interactive layout builder with visual vector overlays",
+        "Real-time flex-grow and flex-shrink dimension calculator",
+        "Grid track and gap overlay guides"
+      ],
+      "name": "Flexbox & Grid Overlay Debugger",
+      "pain": "Browser dev tools offer static overlays but don't allow live, interactive tweaking of flex/grid parameters side-by-side with visual guides of remaining space distribution.",
+      "problem": "Visualizing how browser layout engines calculate flexbox grow/shrink factors and grid tracks is difficult just by looking at static code.",
+      "slug": "flexbox-grid-overlay-debugger",
+      "solution": "A visual layout sandbox where users can add virtual items, define flex/grid CSS rules, and see dynamic visual vector overlays showing growth boundaries, shrink limits, gap dimensions, and alignment lines in real-time.",
+      "target_user": "UI/UX developers and CSS learners",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Set a container to `display: flex` with three items having `flex-grow` values, and verify the tool correctly calculates and displays the proportional growth dimensions of each item."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20260829T061555Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "files_created": [
+    "README.md",
+    "app.js",
+    "index.html",
+    "project.json",
+    "style.css"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; it does not claim live market research.",
+    "Generated projects are constrained to dependency-free local browser apps for safe deterministic validation."
+  ],
+  "problem": "Exported SVGs contain bloated paths, redundant commands, and excessive decimal precision that increase asset size and complicate CSS animations.",
+  "project_name": "PathPurge SVG",
+  "project_path": "projects/pathpurge-svg",
+  "quality_scores": {
+    "completeness": 20,
+    "correctness": 20,
+    "documentation": 10,
+    "novelty": 5,
+    "security": 10,
+    "testing": 15,
+    "usefulness": 20
+  },
+  "reason": "project passed critical validation and quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 80,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ]
+    },
+    {
+      "action": "regenerated project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "developer tooling",
+    "keywords": [
+      "svg",
+      "optimization",
+      "path-parsing",
+      "vector-graphics",
+      "frontend"
+    ],
+    "major_features": [
+      "Interactive node-by-node path coordinate debugger",
+      "Precision decimal rounder with live visual canvas preview",
+      "Absolute-to-relative command converter"
+    ],
+    "name": "PathPurge SVG",
+    "pain": "Command-line optimizers lack an interactive visual preview of how individual path changes (like rounding decimals or converting absolute to relative commands) affect the rendering.",
+    "problem": "Exported SVGs contain bloated paths, redundant commands, and excessive decimal precision that increase asset size and complicate CSS animations.",
+    "slug": "pathpurge-svg",
+    "solution": "A local-first SVG editor that parses path data, displays an interactive visual canvas showing control points, and provides granular sliders to adjust decimal precision, toggle relative/absolute commands, and instantly export optimized SVG code.",
+    "target_user": "Frontend developers and UI designers",
+    "technology": "HTML/CSS/JavaScript",
+    "verification": "Load an SVG path string with high decimal precision, apply a precision-reduction filter via JavaScript, and assert that the resulting path string length is reduced while rendering correctly on an HTML5 canvas."
+  },
+  "slug": "pathpurge-svg",
+  "target_user": "Frontend developers and UI designers",
+  "technology": "HTML/CSS/JavaScript",
+  "timestamp": "2026-08-29T06:15:55.985156+00:00",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-web-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "required files, local-only policy, and document structure passed"
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "app.js"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    }
+  ]
+}
