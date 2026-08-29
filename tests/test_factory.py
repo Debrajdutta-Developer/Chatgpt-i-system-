@@ -12,7 +12,7 @@ from factory.orchestrator import recent_ideas, run_cycle
 from factory.planner import discover, select
 from factory.provider import _canonicalize_files, _files_map, _idea_items
 from factory.utils import FactoryLocked, Lock
-from factory.validator import classify
+from factory.validator import classify, _source_safety_errors
 from factory.validator import validate
 
 class FactoryTests(unittest.TestCase):
@@ -80,6 +80,12 @@ class FactoryTests(unittest.TestCase):
  def test_gemini_canonicalizer_rejects_missing_and_traversal_paths(self):
   expected={"README.md","src/main/java/factory/Core.java"}
   with self.assertRaises(RuntimeError): _canonicalize_files({"README.md":"x","../Core.java":"bad"},expected)
+ def test_safety_gate_allows_system_suffix_identifiers_but_blocks_real_calls(self):
+  harmless={"src/engine.c":"int storage_system(int x){return x;} int test_system(void){return storage_system(1);}"}
+  self.assertEqual(_source_safety_errors(harmless),[])
+  dangerous={"src/engine.c":"#include <stdlib.h>\nint main(void){return system(\"echo blocked\");}"}
+  errors=_source_safety_errors(dangerous)
+  self.assertTrue(any("system(" in item for item in errors))
  def test_lock_prevents_concurrent_cycle(self):
   with TemporaryDirectory() as d:
    path=Path(d)/"lock"
