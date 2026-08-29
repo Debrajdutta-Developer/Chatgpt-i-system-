@@ -10,6 +10,7 @@ from factory.history import is_duplicate, load_history, write_history
 from factory.models import Idea, ValidationResult
 from factory.orchestrator import recent_ideas, run_cycle
 from factory.planner import discover, select
+from factory.provider import _files_map, _idea_items
 from factory.utils import FactoryLocked, Lock
 from factory.validator import classify
 from factory.validator import validate
@@ -57,6 +58,16 @@ class FactoryTests(unittest.TestCase):
   with TemporaryDirectory() as d:
    reports=Path(d); (reports/"new.json").write_text(json.dumps({"final_status":"SUCCESS","selected_idea":{"name":"Seen"}})); (reports/"bad.json").write_text("{")
    self.assertEqual(recent_ideas(reports),[{"name":"Seen"}])
+ def test_gemini_idea_payload_accepts_object_and_top_level_list(self):
+  ideas=[{"name":"Mini DB"}]
+  self.assertEqual(_idea_items({"ideas":ideas}),ideas)
+  self.assertEqual(_idea_items(ideas),ideas)
+  with self.assertRaises(RuntimeError): _idea_items("bad")
+ def test_gemini_build_payload_accepts_single_wrapped_list(self):
+  files={"README.md":"x"}
+  self.assertEqual(_files_map({"files":files}),files)
+  self.assertEqual(_files_map([{"files":files}]),files)
+  with self.assertRaises(RuntimeError): _files_map([])
  def test_lock_prevents_concurrent_cycle(self):
   with TemporaryDirectory() as d:
    path=Path(d)/"lock"
