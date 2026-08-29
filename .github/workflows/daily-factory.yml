@@ -74,6 +74,59 @@ jobs:
           git commit -m "factory: publish validated daily project $(date -u +'%Y-%m-%d') [skip ci]"
           git push
 
+      - name: Publish new project as standalone repository
+        env:
+          GH_TOKEN: ${{ secrets.FACTORY_GITHUB_TOKEN }}
+          GH_OWNER: ${{ github.repository_owner }}
+        shell: bash
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "FACTORY_GITHUB_TOKEN is not configured; standalone repository publishing is skipped."
+            exit 0
+          fi
+
+          REPORT="$(ls -1t reports/*.json 2>/dev/null | head -n 1 || true)"
+          if [ -z "$REPORT" ]; then
+            echo "No factory report found; nothing to publish."
+            exit 0
+          fi
+
+          STATUS="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8")).get("status", ""))' "$REPORT")"
+          if [ "$STATUS" != "SUCCESS" ]; then
+            echo "Latest factory cycle was not SUCCESS; no standalone repository will be created."
+            exit 0
+          fi
+
+          PROJECT_PATH="$(python -c 'import json,sys; d=json.load(open(sys.argv[1], encoding="utf-8")); print(d.get("project", d.get("project_path", "")))' "$REPORT")"
+          PROJECT_SLUG="$(basename "$PROJECT_PATH")"
+          LOCAL_PROJECT="projects/$PROJECT_SLUG"
+
+          if [ -z "$PROJECT_SLUG" ] || [ ! -d "$LOCAL_PROJECT" ]; then
+            echo "Could not resolve the validated project directory from $REPORT"
+            exit 2
+          fi
+
+          if gh repo view "$GH_OWNER/$PROJECT_SLUG" >/dev/null 2>&1; then
+            echo "Repository $GH_OWNER/$PROJECT_SLUG already exists; refusing to overwrite it."
+            exit 0
+          fi
+
+          DESCRIPTION="Autonomously generated and validated by Chatgpt-i-system- software factory."
+          gh repo create "$GH_OWNER/$PROJECT_SLUG" --public --description "$DESCRIPTION"
+
+          (
+            cd "$LOCAL_PROJECT"
+            git init -b main
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "Initial validated release"
+            git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GH_OWNER}/${PROJECT_SLUG}.git"
+            git push -u origin main
+          )
+
+          echo "Published standalone repository: https://github.com/$GH_OWNER/$PROJECT_SLUG"
+
       - name: Upload cycle reports
         if: always()
         uses: actions/upload-artifact@v4
