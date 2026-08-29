@@ -160,7 +160,7 @@ def _request_once(model: str, body: bytes) -> dict:
         return json.loads(response.read().decode("utf-8"))
 
 
-def _request(prompt: str, temperature: float = 0.5) -> dict:
+def _request(prompt: str, temperature: float = 0.5):
     if not API_KEY:
         raise RuntimeError("GEMINI_API_KEY is not configured")
 
@@ -176,7 +176,10 @@ def _request(prompt: str, temperature: float = 0.5) -> dict:
                 payload = _request_once(model, body)
                 try:
                     text = payload["candidates"][0]["content"]["parts"][0]["text"]
-                    return json.loads(text)
+                    parsed = json.loads(text)
+                    if not isinstance(parsed, (dict, list)):
+                        raise RuntimeError(f"Gemini model {model} returned a non-object JSON payload")
+                    return parsed
                 except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
                     raise RuntimeError(f"Gemini model {model} returned invalid structured output") from exc
             except urllib.error.HTTPError as exc:
@@ -202,6 +205,32 @@ def _slug(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")[:64]
 
 
+def _idea_items(payload) -> list:
+    """Accept the requested {ideas:[...]} shape and a common top-level-list variant."""
+    if isinstance(payload, dict):
+        raw = payload.get("ideas")
+    elif isinstance(payload, list):
+        raw = payload
+    else:
+        raw = None
+    if not isinstance(raw, list):
+        raise RuntimeError("Gemini idea response is missing ideas[]")
+    return raw
+
+
+def _files_map(payload) -> dict:
+    """Accept {files:{...}} and a single wrapped object returned as a list."""
+    candidate = payload
+    if isinstance(candidate, list) and len(candidate) == 1 and isinstance(candidate[0], dict):
+        candidate = candidate[0]
+    if not isinstance(candidate, dict):
+        raise RuntimeError("Gemini build response is not a JSON object")
+    files = candidate.get("files")
+    if not isinstance(files, dict):
+        raise RuntimeError("Gemini build response is missing files")
+    return files
+
+
 def discover_ideas(history: list[dict], count: int = 5) -> list[Idea]:
     previous = [
         {
@@ -213,6 +242,7 @@ def discover_ideas(history: list[dict], count: int = 5) -> list[Idea]:
             "technology": item.get("technology"),
         }
         for item in history[-100:]
+        if isinstance(item, dict)
     ]
     prompt = f"""
 You are the principal systems engineer for an autonomous software factory.
@@ -258,18 +288,19 @@ Return ONLY JSON with this schema:
   "technology":"Java 21|C11|Python 3.12"
 }}]}}
 """
-    payload = _request(prompt, temperature=0.72)
-    raw_ideas = payload.get("ideas")
-    if not isinstance(raw_ideas, list):
-        raise RuntimeError("Gemini idea response is missing ideas[]")
+    raw_ideas = _idea_items(_request(prompt, temperature=0.72))
 
     ideas: list[Idea] = []
     for raw in raw_ideas[:count]:
         if not isinstance(raw, dict):
             continue
         slug = _slug(str(raw.get("slug") or raw.get("name") or ""))
-        keywords = tuple(str(x).strip() for x in raw.get("keywords", []) if str(x).strip())
-        features = tuple(str(x).strip() for x in raw.get("major_features", []) if str(x).strip())
+        raw_keywords = raw.get("keywords", [])
+        raw_features = raw.get("major_features", [])
+        if not isinstance(raw_keywords, list) or not isinstance(raw_features, list):
+            continue
+        keywords = tuple(str(x).strip() for x in raw_keywords if str(x).strip())
+        features = tuple(str(x).strip() for x in raw_features if str(x).strip())
         technology = str(raw.get("technology") or "").strip()
         fields = [raw.get(k) for k in ("name", "target_user", "problem", "pain", "solution", "verification", "category")]
         if (
@@ -414,11 +445,8 @@ def build_project(idea: Idea, destination: Path, repair_feedback: list[str] | No
     feedback = repair_feedback or []
     profile = _profile(idea)
     prompt = _implementation_contract(idea, profile, feedback)
-    payload = _request(prompt, temperature=0.18)
-    files = payload.get("files")
+    files = _files_map(_request(prompt, temperature=0.18))
     expected = PROFILE_FILES[profile]
-    if not isinstance(files, dict):
-        raise RuntimeError("Gemini build response is missing files")
     if set(files) != expected:
         raise RuntimeError(f"Gemini build returned unexpected or missing {profile} source paths")
 
