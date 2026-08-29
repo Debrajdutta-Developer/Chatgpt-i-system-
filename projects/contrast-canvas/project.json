@@ -1,0 +1,23 @@
+{
+  "name": "Contrast Canvas",
+  "slug": "contrast-canvas",
+  "target_user": "UI/UX Designers and Frontend Developers",
+  "problem": "Testing WCAG accessibility contrast ratios for complex UI components like gradients, text over images, and multi-state buttons is tedious with standard single-color pickers.",
+  "pain": "Designers and developers often skip rigorous accessibility checks or fail compliance because current tools only support flat color-to-color comparison, leading to late-stage design refactoring or non-compliant releases.",
+  "solution": "A local-first visual canvas where users can paste mockups, apply dynamic CSS gradients, overlay text elements, and instantly view a live, multi-point WCAG AA/AAA contrast map showing exactly which pixels fail contrast requirements.",
+  "verification": "Load a mock background image, place text on top, and verify the calculated relative luminance and WCAG rating update in real-time using pure client-side mathematical algorithms.",
+  "category": "accessibility",
+  "keywords": [
+    "wcag",
+    "contrast-ratio",
+    "accessibility-checker",
+    "color-contrast",
+    "ui-design"
+  ],
+  "major_features": [
+    "Interactive canvas with drag-and-drop text overlays",
+    "Real-time relative luminance mapping for gradients and images",
+    "Instant WCAG AA/AAA compliance scoring and color suggestions"
+  ],
+  "technology": "HTML/CSS/JavaScript"
+}

@@ -1,0 +1,213 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "accessibility",
+      "keywords": [
+        "wcag",
+        "contrast-ratio",
+        "accessibility-checker",
+        "color-contrast",
+        "ui-design"
+      ],
+      "major_features": [
+        "Interactive canvas with drag-and-drop text overlays",
+        "Real-time relative luminance mapping for gradients and images",
+        "Instant WCAG AA/AAA compliance scoring and color suggestions"
+      ],
+      "name": "Contrast Canvas",
+      "pain": "Designers and developers often skip rigorous accessibility checks or fail compliance because current tools only support flat color-to-color comparison, leading to late-stage design refactoring or non-compliant releases.",
+      "problem": "Testing WCAG accessibility contrast ratios for complex UI components like gradients, text over images, and multi-state buttons is tedious with standard single-color pickers.",
+      "slug": "contrast-canvas",
+      "solution": "A local-first visual canvas where users can paste mockups, apply dynamic CSS gradients, overlay text elements, and instantly view a live, multi-point WCAG AA/AAA contrast map showing exactly which pixels fail contrast requirements.",
+      "target_user": "UI/UX Designers and Frontend Developers",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Load a mock background image, place text on top, and verify the calculated relative luminance and WCAG rating update in real-time using pure client-side mathematical algorithms."
+    },
+    {
+      "category": "data-quality",
+      "keywords": [
+        "csv-cleaner",
+        "data-normalization",
+        "privacy-first",
+        "data-wrangling",
+        "spreadsheet"
+      ],
+      "major_features": [
+        "Automated data anomaly detection (e.g., date formats, casing, spacing)",
+        "Interactive batch transformation rules (Trim, TitleCase, DateStandardize)",
+        "100% local, serverless processing preserving data privacy"
+      ],
+      "name": "Tabular Tamer",
+      "pain": "Users waste hours manually editing spreadsheets or trying to write brittle Excel formulas just to clean up small contact lists or transaction logs.",
+      "problem": "Dirty, inconsistently formatted CSV/TSV files (mixed date formats, trailing whitespace, erratic capitalization) cause imports to fail in CRM, ERP, or marketing software.",
+      "slug": "tabular-tamer",
+      "solution": "A private, client-side CSV inspector that automatically detects anomalies, offers one-click batch cleanup actions (trimming whitespace, standardizing dates to ISO, normalizing phone formats), and exports clean data without uploading anything to a server.",
+      "target_user": "Small Business Owners and Data Analysts",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Load a malformed CSV via file input, apply standardizing rules, and verify that the download payload contains corrected data fields matching the selected rules."
+    },
+    {
+      "category": "developer tooling",
+      "keywords": [
+        "css-grid",
+        "flexbox",
+        "layout-generator",
+        "css-learning",
+        "frontend-builder"
+      ],
+      "major_features": [
+        "Interactive visual sandbox for CSS Grid and Flexbox properties",
+        "Live responsiveness simulator with custom viewport handles",
+        "Clean, semantic HTML and CSS code exporter"
+      ],
+      "name": "Layout Blueprinter",
+      "pain": "Developers lose productivity debugging responsive layout collapses, unexpected wrapping, and alignment bugs due to misunderstood CSS property interactions.",
+      "problem": "CSS Flexbox and Grid layouts are highly abstract, leading to endless trial-and-error in browser dev tools to align elements correctly.",
+      "slug": "layout-blueprinter",
+      "solution": "An interactive visual builder where users configure layouts using real-time controls for Flexbox and Grid properties, visualizing item boundaries, flex-basis shrinks, and grid gaps, with instant copy-paste HTML/CSS generation.",
+      "target_user": "Junior Web Developers and Designers",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Modify properties like 'flex-grow' or 'grid-template-columns' via the UI control panel and confirm the visual layout container changes layout properties and outputs correct CSS."
+    },
+    {
+      "category": "developer tooling",
+      "keywords": [
+        "regex",
+        "regular-expression",
+        "regex-visualizer",
+        "developer-education",
+        "pattern-matching"
+      ],
+      "major_features": [
+        "Interactive railroad diagram generation for regex ASTs",
+        "Natural language translation of complex patterns and capture groups",
+        "Live test suite with match highlighting and group capturing tables"
+      ],
+      "name": "RegEx Visual Scribe",
+      "pain": "Developers copy-paste complex regex patterns from online forums without fully understanding them, introducing bugs or security vulnerabilities like catastrophic backtracking.",
+      "problem": "Regular expressions are notoriously difficult to read, debug, and document, often resulting in unmaintainable 'write-only' code.",
+      "slug": "regex-visual-scribe",
+      "solution": "A local playground that translates any regular expression into an interactive, step-by-step visual railroad diagram and generates a plain-English explanation of each capture group, quantifier, and assertion alongside real-time match testing.",
+      "target_user": "Software Engineers and Data Wranglers",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Input a standard email regex pattern, verify that the visual diagram correctly maps the groups, and confirm the English explanation accurately describes the validation constraints."
+    },
+    {
+      "category": "personal-organization",
+      "keywords": [
+        "invoice-generator",
+        "freelance-tools",
+        "local-first",
+        "bookkeeping",
+        "privacy-focused"
+      ],
+      "major_features": [
+        "Offline-first client and invoice management via browser IndexedDB",
+        "Customizable, CSS print-optimized invoice templates",
+        "Simplified client balance tracking and payment ledger"
+      ],
+      "name": "Local Ledger & Invoice Designer",
+      "pain": "Freelancers pay monthly fees and compromise client confidentiality just to generate a few simple invoices and track who has paid.",
+      "problem": "Basic invoice creation and client balance tracking usually require expensive, privacy-invasive, and complex SaaS subscriptions.",
+      "slug": "local-ledger-invoice",
+      "solution": "A 100% local, browser-based double-entry ledger and invoice designer. It securely stores client profiles, services, and invoice histories in browser storage (IndexedDB), and uses standard CSS print styles to generate professional, print-ready PDF invoices.",
+      "target_user": "Freelancers and Sole Proprietors",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Create a dummy client profile, add a service line item, save it to local storage, and trigger the browser print dialogue showing a perfectly formatted PDF layout."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20260829T032951Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "files_created": [
+    "README.md",
+    "app.js",
+    "index.html",
+    "project.json",
+    "style.css"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; it does not claim live market research.",
+    "Generated projects are constrained to dependency-free local browser apps for safe deterministic validation."
+  ],
+  "problem": "Testing WCAG accessibility contrast ratios for complex UI components like gradients, text over images, and multi-state buttons is tedious with standard single-color pickers.",
+  "project_name": "Contrast Canvas",
+  "project_path": "projects/contrast-canvas",
+  "quality_scores": {
+    "completeness": 20,
+    "correctness": 20,
+    "documentation": 10,
+    "novelty": 5,
+    "security": 10,
+    "testing": 15,
+    "usefulness": 20
+  },
+  "reason": "project passed critical validation and quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 80,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "accessibility",
+    "keywords": [
+      "wcag",
+      "contrast-ratio",
+      "accessibility-checker",
+      "color-contrast",
+      "ui-design"
+    ],
+    "major_features": [
+      "Interactive canvas with drag-and-drop text overlays",
+      "Real-time relative luminance mapping for gradients and images",
+      "Instant WCAG AA/AAA compliance scoring and color suggestions"
+    ],
+    "name": "Contrast Canvas",
+    "pain": "Designers and developers often skip rigorous accessibility checks or fail compliance because current tools only support flat color-to-color comparison, leading to late-stage design refactoring or non-compliant releases.",
+    "problem": "Testing WCAG accessibility contrast ratios for complex UI components like gradients, text over images, and multi-state buttons is tedious with standard single-color pickers.",
+    "slug": "contrast-canvas",
+    "solution": "A local-first visual canvas where users can paste mockups, apply dynamic CSS gradients, overlay text elements, and instantly view a live, multi-point WCAG AA/AAA contrast map showing exactly which pixels fail contrast requirements.",
+    "target_user": "UI/UX Designers and Frontend Developers",
+    "technology": "HTML/CSS/JavaScript",
+    "verification": "Load a mock background image, place text on top, and verify the calculated relative luminance and WCAG rating update in real-time using pure client-side mathematical algorithms."
+  },
+  "slug": "contrast-canvas",
+  "target_user": "UI/UX Designers and Frontend Developers",
+  "technology": "HTML/CSS/JavaScript",
+  "timestamp": "2026-08-29T03:29:51.297055+00:00",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-web-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "required files, local-only policy, and document structure passed"
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "app.js"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    }
+  ]
+}

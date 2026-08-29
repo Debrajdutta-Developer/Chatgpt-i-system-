@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrast Canvas - WCAG Accessibility Checker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <h1>Contrast Canvas</h1>
+                <span class="badge">WCAG 2.1 Local-First</span>
+            </div>
+            <p class="subtitle">Interactive multi-point contrast mapping for gradients, images, and complex UI mockups.</p>
+        </header>
+
+        <main class="workspace">
+            <!-- Sidebar Controls -->
+            <aside class="sidebar" aria-label="Canvas Controls">
+                <div class="tabs" role="tablist">
+                    <button role="tab" aria-selected="true" aria-controls="bg-panel" id="tab-bg" class="tab-btn active">Background</button>
+                    <button role="tab" aria-selected="false" aria-controls="layers-panel" id="tab-layers" class="tab-btn">Text Layers</button>
+                    <button role="tab" aria-selected="false" aria-controls="audit-panel" id="tab-audit" class="tab-btn">Audit & Results</button>
+                </div>
+
+                <!-- Background Panel -->
+                <div id="bg-panel" role="tabpanel" aria-labelledby="tab-bg" class="tab-panel active">
+                    <h3>Canvas Background</h3>
+                    
+                    <div class="control-group">
+                        <label for="bg-type">Background Type</label>
+                        <select id="bg-type">
+                            <option value="solid">Solid Color</option>
+                            <option value="gradient" selected>Linear Gradient</option>
+                            <option value="image">Image / Mockup</option>
+                        </select>
+                    </div>
+
+                    <div id="control-solid" class="bg-subcontrol hidden">
+                        <label for="solid-color">Base Color</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="solid-color" value="#1e293b">
+                            <input type="text" id="solid-color-text" value="#1e293b">
+                        </div>
+                    </div>
+
+                    <div id="control-gradient" class="bg-subcontrol">
+                        <div class="gradient-row">
+                            <div>
+                                <label for="grad-color1">Start Color</label>
+                                <input type="color" id="grad-color1" value="#3b82f6">
+                            </div>
+                            <div>
+                                <label for="grad-color2">End Color</label>
+                                <input type="color" id="grad-color2" value="#8b5cf6">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="grad-angle">Angle (<span id="angle-val">90</span>&deg;)</label>
+                            <input type="range" id="grad-angle" min="0" max="360" value="90">
+                        </div>
+                    </div>
+
+                    <div id="control-image" class="bg-subcontrol hidden">
+                        <label for="image-file" class="file-upload-btn">
+                            Upload Image Mockup
+                            <input type="file" id="image-file" accept="image/*">
+                        </label>
+                        <p class="help-text">Supports PNG, JPG, WEBP. Processed locally.</p>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="canvas-width">Canvas Width</label>
+                        <input type="number" id="canvas-width" value="800" min="300" max="1600">
+                    </div>
+                    <div class="control-group">
+                        <label for="canvas-height">Canvas Height</label>
+                        <input type="number" id="canvas-height" value="500" min="200" max="1200">
+                    </div>
+                </div>
+
+                <!-- Layers Panel -->
+                <div id="layers-panel" role="tabpanel" aria-labelledby="tab-layers" class="tab-panel">
+                    <h3>Text Overlays</h3>
+                    <button id="add-text-btn" class="primary-btn">+ Add Text Layer</button>
+                    
+                    <div id="layers-list" class="layers-list">
+                        <!-- Dynamically populated -->
+                    </div>
+
+                    <div id="layer-properties" class="layer-properties hidden">
+                        <h4>Edit Selected Layer</h4>
+                        <input type="hidden" id="active-layer-id">
+                        <div class="control-group">
+                            <label for="layer-text-content">Text Content</label>
+                            <input type="text" id="layer-text-content">
+                        </div>
+                        <div class="control-group">
+                            <label for="layer-text-color">Text Color</label>
+                            <div class="color-picker-wrapper">
+                                <input type="color" id="layer-text-color" value="#ffffff">
+                                <input type="text" id="layer-text-color-text" value="#ffffff">
+                            </div>
+                        </div>
+                        <div class="control-row">
+                            <div class="control-group">
+                                <label for="layer-font-size">Font Size (px)</label>
+                                <input type="number" id="layer-font-size" value="24" min="10" max="120">
+                            </div>
+                            <div class="control-group">
+                                <label for="layer-font-weight">Weight</label>
+                                <select id="layer-font-weight">
+                                    <option value="400">Regular (400)</option>
+                                    <option value="600">Semi-Bold (600)</option>
+                                    <option value="700" selected>Bold (700)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button id="delete-layer-btn" class="danger-btn">Delete Layer</button>
+                    </div>
+                </div>
+
+                <!-- Audit Panel -->
+                <div id="audit-panel" role="tabpanel" aria-labelledby="tab-audit" class="tab-panel">
+                    <h3>WCAG Compliance Audit</h3>
+                    <p class="help-text">Real-time evaluation of all text layers against background luminance samples.</p>
+                    
+                    <div id="audit-results-container">
+                        <!-- Dynamically populated audit cards -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Interactive Canvas Area -->
+            <section class="canvas-viewport-section">
+                <div class="canvas-toolbar">
+                    <div class="view-toggles">
+                        <label>
+                            <input type="checkbox" id="toggle-heatmap" checked> Show Contrast Heatmap / Sample Box
+                        </label>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="export-report-btn" class="secondary-btn">Export JSON Report</button>
+                    </div>
+                </div>
+
+                <div class="canvas-container" id="canvas-container">
+                    <canvas id="bg-canvas" width="800" height="500"></canvas>
+                    <div id="overlays-container" class="overlays-container"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
