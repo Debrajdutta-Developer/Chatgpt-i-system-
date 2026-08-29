@@ -92,18 +92,37 @@ def _assertion_signals(text: str) -> int:
 
 
 def _source_safety_errors(texts: dict[str, str]) -> list[str]:
+    """Reject real shell/dynamic execution capabilities without substring false positives.
+
+    Safety checks are applied to generated source, not README prose. Function-style
+    checks use identifier boundaries, so harmless names such as `storage_system(` or
+    `test_system(` are not mistaken for the C standard-library `system(...)` call.
+    """
     errors: list[str] = []
-    source_only = "\n".join(v for k, v in texts.items() if k != "README.md")
+    source_items = [(k, v) for k, v in texts.items() if k != "README.md"]
+    source_only = "\n".join(v for _, v in source_items)
     lower = source_only.lower()
+
     for marker in ("todo", "coming soon", "lorem ipsum", "not implemented", "placeholder implementation"):
         if marker in lower:
             errors.append(f"unfinished/fake marker found: {marker}")
-    for token in (
+
+    literal_tokens = (
         "runtime.getruntime().exec", "processbuilder(", "child_process", "subprocess.",
-        "os.system(", "popen(", "system(", "eval(", "exec(", "node:vm",
-    ):
+        "os.system(", "node:vm",
+    )
+    for token in literal_tokens:
         if token in lower:
             errors.append(f"forbidden shell/dynamic execution capability found: {token}")
+
+    # These are function names, so require a real identifier boundary rather than
+    # substring matching. This preserves the security gate while avoiding names like
+    # `lsm_system(...)`, `test_exec(...)`, or `safe_popen_parser(...)`.
+    for function_name in ("system", "popen", "eval", "exec"):
+        pattern = rf"(?<![a-z0-9_]){function_name}\s*\("
+        if re.search(pattern, lower):
+            errors.append(f"forbidden shell/dynamic execution capability found: {function_name}(")
+
     for url in re.findall(r"https?://[^\s\"'`)>]+", source_only, flags=re.IGNORECASE):
         lu = url.lower()
         if "127.0.0.1" not in lu and "localhost" not in lu:
