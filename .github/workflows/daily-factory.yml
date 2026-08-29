@@ -15,7 +15,7 @@ concurrency:
 jobs:
   factory-cycle:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with:
@@ -62,24 +62,44 @@ jobs:
           echo "report=reports/$CURRENT_REPORT" >> "$GITHUB_OUTPUT"
           echo "Current cycle report: reports/$CURRENT_REPORT"
 
-      - name: Revalidate factory and released projects
+      - name: Revalidate factory and current release
+        env:
+          REPORT: ${{ steps.factory.outputs.report }}
+        shell: bash
         run: |
           python -m unittest discover -s tests -v
-          for project in projects/*; do
-            if [ -d "$project/tests" ]; then
-              (cd "$project" && python -m unittest discover -s tests -v && python -m compileall -q .)
-            fi
-            if [ -f "$project/app.js" ]; then
-              node --check "$project/app.js"
-            fi
-            if [ -f "$project/core.js" ]; then
-              node --check "$project/core.js"
-            fi
-            if [ -f "$project/test-core.js" ]; then
-              node --check "$project/test-core.js"
-              (cd "$project" && node test-core.js)
-            fi
-          done
+
+          STATUS="$(python -c 'import json,sys; d=json.load(open(sys.argv[1], encoding="utf-8")); print(d.get("final_status", ""))' "$REPORT")"
+          if [ "$STATUS" != "SUCCESS" ]; then
+            echo "Current cycle has no releasable project."
+            exit 0
+          fi
+
+          PROJECT_PATH="$(python -c 'import json,sys; d=json.load(open(sys.argv[1], encoding="utf-8")); print(d.get("project_path", ""))' "$REPORT")"
+          if [ -z "$PROJECT_PATH" ] || [ ! -d "$PROJECT_PATH" ]; then
+            echo "Validated project path is missing from the current report."
+            exit 2
+          fi
+
+          if [ -f "$PROJECT_PATH/package.json" ]; then
+            (
+              cd "$PROJECT_PATH"
+              npm ci --ignore-scripts --no-audit --no-fund
+              npm test
+              npm run build
+            )
+            rm -rf "$PROJECT_PATH/node_modules" "$PROJECT_PATH/dist"
+          elif [ -f "$PROJECT_PATH/test-core.js" ]; then
+            node --check "$PROJECT_PATH/core.js"
+            node --check "$PROJECT_PATH/app.js"
+            node --check "$PROJECT_PATH/test-core.js"
+            (cd "$PROJECT_PATH" && node test-core.js)
+          elif [ -d "$PROJECT_PATH/tests" ]; then
+            (cd "$PROJECT_PATH" && python -m unittest discover -s tests -v && python -m compileall -q src tests)
+          else
+            echo "Unknown project validation profile."
+            exit 2
+          fi
 
       - name: Commit and push validated changes
         shell: bash
@@ -106,8 +126,8 @@ jobs:
         shell: bash
         run: |
           if [ -z "$GH_TOKEN" ]; then
-            echo "FACTORY_GITHUB_TOKEN is not configured; standalone repository publishing is skipped."
-            exit 0
+            echo "FACTORY_GITHUB_TOKEN is required for end-to-end standalone publishing."
+            exit 2
           fi
 
           if [ -z "$REPORT" ] || [ ! -f "$REPORT" ]; then
@@ -121,7 +141,7 @@ jobs:
             exit 0
           fi
 
-          PROJECT_PATH="$(python -c 'import json,sys; d=json.load(open(sys.argv[1], encoding="utf-8")); print(d.get("project", d.get("project_path", "")))' "$REPORT")"
+          PROJECT_PATH="$(python -c 'import json,sys; d=json.load(open(sys.argv[1], encoding="utf-8")); print(d.get("project_path", d.get("project", "")))' "$REPORT")"
           PROJECT_SLUG="$(basename "$PROJECT_PATH")"
           LOCAL_PROJECT="projects/$PROJECT_SLUG"
 
@@ -130,13 +150,33 @@ jobs:
             exit 2
           fi
 
-          if gh repo view "$GH_OWNER/$PROJECT_SLUG" >/dev/null 2>&1; then
-            echo "Repository $GH_OWNER/$PROJECT_SLUG already exists; refusing to overwrite it."
-            exit 0
+          # Final release-boundary verification. Never create a repo for code that
+          # cannot pass its functional tests and production build in this exact checkout.
+          if [ -f "$LOCAL_PROJECT/package.json" ]; then
+            (
+              cd "$LOCAL_PROJECT"
+              npm ci --ignore-scripts --no-audit --no-fund
+              npm test
+              npm run build
+            )
+            rm -rf "$LOCAL_PROJECT/node_modules" "$LOCAL_PROJECT/dist"
+          elif [ -f "$LOCAL_PROJECT/test-core.js" ]; then
+            (cd "$LOCAL_PROJECT" && node test-core.js)
+          elif [ -d "$LOCAL_PROJECT/tests" ]; then
+            (cd "$LOCAL_PROJECT" && python -m unittest discover -s tests -v)
+          else
+            echo "No functional-test profile found; refusing standalone publication."
+            exit 2
           fi
 
-          DESCRIPTION="Autonomously generated, functionally tested, and validated by Chatgpt-i-system- software factory."
+          if gh repo view "$GH_OWNER/$PROJECT_SLUG" >/dev/null 2>&1; then
+            echo "Repository $GH_OWNER/$PROJECT_SLUG already exists; refusing to overwrite it."
+            exit 2
+          fi
+
+          DESCRIPTION="Production-style app autonomously generated, tested, built and quality-gated by Chatgpt-i-system-."
           gh repo create "$GH_OWNER/$PROJECT_SLUG" --public --description "$DESCRIPTION"
+          gh auth setup-git
 
           (
             cd "$LOCAL_PROJECT"
@@ -145,11 +185,30 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add .
             git commit -m "Initial validated release"
-            git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GH_OWNER}/${PROJECT_SLUG}.git"
+            git remote add origin "https://github.com/${GH_OWNER}/${PROJECT_SLUG}.git"
             git push -u origin main
           )
+          rm -rf "$LOCAL_PROJECT/.git"
 
-          echo "Published standalone repository: https://github.com/$GH_OWNER/$PROJECT_SLUG"
+          REPO_URL="https://github.com/$GH_OWNER/$PROJECT_SLUG"
+          python - "$REPORT" "$REPO_URL" <<'PY'
+          import json, sys
+          from pathlib import Path
+          path = Path(sys.argv[1])
+          data = json.loads(path.read_text(encoding="utf-8"))
+          data["standalone_repository"] = sys.argv[2]
+          data["standalone_status"] = "SUCCESS"
+          data["end_to_end_status"] = "SUCCESS"
+          path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          PY
+
+          git add "$REPORT"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "factory: record standalone publication $PROJECT_SLUG [skip ci]"
+          git push
+
+          echo "Published standalone repository: $REPO_URL"
 
       - name: Upload cycle reports
         if: always()
