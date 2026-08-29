@@ -63,6 +63,7 @@ def run_cycle(config: Config, dry_run: bool = False, now: datetime | None = None
             "timestamp": now.isoformat(),
             "dry_run": dry_run,
             "discovery_mode": "gemini" if provider_available() else "reviewed-fallback",
+            "validation_profile": "production-fullstack-v1" if using_ai else "reviewed-blueprint",
             "candidate_ideas": [x.to_dict() for x in candidates],
             "rejected_candidate_ideas": rejected,
             "selected_idea": idea.to_dict() if idea else None,
@@ -74,21 +75,24 @@ def run_cycle(config: Config, dry_run: bool = False, now: datetime | None = None
             "files_created": [],
             "commit": None,
             "remote_status": "NOT_ATTEMPTED",
+            "standalone_status": "PENDING" if using_ai else "NOT_APPLICABLE",
+            "end_to_end_status": "PENDING" if using_ai else "NOT_APPLICABLE",
             "known_limitations": [
-                "Gemini discovery reasons from model knowledge; it does not claim live market research.",
-                "Generated projects are constrained to dependency-free local browser apps for safe deterministic validation.",
+                "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+                "A passing release proves deterministic domain/API tests, a frontend production build, Docker image build, and factory quality gates; it does not by itself prove real-world adoption, penetration testing, or unlimited production scale.",
+                "Generated full-stack products are intentionally self-hostable and avoid paid or unverifiable third-party integrations.",
             ],
         }
         suffix = idea.slug if idea else "no-release"
         report_path = config.reports / f"{now.date().isoformat()}-{stamp[9:15].lower()}-{suffix}.json"
 
         if idea is None:
-            report.update(final_status="NO_RELEASE", reason="all candidates duplicate existing or historical projects")
+            report.update(final_status="NO_RELEASE", end_to_end_status="NO_RELEASE", reason="all candidates duplicate existing or historical projects")
             atomic_json(report_path, report)
             return CycleResult("NO_RELEASE", str(report_path), message=report["reason"])
 
         if dry_run:
-            report.update(final_status="NO_RELEASE", reason="dry-run selected and planned an idea; generation and publication intentionally skipped")
+            report.update(final_status="NO_RELEASE", end_to_end_status="NO_RELEASE", reason="dry-run selected and planned an idea; generation and publication intentionally skipped")
             atomic_json(report_path, report)
             return CycleResult("NO_RELEASE", str(report_path), message=report["reason"])
 
@@ -110,6 +114,7 @@ def run_cycle(config: Config, dry_run: bool = False, now: datetime | None = None
                     "attempt": attempt + 1,
                     "action": "regenerated project with bounded validation feedback" if using_ai else "recreated project from reviewed blueprint",
                     "failure_classes": [x.failure_class for x in final_results if x.failure_class],
+                    "summaries": failures[:8],
                 })
                 feedback = failures[:8]
 
@@ -122,7 +127,14 @@ def run_cycle(config: Config, dry_run: bool = False, now: datetime | None = None
             )
             if not releasable:
                 failure_class = next((x.failure_class for x in final_results if x.critical and x.failure_class), "QUALITY_FAILURE")
-                report.update(final_status="FAILED", failure_class=failure_class, reason="critical validation or quality threshold failed", remote_status="NOT_ATTEMPTED")
+                report.update(
+                    final_status="FAILED",
+                    end_to_end_status="FAILED",
+                    standalone_status="NOT_ATTEMPTED",
+                    failure_class=failure_class,
+                    reason="critical production validation or quality threshold failed",
+                    remote_status="NOT_ATTEMPTED",
+                )
                 atomic_json(report_path, report)
                 return CycleResult("FAILED", str(report_path), message=report["reason"])
 
@@ -140,6 +152,7 @@ def run_cycle(config: Config, dry_run: bool = False, now: datetime | None = None
                 "keywords": list(idea.keywords),
                 "major_features": list(idea.major_features),
                 "technology": idea.technology,
+                "validation_profile": report["validation_profile"],
                 "validation_summary": [{"command": x.command, "status": x.status} for x in final_results],
                 "quality_score": total,
                 "report_path": str(report_path.relative_to(config.root)),
@@ -155,7 +168,9 @@ def run_cycle(config: Config, dry_run: bool = False, now: datetime | None = None
                 technology=idea.technology,
                 project_path=str(target.relative_to(config.root)),
                 remote_status=publication,
-                reason="project passed critical validation and quality gate",
+                standalone_status="PENDING" if using_ai else "NOT_APPLICABLE",
+                end_to_end_status="PENDING" if using_ai else "SUCCESS",
+                reason="project passed critical production validation and the quality gate",
             )
             atomic_json(report_path, report)
             return CycleResult("SUCCESS", str(report_path), str(target), report["reason"])
