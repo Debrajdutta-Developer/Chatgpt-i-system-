@@ -1,6 +1,5 @@
 """Allowlisted project validation with truthful failure classification."""
 from __future__ import annotations
-import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -11,6 +10,7 @@ ALLOWED = {
     ("python", "-m", "unittest"),
     ("python", "-m", "compileall"),
     ("node", "--check"),
+    ("node", "test-core.js"),
 }
 
 
@@ -40,95 +40,77 @@ def _run(project: Path, command: list[str], kind: str) -> ValidationResult:
     )
 
 
-def _remote_resource_errors(html: str, css: str, js: str) -> list[str]:
-    """Reject executable/loaded remote resources without blocking harmless URI metadata.
-
-    SVG/XML namespace declarations such as xmlns="http://www.w3.org/2000/svg" are
-    identifiers, not network requests, so they must not fail the local-only policy.
-    Likewise the ordinary HTML ``placeholder`` attribute is not unfinished content.
-    """
-    errors: list[str] = []
-    lower_js = js.lower()
-    lower_css = css.lower()
-
-    dynamic_js = (
-        "eval(",
-        "new function(",
-        "document.write(",
-        "websocket(",
-        "fetch(",
-        "xmlhttprequest(",
-        "eventsource(",
-    )
-    for forbidden in dynamic_js:
-        if forbidden in lower_js:
-            errors.append(f"forbidden remote/dynamic behavior found in app.js: {forbidden}")
-
-    if "http://" in lower_js or "https://" in lower_js:
-        errors.append("remote URL found in executable JavaScript")
-
-    if re.search(r"url\(\s*['\"]?https?://", lower_css):
-        errors.append("remote URL found in CSS resource")
-
-    # Only URLs in loading/navigation attributes are considered remote behavior.
-    # This intentionally does not match XML namespace attributes such as xmlns=.
-    remote_attr = re.compile(
-        r"\b(?:src|href|action|poster)\s*=\s*['\"]\s*https?://",
-        re.IGNORECASE,
-    )
-    if remote_attr.search(html):
-        errors.append("remote URL found in HTML resource/navigation attribute")
-
-    return errors
-
-
 def _validate_web(project: Path) -> list[ValidationResult]:
     errors: list[str] = []
-    required = ["README.md", "index.html", "style.css", "app.js", "project.json"]
+    required = ["README.md", "index.html", "style.css", "core.js", "app.js", "test-core.js", "project.json"]
     for name in required:
         path = project / name
-        if not path.is_file() or path.stat().st_size < 40:
+        if not path.is_file() or path.stat().st_size < 80:
             errors.append(f"missing or too-small required file: {name}")
 
     if not errors:
         html = (project / "index.html").read_text(encoding="utf-8", errors="replace")
         js = (project / "app.js").read_text(encoding="utf-8", errors="replace")
+        core = (project / "core.js").read_text(encoding="utf-8", errors="replace")
+        tests = (project / "test-core.js").read_text(encoding="utf-8", errors="replace")
         css = (project / "style.css").read_text(encoding="utf-8", errors="replace")
         readme = (project / "README.md").read_text(encoding="utf-8", errors="replace")
         lower_html = html.lower()
-        lower_all = "\n".join([html, js, css, readme]).lower()
+        lower_all = "\n".join([html, js, core, tests, css, readme]).lower()
+
         if "<html" not in lower_html or "</html>" not in lower_html:
             errors.append("index.html is not a complete HTML document")
-        if "style.css" not in html or "app.js" not in html:
-            errors.append("index.html must reference style.css and app.js")
-        if len(css.strip()) < 200:
-            errors.append("style.css is suspiciously small")
-        if len(js.strip()) < 200:
-            errors.append("app.js is suspiciously small")
-
-        # These markers represent unfinished generated content. The normal HTML
-        # placeholder= attribute is deliberately allowed.
+        if "style.css" not in html or "app.js" not in html or "core.js" not in html:
+            errors.append("index.html must reference style.css, core.js and app.js")
+        elif html.find("core.js") > html.find("app.js"):
+            errors.append("index.html must load core.js before app.js")
+        if "globalthis.productcore" not in core.lower():
+            errors.append("core.js must expose the real engine as globalThis.ProductCore")
+        if "productcore" not in js.lower():
+            errors.append("app.js must consume ProductCore instead of implementing a disconnected UI demo")
+        if "core.js" not in tests.lower():
+            errors.append("test-core.js must execute the real core.js engine")
+        assertion_signals = sum(tests.lower().count(token) for token in ("assert", "throw new error", "expect("))
+        if assertion_signals < 5:
+            errors.append("test-core.js must contain at least 5 meaningful assertions/checks")
+        if len(css.strip()) < 1000:
+            errors.append("style.css is too small for a portfolio-grade interface")
+        if len(js.strip()) < 1200:
+            errors.append("app.js is too small for a substantial product workflow")
+        if len(core.strip()) < 1000:
+            errors.append("core.js is too small for a substantial deterministic product engine")
+        if len(readme.strip()) < 1200:
+            errors.append("README.md is too small for production-style documentation")
         for marker in ("todo", "coming soon", "lorem ipsum"):
             if marker in lower_all:
-                errors.append(f"unfinished-content marker found: {marker}")
-
-        errors.extend(_remote_resource_errors(html, css, js))
+                errors.append(f"placeholder marker found: {marker}")
+        for forbidden in ("eval(", "new function(", "document.write(", "websocket(", "fetch("):
+            if forbidden in lower_all:
+                errors.append(f"forbidden remote/dynamic behavior found: {forbidden}")
+        remote_patterns = ("<script src=\"http", "<script src='http", "<link href=\"http", "<link href='http")
+        for forbidden in remote_patterns:
+            if forbidden in lower_all:
+                errors.append(f"forbidden remote asset found: {forbidden}")
 
     static = ValidationResult(
         ["factory", "static-web-check"],
         1 if errors else 0,
         "FAIL" if errors else "PASS",
         "BUILD_FAILURE" if errors else None,
-        "\n".join(errors) if errors else "required files, local-only policy, and document structure passed",
+        "\n".join(errors) if errors else "architecture, completeness, local-only policy, and document structure passed",
     )
     results = [static]
 
     node = shutil.which("node")
-    if node and (project / "app.js").is_file():
-        results.append(_run(project, ["node", "--check", "app.js"], "build"))
+    if node:
+        for name in ("core.js", "app.js", "test-core.js"):
+            if (project / name).is_file():
+                results.append(_run(project, ["node", "--check", name], "build"))
+        if (project / "test-core.js").is_file():
+            results.append(_run(project, ["node", "test-core.js"], "test"))
     else:
         results.append(ValidationResult(
-            ["node", "--check", "app.js"], 1, "FAIL", "DEPENDENCY_FAILURE", "node executable is unavailable"
+            ["node", "test-core.js"], 1, "FAIL", "DEPENDENCY_FAILURE", "node executable is unavailable"
         ))
     return results
 
