@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSV Schema Guard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <h1>CSV Schema Guard</h1>
+      <span class="badge">100% Local & Private</span>
+    </div>
+    <p class="tagline">Audit, repair, and sanitize messy CSV files before database import.</p>
+  </header>
+
+  <main class="app-main">
+    <!-- Drop Zone & Controls -->
+    <section class="upload-section" id="uploadSection">
+      <div class="drop-zone" id="dropZone" tabindex="0" aria-label="CSV file drop zone">
+        <svg class="upload-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+        <h2>Drag & Drop your CSV file here</h2>
+        <p>or <label for="fileInput" class="file-label">browse files</label></p>
+        <input type="file" id="fileInput" accept=".csv,text/csv" class="sr-only">
+        <span class="file-hint">Supports comma, semicolon, tab, and custom delimiters</span>
+      </div>
+      <div class="sample-loader">
+        <button id="loadSampleBtn" class="btn btn-secondary">Load Sample Messy CSV</button>
+      </div>
+    </section>
+
+    <!-- Workspace (Hidden initially) -->
+    <section class="workspace hidden" id="workspace">
+      <div class="toolbar">
+        <div class="file-stats">
+          <span id="fileNameBadge" class="stat-badge">filename.csv</span>
+          <span id="fileRowsBadge" class="stat-badge">0 rows</span>
+          <span id="fileColsBadge" class="stat-badge">0 columns</span>
+          <span id="anomalyCountBadge" class="stat-badge alert-badge">0 anomalies</span>
+        </div>
+        <div class="toolbar-actions">
+          <button id="newFileBtn" class="btn btn-secondary">Upload New File</button>
+          <button id="exportBtn" class="btn btn-primary">Export Sanitized CSV</button>
+        </div>
+      </div>
+
+      <div class="workspace-grid">
+        <!-- Sidebar / Config -->
+        <aside class="sidebar">
+          <h3>Audit Controls</h3>
+          <div class="control-group">
+            <label for="delimiterSelect">Delimiter</label>
+            <select id="delimiterSelect">
+              <option value="auto">Auto-Detect</option>
+              <option value=",">Comma (,)</option>
+              <option value=";">Semicolon (;)</option>
+              <option value="\t">Tab</option>
+              <option value="|">Pipe (|)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="headerCheck" checked>
+              First row is header
+            </label>
+          </div>
+
+          <div class="control-group">
+            <label>Filter View</label>
+            <div class="filter-buttons">
+              <button class="filter-btn active" data-filter="all">All Rows</button>
+              <button class="filter-btn" data-filter="anomalies">Anomalies Only</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <h3>Quick Repairs</h3>
+            <div class="repair-actions">
+              <button id="repairTrimBtn" class="btn btn-outline">Trim Whitespace</button>
+              <button id="repairQuotesBtn" class="btn btn-outline">Fix Unescaped Quotes</button>
+              <button id="repairNonAsciiBtn" class="btn btn-outline">Strip Non-ASCII</button>
+              <button id="repairFillEmptyBtn" class="btn btn-outline">Fill Empty Cells</button>
+              <button id="repairAllBtn" class="btn btn-accent">Apply All Repairs</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <h3>Column Schemas</h3>
+            <div id="schemaConfigList" class="schema-config-list">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Data View -->
+        <div class="data-view">
+          <div class="anomaly-legend">
+            <span class="legend-item"><span class="dot col-mismatch"></span> Column Count Mismatch</span>
+            <span class="legend-item"><span class="dot type-mismatch"></span> Type Mismatch</span>
+            <span class="legend-item"><span class="dot non-ascii"></span> Non-ASCII</span>
+            <span class="legend-item"><span class="dot empty-cell"></span> Empty Cell</span>
+          </div>
+          <div class="table-container" id="tableContainer" tabindex="0" aria-label="CSV Data Table">
+            <table id="csvTable">
+              <thead id="tableHead"></thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Cell Detail Modal -->
+  <div class="modal hidden" id="cellModal" aria-hidden="true">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+      <h3>Edit Cell Value</h3>
+      <p id="modalCellCoords" class="modal-coords"></p>
+      <div class="control-group">
+        <label for="modalCellInput">Value</label>
+        <input type="text" id="modalCellInput">
+      </div>
+      <div id="modalAnomalyInfo" class="modal-anomaly-info"></div>
+      <div class="modal-actions">
+        <button id="modalCloseBtn" class="btn btn-secondary">Cancel</button>
+        <button id="modalSaveBtn" class="btn btn-primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "data-quality",
+      "keywords": [
+        "csv",
+        "data-validation",
+        "local-first",
+        "data-cleaning",
+        "parser"
+      ],
+      "major_features": [
+        "Interactive visual grid of formatting anomalies",
+        "Automatic column data-type inference and mismatch highlighting",
+        "Instant export of sanitized CSV files with encoding repairs"
+      ],
+      "name": "CSV Schema Guard",
+      "pain": "Hours spent debugging cryptic database import errors or writing throwaway scripts to find a single rogue comma or unescaped quote in a 50,000-row file.",
+      "problem": "Incoming CSV files frequently have malformed rows, mismatched column counts, encoding glitches, or inconsistent date formats that break database import scripts.",
+      "slug": "csv-schema-guard",
+      "solution": "A completely local browser application where users drop a CSV file to instantly get a visual audit map of structural anomalies, duplicate headers, type mismatches (e.g., text in a numeric column), and non-ASCII character highlights, with one-click repair and export.",
+      "target_user": "Data analysts, database administrators, and spreadsheet users.",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Load a mock CSV with variable column counts and mismatched data types in the browser, verify the UI highlights the exact row/column coordinates of the anomalies, and check that the exported CSV resolves those issues."
+    },
+    {
+      "category": "accessibility",
+      "keywords": [
+        "accessibility",
+        "a11y",
+        "screen-reader",
+        "dom-visualizer",
+        "html"
+      ],
+      "major_features": [
+        "Visual reading-order map overlaid on rendered HTML wireframe",
+        "Generated text-to-speech script simulation showing exact screen reader announcements",
+        "Real-time warnings for missing landmarks, unlabeled controls, and focus traps"
+      ],
+      "name": "Semantic Speech Map",
+      "pain": "Developers skip accessibility testing or miss critical reading-order bugs, resulting in highly frustrating experiences for visually impaired users.",
+      "problem": "Evaluating how screen readers navigate and announce complex web page layouts is difficult without installing and learning complex screen reader software on multiple OS platforms.",
+      "slug": "semantic-speech-map",
+      "solution": "A local-first tool where developers paste raw HTML or a component's DOM structure to generate a sequential, interactive 'speech script'. It visually plots the exact reading order, announces role attributes, exposes missing alt texts, and flags keyboard focus traps.",
+      "target_user": "Web developers and accessibility (a11y) auditors.",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Paste an HTML snippet with missing alt tags and aria-labels, verify the tool generates a step-by-step reading order list highlighting these specific accessibility failures."
+    },
+    {
+      "category": "personal-organization",
+      "keywords": [
+        "accounting",
+        "ledger",
+        "plain-text-accounting",
+        "personal-finance",
+        "local-first"
+      ],
+      "major_features": [
+        "Interactive double-entry transaction builder with auto-balancing validation",
+        "Real-time balance sheet and income statement visualizations",
+        "Bidirectional syncing between visual editor and raw ledger text format"
+      ],
+      "name": "PlainText Ledger UI",
+      "pain": "Typographical errors in account names, unbalanced transactions, and the friction of manually calculating compound entries without immediate visual feedback.",
+      "problem": "Plain-text accounting (Ledger/Beancount) offers ultimate privacy and longevity, but writing journal entries manually in a text editor is error-prone and lacks real-time financial visualization.",
+      "slug": "plaintext-ledger-ui",
+      "solution": "A local-first web interface that acts as a visual editor for plain-text ledger files. Users can drop their ledger file, use intuitive forms to log balanced transactions with auto-complete, and instantly view updated balance sheets and income statements generated entirely client-side.",
+      "target_user": "Freelancers, micro-businesses, and personal finance enthusiasts using plain-text accounting.",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Drop a sample ledger string into the app, add a transaction via the UI form, verify it auto-balances, and confirm the generated ledger text file updates correctly without syntax errors."
+    },
+    {
+      "category": "developer tooling",
+      "keywords": [
+        "i18n",
+        "localization",
+        "json-diff",
+        "translation",
+        "developer-tools"
+      ],
+      "major_features": [
+        "Side-by-side matrix view of all translation files simultaneously",
+        "Automatic detection of missing keys, empty strings, and interpolation variable mismatches",
+        "One-click synchronization to add missing placeholder keys to lagging locales"
+      ],
+      "name": "Locale Align",
+      "pain": "Production applications crashing or displaying ugly raw translation keys to end-users because of missing keys in secondary locale files.",
+      "problem": "Managing translation JSON files across multiple languages leads to structural drift where keys are added, renamed, or deleted in one file but forgotten in others.",
+      "slug": "locale-align",
+      "solution": "A browser-based side-by-side comparison tool for localization files. Drop a folder of JSON files to view a unified translation matrix, automatically flagging missing keys, mismatched nesting structures, and inconsistent interpolation parameters (such as variable names).",
+      "target_user": "Frontend developers and localization managers.",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Upload two JSON files with mismatched keys and different variables, verify the tool displays a clear diff grid highlighting the missing keys and variable mismatches, and allows exporting the synchronized JSONs."
+    },
+    {
+      "category": "small-business utilities",
+      "keywords": [
+        "barcode-generator",
+        "qr-code",
+        "label-printing",
+        "small-business",
+        "offline-first"
+      ],
+      "major_features": [
+        "Visual grid designer with drag-and-drop text, barcode, and QR code elements",
+        "Local batch import via CSV to generate hundreds of labels instantly",
+        "Print-optimized CSS layouts configured for standard adhesive label sheets"
+      ],
+      "name": "LabelCraft Local",
+      "pain": "Wasting expensive sheet labels due to poor alignment, complex design software learning curves, or lack of offline capability.",
+      "problem": "Creating and printing custom barcode labels, price tags, or QR code signs requires expensive specialized software or subscription-based online tools that harvest business data.",
+      "slug": "labelcraft-local",
+      "solution": "A completely offline browser utility designed to generate printable sheets of labels. Users can define custom grid layouts or use standard templates, input product metadata or import a list, generate barcodes/QR codes locally, and print perfect sheets using standard browser print-to-pdf.",
+      "target_user": "Small retail shop owners, makers, and inventory managers.",
+      "technology": "HTML/CSS/JavaScript",
+      "verification": "Generate a grid of labels with custom text and local QR codes, verify the print preview CSS aligns perfectly with standard label layouts, and test that generated QR codes are scannable."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20260829T034236Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "files_created": [
+    "README.md",
+    "app.js",
+    "index.html",
+    "project.json",
+    "style.css"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; it does not claim live market research.",
+    "Generated projects are constrained to dependency-free local browser apps for safe deterministic validation."
+  ],
+  "problem": "Incoming CSV files frequently have malformed rows, mismatched column counts, encoding glitches, or inconsistent date formats that break database import scripts.",
+  "project_name": "CSV Schema Guard",
+  "project_path": "projects/csv-schema-guard",
+  "quality_scores": {
+    "completeness": 20,
+    "correctness": 20,
+    "documentation": 10,
+    "novelty": 5,
+    "security": 10,
+    "testing": 15,
+    "usefulness": 20
+  },
+  "reason": "project passed critical validation and quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 80,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [],
+  "selected_idea": {
+    "category": "data-quality",
+    "keywords": [
+      "csv",
+      "data-validation",
+      "local-first",
+      "data-cleaning",
+      "parser"
+    ],
+    "major_features": [
+      "Interactive visual grid of formatting anomalies",
+      "Automatic column data-type inference and mismatch highlighting",
+      "Instant export of sanitized CSV files with encoding repairs"
+    ],
+    "name": "CSV Schema Guard",
+    "pain": "Hours spent debugging cryptic database import errors or writing throwaway scripts to find a single rogue comma or unescaped quote in a 50,000-row file.",
+    "problem": "Incoming CSV files frequently have malformed rows, mismatched column counts, encoding glitches, or inconsistent date formats that break database import scripts.",
+    "slug": "csv-schema-guard",
+    "solution": "A completely local browser application where users drop a CSV file to instantly get a visual audit map of structural anomalies, duplicate headers, type mismatches (e.g., text in a numeric column), and non-ASCII character highlights, with one-click repair and export.",
+    "target_user": "Data analysts, database administrators, and spreadsheet users.",
+    "technology": "HTML/CSS/JavaScript",
+    "verification": "Load a mock CSV with variable column counts and mismatched data types in the browser, verify the UI highlights the exact row/column coordinates of the anomalies, and check that the exported CSV resolves those issues."
+  },
+  "slug": "csv-schema-guard",
+  "target_user": "Data analysts, database administrators, and spreadsheet users.",
+  "technology": "HTML/CSS/JavaScript",
+  "timestamp": "2026-08-29T03:42:36.167036+00:00",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-web-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "required files, local-only policy, and document structure passed"
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "app.js"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    }
+  ]
+}

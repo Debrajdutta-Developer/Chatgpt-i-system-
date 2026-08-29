@@ -1,0 +1,23 @@
+{
+  "name": "CSV Schema Guard",
+  "slug": "csv-schema-guard",
+  "target_user": "Data analysts, database administrators, and spreadsheet users.",
+  "problem": "Incoming CSV files frequently have malformed rows, mismatched column counts, encoding glitches, or inconsistent date formats that break database import scripts.",
+  "pain": "Hours spent debugging cryptic database import errors or writing throwaway scripts to find a single rogue comma or unescaped quote in a 50,000-row file.",
+  "solution": "A completely local browser application where users drop a CSV file to instantly get a visual audit map of structural anomalies, duplicate headers, type mismatches (e.g., text in a numeric column), and non-ASCII character highlights, with one-click repair and export.",
+  "verification": "Load a mock CSV with variable column counts and mismatched data types in the browser, verify the UI highlights the exact row/column coordinates of the anomalies, and check that the exported CSV resolves those issues.",
+  "category": "data-quality",
+  "keywords": [
+    "csv",
+    "data-validation",
+    "local-first",
+    "data-cleaning",
+    "parser"
+  ],
+  "major_features": [
+    "Interactive visual grid of formatting anomalies",
+    "Automatic column data-type inference and mismatch highlighting",
+    "Instant export of sanitized CSV files with encoding repairs"
+  ],
+  "technology": "HTML/CSS/JavaScript"
+}

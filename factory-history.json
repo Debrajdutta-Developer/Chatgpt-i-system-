@@ -79,5 +79,47 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "data-quality",
+    "commit_hash": null,
+    "cycle": "cycle-20260829T034236Z",
+    "date": "2026-08-29",
+    "keywords": [
+      "csv",
+      "data-validation",
+      "local-first",
+      "data-cleaning",
+      "parser"
+    ],
+    "major_features": [
+      "Interactive visual grid of formatting anomalies",
+      "Automatic column data-type inference and mismatch highlighting",
+      "Instant export of sanitized CSV files with encoding repairs"
+    ],
+    "name": "CSV Schema Guard",
+    "problem": "Incoming CSV files frequently have malformed rows, mismatched column counts, encoding glitches, or inconsistent date formats that break database import scripts.",
+    "purpose": "A completely local browser application where users drop a CSV file to instantly get a visual audit map of structural anomalies, duplicate headers, type mismatches (e.g., text in a numeric column), and non-ASCII character highlights, with one-click repair and export.",
+    "quality_score": 100,
+    "report_path": "reports/2026-08-29-034236-csv-schema-guard.json",
+    "slug": "csv-schema-guard",
+    "technology": "HTML/CSS/JavaScript",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-web-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "node",
+          "--check",
+          "app.js"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]
