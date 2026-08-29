@@ -1,5 +1,6 @@
 """Allowlisted project validation with truthful failure classification."""
 from __future__ import annotations
+import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -39,6 +40,48 @@ def _run(project: Path, command: list[str], kind: str) -> ValidationResult:
     )
 
 
+def _remote_resource_errors(html: str, css: str, js: str) -> list[str]:
+    """Reject executable/loaded remote resources without blocking harmless URI metadata.
+
+    SVG/XML namespace declarations such as xmlns="http://www.w3.org/2000/svg" are
+    identifiers, not network requests, so they must not fail the local-only policy.
+    Likewise the ordinary HTML ``placeholder`` attribute is not unfinished content.
+    """
+    errors: list[str] = []
+    lower_js = js.lower()
+    lower_css = css.lower()
+
+    dynamic_js = (
+        "eval(",
+        "new function(",
+        "document.write(",
+        "websocket(",
+        "fetch(",
+        "xmlhttprequest(",
+        "eventsource(",
+    )
+    for forbidden in dynamic_js:
+        if forbidden in lower_js:
+            errors.append(f"forbidden remote/dynamic behavior found in app.js: {forbidden}")
+
+    if "http://" in lower_js or "https://" in lower_js:
+        errors.append("remote URL found in executable JavaScript")
+
+    if re.search(r"url\(\s*['\"]?https?://", lower_css):
+        errors.append("remote URL found in CSS resource")
+
+    # Only URLs in loading/navigation attributes are considered remote behavior.
+    # This intentionally does not match XML namespace attributes such as xmlns=.
+    remote_attr = re.compile(
+        r"\b(?:src|href|action|poster)\s*=\s*['\"]\s*https?://",
+        re.IGNORECASE,
+    )
+    if remote_attr.search(html):
+        errors.append("remote URL found in HTML resource/navigation attribute")
+
+    return errors
+
+
 def _validate_web(project: Path) -> list[ValidationResult]:
     errors: list[str] = []
     required = ["README.md", "index.html", "style.css", "app.js", "project.json"]
@@ -62,12 +105,14 @@ def _validate_web(project: Path) -> list[ValidationResult]:
             errors.append("style.css is suspiciously small")
         if len(js.strip()) < 200:
             errors.append("app.js is suspiciously small")
-        for marker in ("todo", "coming soon", "lorem ipsum", "placeholder"):
+
+        # These markers represent unfinished generated content. The normal HTML
+        # placeholder= attribute is deliberately allowed.
+        for marker in ("todo", "coming soon", "lorem ipsum"):
             if marker in lower_all:
-                errors.append(f"placeholder marker found: {marker}")
-        for forbidden in ("eval(", "new function(", "document.write(", "websocket(", "fetch(", "http://", "https://"):
-            if forbidden in lower_all:
-                errors.append(f"forbidden remote/dynamic behavior found: {forbidden}")
+                errors.append(f"unfinished-content marker found: {marker}")
+
+        errors.extend(_remote_resource_errors(html, css, js))
 
     static = ValidationResult(
         ["factory", "static-web-check"],
