@@ -2,10 +2,13 @@
 
 Generated source never chooses commands. The validator selects a fixed build/test
 sequence from trusted project metadata and classifies every failure truthfully.
+Generated executables run with a scrubbed environment so repository secrets are not
+inherited by untrusted generated code.
 """
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -15,6 +18,10 @@ from .models import ValidationResult
 
 TRUSTED_EXECUTABLES = {"python", "node", "npm", "docker", "javac", "java", "cc"}
 SYSTEM_PROFILES = {"systems-java", "systems-c", "systems-python"}
+SAFE_ENV_KEYS = {
+    "PATH", "HOME", "TMPDIR", "TMP", "TEMP", "LANG", "LC_ALL", "TZ",
+    "JAVA_HOME", "JAVA_HOME_21_X64", "PYTHONHOME", "PYTHONPATH",
+}
 
 
 def classify(stderr: str, exit_code: int, kind: str) -> str | None:
@@ -31,6 +38,14 @@ def classify(stderr: str, exit_code: int, kind: str) -> str | None:
     return "TEST_FAILURE" if kind == "test" else "BUILD_FAILURE"
 
 
+def _validation_env() -> dict[str, str]:
+    """Return a minimal environment with no repository/API secrets."""
+    env = {key: value for key, value in os.environ.items() if key in SAFE_ENV_KEYS and value}
+    env.setdefault("PATH", os.defpath)
+    env.setdefault("LANG", "C.UTF-8")
+    return env
+
+
 def _run(project: Path, command: list[str], kind: str, timeout: int = 180) -> ValidationResult:
     executable = command[0]
     if executable not in TRUSTED_EXECUTABLES and not executable.startswith("./build/"):
@@ -43,6 +58,7 @@ def _run(project: Path, command: list[str], kind: str, timeout: int = 180) -> Va
             capture_output=True,
             timeout=timeout,
             check=False,
+            env=_validation_env(),
         )
         output = (completed.stdout + completed.stderr).strip()
         return ValidationResult(
@@ -80,14 +96,16 @@ def _metadata(project: Path) -> dict:
 
 
 def _assertion_signals(text: str) -> int:
+    """Count explicit assertion/check invocations without depending on one helper name."""
     lower = text.lower()
     signals = 0
+    # Java/JUnit-style or custom assert helpers, e.g. assertTrue(), assertEq().
     signals += len(re.findall(r"\bassert\w*\s*\(", lower))
-    signals += lower.count("assert ")
+    # Dependency-free suites often use checkEq(), verifyState(), expectValue(), etc.
+    signals += len(re.findall(r"\b(?:check|verify|expect|require)\w*\s*\(", lower))
+    # Python bare asserts and explicit AssertionError branches.
+    signals += len(re.findall(r"(?m)^\s*assert\s+", lower))
     signals += lower.count("assertionerror")
-    signals += lower.count("check(")
-    signals += lower.count("require(")
-    signals += lower.count("expect(")
     return signals
 
 
@@ -115,9 +133,6 @@ def _source_safety_errors(texts: dict[str, str]) -> list[str]:
         if token in lower:
             errors.append(f"forbidden shell/dynamic execution capability found: {token}")
 
-    # These are function names, so require a real identifier boundary rather than
-    # substring matching. This preserves the security gate while avoiding names like
-    # `lsm_system(...)`, `test_exec(...)`, or `safe_popen_parser(...)`.
     for function_name in ("system", "popen", "eval", "exec"):
         pattern = rf"(?<![a-z0-9_]){function_name}\s*\("
         if re.search(pattern, lower):
