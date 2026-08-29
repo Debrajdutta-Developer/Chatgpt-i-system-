@@ -1,0 +1,60 @@
+name: Daily autonomous software factory
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *" # 08:30 Asia/Kolkata (IST is UTC+05:30)
+
+permissions:
+  contents: write
+
+concurrency:
+  group: autonomous-software-factory
+  cancel-in-progress: false
+
+jobs:
+  factory-cycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate factory before cycle
+        run: python -m unittest discover -s tests -v
+      - name: Run one factory cycle
+        run: python -m factory
+      - name: Revalidate factory and all released projects
+        run: |
+          python -m unittest discover -s tests -v
+          for project in projects/*; do
+            if [ -d "$project/tests" ]; then
+              (cd "$project" && python -m unittest discover -s tests -v && python -m compileall -q .)
+            fi
+          done
+      - name: Commit and push validated changes
+        shell: bash
+        run: |
+          if git diff --quiet && [ -z "$(git status --porcelain)" ]; then
+            echo "No valid factory changes to publish."
+            exit 0
+          fi
+          git add factory-history.json reports projects
+          if git diff --cached --quiet; then
+            echo "No intended factory changes to publish."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "factory: publish validated daily project"
+          git push
+      - name: Upload cycle reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: factory-reports-${{ github.run_id }}
+          path: reports/*.json
+          if-no-files-found: warn

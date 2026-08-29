@@ -1,0 +1,109 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "developer tooling",
+      "keywords": [
+        "filesystem",
+        "portability",
+        "paths",
+        "git"
+      ],
+      "major_features": [
+        "case-fold collision detection",
+        "reserved-name detection",
+        "JSON output"
+      ],
+      "name": "Portable Path Auditor",
+      "pain": "These defects often remain invisible until checkout on another operating system.",
+      "problem": "Repository paths can collide on case-insensitive systems or use Windows-reserved names.",
+      "slug": "portable-path-auditor",
+      "solution": "A local CLI that audits real paths for portability hazards without modifying them.",
+      "target_user": "cross-platform development teams",
+      "technology": "Python standard library",
+      "verification": "Fixture repositories exercise collisions, reserved names, and clean trees."
+    },
+    {
+      "category": "data quality",
+      "keywords": [
+        "csv",
+        "schema",
+        "drift",
+        "validation"
+      ],
+      "major_features": [
+        "schema inference",
+        "contract comparison",
+        "machine-readable findings"
+      ],
+      "name": "CSV Contract Probe",
+      "pain": "Downstream scripts fail late or ingest malformed data.",
+      "problem": "Incoming CSV files silently change columns or primitive value shapes.",
+      "slug": "csv-contract-probe",
+      "solution": "A local CLI that infers a compact schema and compares files against a saved contract.",
+      "target_user": "data workers and small teams",
+      "technology": "Python standard library",
+      "verification": "Automated fixtures cover schema creation, matching input, and drift."
+    },
+    {
+      "category": "developer tooling",
+      "keywords": [
+        "text",
+        "line-endings",
+        "whitespace",
+        "repository"
+      ],
+      "major_features": [
+        "mixed-ending detection",
+        "trailing-whitespace locations",
+        "binary exclusion"
+      ],
+      "name": "Text Hygiene Scanner",
+      "pain": "The defects are hard to spot visually and often spread through edits.",
+      "problem": "Mixed line endings and trailing whitespace cause noisy diffs and tooling failures.",
+      "slug": "text-hygiene-scanner",
+      "solution": "A read-only CLI that locates exact files and lines with text hygiene defects.",
+      "target_user": "developers maintaining cross-platform repositories",
+      "technology": "Python standard library",
+      "verification": "Fixtures cover CRLF mixing, trailing whitespace, binary exclusion, and clean files."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20260829T015007Z",
+  "dry_run": true,
+  "files_created": [],
+  "final_score": 0,
+  "final_status": "NO_RELEASE",
+  "known_limitations": [
+    "Idea discovery is limited to the reviewed local blueprint catalog."
+  ],
+  "quality_scores": {},
+  "reason": "dry-run selected and planned an idea; generation and publication intentionally skipped",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 80,
+  "remote_status": "NOT_ATTEMPTED",
+  "repair_attempts": [],
+  "selected_idea": {
+    "category": "developer tooling",
+    "keywords": [
+      "filesystem",
+      "portability",
+      "paths",
+      "git"
+    ],
+    "major_features": [
+      "case-fold collision detection",
+      "reserved-name detection",
+      "JSON output"
+    ],
+    "name": "Portable Path Auditor",
+    "pain": "These defects often remain invisible until checkout on another operating system.",
+    "problem": "Repository paths can collide on case-insensitive systems or use Windows-reserved names.",
+    "slug": "portable-path-auditor",
+    "solution": "A local CLI that audits real paths for portability hazards without modifying them.",
+    "target_user": "cross-platform development teams",
+    "technology": "Python standard library",
+    "verification": "Fixture repositories exercise collisions, reserved names, and clean trees."
+  },
+  "timestamp": "2026-08-29T01:50:07.422339+00:00",
+  "validation_results": []
+}

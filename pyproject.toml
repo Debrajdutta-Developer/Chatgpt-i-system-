@@ -1,19 +1,16 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "env-sentinel"
-version = "1.0.0"
-description = "Local-first consistency checker for environment-variable contracts"
-readme = "README.md"
+name = "autonomous-software-factory"
+version = "2.0.0"
+description = "A tested, transactional local-first software factory"
 requires-python = ">=3.10"
 license = {text = "MIT"}
-authors = [{name = "Software Factory"}]
 
 [project.scripts]
-env-sentinel = "env_sentinel.cli:main"
+software-factory = "factory.orchestrator:main"
 
 [tool.setuptools.packages.find]
-include = ["env_sentinel*"]
-
+include = ["factory*"]
