@@ -3,3 +3,8 @@ __pycache__/
 *.egg-info/
 build/
 dist/
+.env
+.env.*
+!.env.example
+.factory-work/
+.factory.lock
