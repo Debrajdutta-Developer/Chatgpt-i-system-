@@ -108,7 +108,7 @@ jobs:
             exit 2
           fi
 
-          STATUS="$(python -c 'import json,sys; print(json.load(open(sys.argv[1], encoding="utf-8")).get("status", ""))' "$REPORT")"
+          STATUS="$(python -c 'import json,sys; d=json.load(open(sys.argv[1], encoding="utf-8")); print(d.get("final_status", d.get("status", "")))' "$REPORT")"
           if [ "$STATUS" != "SUCCESS" ]; then
             echo "Current factory cycle was not SUCCESS; no standalone repository will be created."
             exit 0
