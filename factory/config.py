@@ -9,7 +9,9 @@ ROOT = Path(__file__).resolve().parents[1]
 class Config:
     root: Path = ROOT
     release_threshold: int = 95
-    max_repair_attempts: int = 3
+    # Hard systems projects often need several compile-feedback rounds. Keep the
+    # loop bounded, but allow enough attempts for strict -Werror/C11 validation.
+    max_repair_attempts: int = 7
 
     @property
     def projects(self) -> Path: return self.root / "projects"
