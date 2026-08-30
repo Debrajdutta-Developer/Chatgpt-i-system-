@@ -185,7 +185,10 @@ def _idea_items(payload) -> list:
     if isinstance(payload, dict):
         raw = payload.get("ideas")
     elif isinstance(payload, list):
-        raw = payload
+        if len(payload) == 1 and isinstance(payload[0], dict) and isinstance(payload[0].get("ideas"), list):
+            raw = payload[0]["ideas"]
+        else:
+            raw = payload
     else:
         raw = None
     if not isinstance(raw, list):
@@ -360,8 +363,10 @@ must have at least 10 explicit, independent assertion/check invocations so the f
 can verify test depth mechanically. Include normal, malformed, boundary, persistence or
 state-transition cases where relevant. No TODOs, fake results, shell/subprocess execution,
 credential access, public-network calls, self-modifying code or external packages.
-README must document architecture, algorithms, build/run/test commands, supported scope
-and honest limitations.
+README.md MUST be at least 3200 characters and contain explicit sections named
+Architecture, Algorithms and Data Structures, Invariants, Build and Run, Testing,
+Security and Privacy, Performance Characteristics, and Limitations. Do not pad it with
+repetition; document the actual generated implementation and its honest scope.
 REPAIR_FEEDBACK={json.dumps(feedback, ensure_ascii=False)}
 """
     if profile == "systems-java":
@@ -394,22 +399,100 @@ implement local memory/scoring/feedback updates but no arbitrary code execution.
 """
 
 
+def _preflight_check_count(text: str) -> int:
+    lower = text.lower()
+    return (
+        len(re.findall(r"\bassert\w*\s*\(", lower))
+        + len(re.findall(r"\bcheck\s*\(", lower))
+        + len(re.findall(r"\bverify\w*\s*\(", lower))
+        + len(re.findall(r"\bexpect\w*\s*\(", lower))
+        + len(re.findall(r"\brequire\w*\s*\(", lower))
+        + lower.count("assert ")
+    )
+
+
+def _preflight_files(files: dict[str, str], profile: str) -> list[str]:
+    """Catch deterministic contract defects before consuming a repair attempt."""
+    errors: list[str] = []
+    readme = files.get("README.md", "")
+    if len(readme.strip()) < 3000:
+        errors.append("README.md must be at least 3000 characters before validation")
+    for section in ("architecture", "test", "limitation"):
+        if section not in readme.lower():
+            errors.append(f"README.md preflight is missing {section} documentation")
+
+    if profile == "systems-java":
+        core = files.get("src/main/java/factory/Core.java", "")
+        main = files.get("src/main/java/factory/Main.java", "")
+        unit = files.get("src/test/java/factory/CoreTest.java", "")
+        integ = files.get("src/test/java/factory/IntegrationTest.java", "")
+        if len(core.strip()) < 2600:
+            errors.append("Core.java must be at least 2600 characters")
+        if len(main.strip()) < 900 or "public static void main" not in main:
+            errors.append("Main.java must be a substantial runnable entrypoint")
+        for name, text in (("CoreTest.java", unit), ("IntegrationTest.java", integ)):
+            if "public static void main" not in text:
+                errors.append(f"{name} must expose public static void main")
+            if _preflight_check_count(text) < 10:
+                errors.append(f"{name} must contain at least 10 explicit check/assert invocations")
+
+    elif profile == "systems-c":
+        if len(files.get("src/engine.c", "").strip()) < 3000:
+            errors.append("engine.c must be at least 3000 characters")
+        if len(files.get("src/engine.h", "").strip()) < 500:
+            errors.append("engine.h must be at least 500 characters")
+        main = files.get("src/main.c", "")
+        if len(main.strip()) < 700 or "main(" not in main:
+            errors.append("main.c must be a substantial runnable CLI")
+        for name in ("tests/test_engine.c", "tests/test_integration.c"):
+            text = files.get(name, "")
+            if "main(" not in text:
+                errors.append(f"{name} must provide main()")
+            if _preflight_check_count(text) < 10:
+                errors.append(f"{name} must contain at least 10 explicit check/assert invocations")
+
+    elif profile == "systems-python":
+        if len(files.get("src/engine.py", "").strip()) < 3000:
+            errors.append("engine.py must be at least 3000 characters")
+        cli = files.get("src/cli.py", "")
+        if len(cli.strip()) < 800 or "argparse" not in cli:
+            errors.append("cli.py must be a substantial argparse CLI")
+        for name in ("tests/test_engine.py", "tests/test_integration.py"):
+            text = files.get(name, "")
+            if "unittest" not in text:
+                errors.append(f"{name} must use unittest")
+            if _preflight_check_count(text) < 10:
+                errors.append(f"{name} must contain at least 10 explicit assertions")
+    return errors
+
+
 def build_project(idea: Idea, destination: Path, repair_feedback: list[str] | None = None) -> list[str]:
     feedback = list(repair_feedback or [])
     profile = _profile(idea)
     expected = PROFILE_FILES[profile]
     last_error: RuntimeError | None = None
 
-    for schema_attempt in range(2):
+    # Format/depth defects are cheap to detect before compilation and should not burn
+    # the orchestrator's bounded correctness-repair budget. Give the model up to three
+    # focused generation attempts to satisfy the immutable structural contract first.
+    for schema_attempt in range(3):
         prompt = _implementation_contract(idea, profile, feedback)
         try:
             files = _canonicalize_files(_files_map(_request(prompt, temperature=0.18)), expected)
+            preflight = _preflight_files(files, profile)
+            if preflight:
+                raise RuntimeError("preflight contract failure: " + "; ".join(preflight))
             break
         except RuntimeError as exc:
             last_error = exc
-            feedback = [*feedback[-6:], str(exc), "Return every canonical file key exactly as requested."]
+            feedback = [
+                *feedback[-6:],
+                str(exc),
+                "Preserve every previously requested feature while fixing all structural preflight defects.",
+                "Return every canonical file key exactly as requested.",
+            ]
     else:
-        raise RuntimeError(f"generation contract failure after retry: {last_error}")
+        raise RuntimeError(f"generation contract failure after preflight retries: {last_error}")
 
     destination.mkdir(parents=True, exist_ok=True)
     created: list[str] = []
