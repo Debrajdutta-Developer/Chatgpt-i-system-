@@ -205,5 +205,81 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "database",
+    "commit_hash": null,
+    "cycle": "cycle-20260908T072843Z",
+    "date": "2026-09-08",
+    "keywords": [
+      "systems-engineering",
+      "lsm-tree",
+      "sstables",
+      "bloom-filters",
+      "crash-recovery",
+      "java-21",
+      "virtual-threads"
+    ],
+    "major_features": [
+      "Sequential binary Write-Ahead Log (WAL) with transactional durability and crash-recovery logic",
+      "Active memory-table (MemTable) implemented using a concurrent skip-list data structure",
+      "SSTable writer and reader that converts MemTables to immutable on-disk sorted files with sparse block indexes",
+      "Background Size-Tiered Compaction Engine utilizing Java 21 Virtual Threads to merge overlapping SSTables",
+      "Custom serialized bitset-based Bloom Filters built for each SSTable segment to prevent redundant disk reads",
+      "SQL-like parser supporting SELECT, INSERT, DELETE, and WHERE clauses operating on byte-serialized row schemas",
+      "Multi-Version Concurrency Control (MVCC) implementing snapshot isolation for concurrent readers and writers",
+      "Dynamic memory budget monitor that automatically triggers MemTable flushes when threshold allocations are breached"
+    ],
+    "name": "AetherKV",
+    "problem": "Traditional relational databases are too heavy for resource-constrained local systems, while standard key-value stores lack the ability to run structured SQL-like queries or handle high-throughput write bursts without severe latency spikes.",
+    "purpose": "A zero-dependency Log-Structured Merge-Tree (LSM) storage engine written in Java 21. It features a binary Write-Ahead Log (WAL), size-tiered background compaction, Bloom filters, and a custom SQL-like query engine that processes tabular schemas directly on raw byte arrays.",
+    "quality_score": 100,
+    "report_path": "reports/2026-09-08-072843-aether-kv-lsm-storage.json",
+    "slug": "aether-kv-lsm-storage",
+    "technology": "Java 21",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "javac",
+          "-Xlint:all",
+          "-Werror",
+          "-d",
+          "build/classes",
+          "src/main/java/factory/Core.java",
+          "src/main/java/factory/Main.java",
+          "src/test/java/factory/CoreTest.java",
+          "src/test/java/factory/IntegrationTest.java"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "java",
+          "-ea",
+          "-cp",
+          "build/classes",
+          "factory.CoreTest"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "java",
+          "-ea",
+          "-cp",
+          "build/classes",
+          "factory.IntegrationTest"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]

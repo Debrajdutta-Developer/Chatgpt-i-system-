@@ -1,0 +1,321 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "lsm-tree",
+        "sstables",
+        "bloom-filters",
+        "crash-recovery",
+        "java-21",
+        "virtual-threads"
+      ],
+      "major_features": [
+        "Sequential binary Write-Ahead Log (WAL) with transactional durability and crash-recovery logic",
+        "Active memory-table (MemTable) implemented using a concurrent skip-list data structure",
+        "SSTable writer and reader that converts MemTables to immutable on-disk sorted files with sparse block indexes",
+        "Background Size-Tiered Compaction Engine utilizing Java 21 Virtual Threads to merge overlapping SSTables",
+        "Custom serialized bitset-based Bloom Filters built for each SSTable segment to prevent redundant disk reads",
+        "SQL-like parser supporting SELECT, INSERT, DELETE, and WHERE clauses operating on byte-serialized row schemas",
+        "Multi-Version Concurrency Control (MVCC) implementing snapshot isolation for concurrent readers and writers",
+        "Dynamic memory budget monitor that automatically triggers MemTable flushes when threshold allocations are breached"
+      ],
+      "name": "AetherKV",
+      "pain": "High write amplification, long garbage collection pauses during heavy database compaction, and the complex overhead of running separate database processes for simple local applications.",
+      "problem": "Traditional relational databases are too heavy for resource-constrained local systems, while standard key-value stores lack the ability to run structured SQL-like queries or handle high-throughput write bursts without severe latency spikes.",
+      "slug": "aether-kv-lsm-storage",
+      "solution": "A zero-dependency Log-Structured Merge-Tree (LSM) storage engine written in Java 21. It features a binary Write-Ahead Log (WAL), size-tiered background compaction, Bloom filters, and a custom SQL-like query engine that processes tabular schemas directly on raw byte arrays.",
+      "target_user": "Database engineers, systems architects, and infrastructure developers seeking a lightweight, embeddable, structured storage engine.",
+      "technology": "Java 21",
+      "verification": "A deterministic test harness that uses a mock file system to simulate sudden system crashes. It asserts: 1) 100% data recovery from the WAL, 2) zero duplicate keys after background compaction merges, 3) correct Bloom filter false-positive rates under high-entropy inputs, and 4) proper error handling and parser rejection of syntactically malformed SQL queries."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "green-threads",
+        "preemptive-scheduler",
+        "virtual-machine",
+        "c11",
+        "context-switching",
+        "bytecode"
+      ],
+      "major_features": [
+        "Register-based virtual machine executing a custom binary bytecode instruction set",
+        "Preemptive user-space scheduler using POSIX interval timers (SIGALRM) and sigsetjmp/siglongjmp",
+        "Thread control blocks (TCBs) managing thread lifecycles (Spawn, Ready, Running, Blocked, Terminated)",
+        "User-space Mutex and Semaphore primitives with internal FIFO blocked-thread queues",
+        "Go-style typed channel communication (buffered and unbuffered) for safe thread coordination",
+        "Custom dynamic memory allocator executing within an isolated heap space assigned to the VM",
+        "Software-enforced stack guard-page monitoring to prevent host memory corruption",
+        "Interactive virtual machine debugger supporting instruction-level stepping and register inspection"
+      ],
+      "name": "VeloVM",
+      "pain": "CPU core starvation, complex multi-threaded race conditions, and heavy memory footprints when scaling to thousands of concurrent execution contexts.",
+      "problem": "Operating system threads have high context-switching and memory overheads, while typical cooperative green-thread systems suffer from starvation if a single thread runs an accidental infinite loop.",
+      "slug": "velovm-preemptive-green-threads",
+      "solution": "A lightweight virtual machine and user-space preemptive green-thread scheduler implemented in C11. It uses POSIX interval timers and signal handlers to force context-switches via setjmp/longjmp, executing a custom register-based bytecode instruction set.",
+      "target_user": "Systems programmers, operating systems students, and embedded software engineers.",
+      "technology": "C11",
+      "verification": "Deterministic unit test suite validating that: 1) a CPU-bound thread is successfully preempted within a strict millisecond window, 2) message passing via channels does not leak memory, 3) recursive stack depth exceeding allocated limits triggers a safe VM panic, and 4) execution of corrupt/malformed bytecode files is safely aborted without native segfaults."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "parser-generator",
+        "lalr1",
+        "ast-optimization",
+        "compiler-compiler",
+        "python-312",
+        "formal-grammars"
+      ],
+      "major_features": [
+        "Lexical analyzer generator converting token definitions into deterministic finite automata (DFA) state machines",
+        "First and Follow set generator for arbitrary context-free grammars",
+        "LR(1) state item-set builder and LALR(1) state-merging table compressor",
+        "Automatic shift/reduce and reduce/reduce conflict resolver via operator precedence and associativity rules",
+        "Panic-mode and phrase-level error recovery system to report multiple syntax errors in a single pass",
+        "Abstract Syntax Tree (AST) node generation engine with dynamic schema validation",
+        "AST Optimizer implementing constant folding and algebraic simplification algorithms",
+        "Unreachable execution path and dead-code elimination analyzer"
+      ],
+      "name": "LexiGen",
+      "pain": "Infinite loops in recursive-descent parsers, ambiguous grammar conflicts (shift/reduce) that are hard to diagnose, and unhelpful parser error messages that stall development.",
+      "problem": "Hand-writing parsers is highly error-prone and tedious, while existing parser generators like Yacc or Bison generate complex, hard-to-debug code that is difficult to customize or integrate into modern tooling pipelines.",
+      "slug": "lexigen-lalr1-parser-generator",
+      "solution": "A complete, zero-dependency LALR(1) compiler-compiler and AST optimizer written in Python 3.12. It reads context-free Backus-Naur Form (BNF) grammars, builds LR(1)/LALR(1) parsing tables, resolves conflicts, parses input streams, and performs AST-level optimizations.",
+      "target_user": "Language designers, compiler engineers, and static analysis developers.",
+      "technology": "Python 3.12",
+      "verification": "A test suite that compiles standard arithmetic and boolean grammars, asserting: 1) deterministic resolution of shift/reduce conflicts based on precedence declarations, 2) successful panic-mode error recovery when parsing syntax-invalid input streams, and 3) exact equivalence of optimized ASTs (e.g., constant folding) compared to raw evaluations."
+    },
+    {
+      "category": "search-engine",
+      "keywords": [
+        "systems-engineering",
+        "hnsw-graph",
+        "inverted-index",
+        "vector-search",
+        "bm25-scoring",
+        "java-21",
+        "hybrid-search"
+      ],
+      "major_features": [
+        "Text preprocessing pipeline including tokenization, lowercasing, and English porter-stemming",
+        "Inverted index with disk-backed skip lists for rapid term intersection and document lookup",
+        "BM25 term-frequency relevance scoring algorithm implemented from scratch",
+        "Hierarchical Navigable Small World (HNSW) graph index builder for fast vector search",
+        "Vector metric engine calculating Cosine and Euclidean distances without external linear algebra libraries",
+        "Reciprocal Rank Fusion (RRF) rank-merging algorithm to synthesize keyword and vector search results",
+        "Concurrent index update manager utilizing lock-free reading structures for real-time indexing",
+        "Background segment merger and deletion-tombstone cleaner to optimize index size on disk"
+      ],
+      "name": "HydraSearch",
+      "pain": "Double-writing data across multiple storage systems, slow query times due to late-stage rank merging, and high infrastructure costs for small-to-medium datasets.",
+      "problem": "Modern search systems must support both precise keyword matching (BM25) and semantic vector similarity, but maintaining separate search engines and vector databases causes synchronization lag, high memory consumption, and complex deployment topologies.",
+      "slug": "hydrasearch-hybrid-vector-engine",
+      "solution": "A unified, zero-dependency hybrid search engine in Java 21. It combines an inverted index with BM25 relevance scoring and a Hierarchical Navigable Small World (HNSW) graph for multi-dimensional vector search, merging results locally using Reciprocal Rank Fusion.",
+      "target_user": "Search developers, database architects, and local AI application engineers.",
+      "technology": "Java 21",
+      "verification": "Deterministic integration tests checking that: 1) vector search recall matches brute-force cosine similarity calculations, 2) concurrent index updates are thread-safe, 3) dimension mismatches in query vectors are rejected with precise exceptions, and 4) Reciprocal Rank Fusion scores are mathematically correct."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "reinforcement-learning",
+        "congestion-control",
+        "network-simulation",
+        "q-learning",
+        "python-312",
+        "deterministic-simulation"
+      ],
+      "major_features": [
+        "Event-driven packet network simulator with configurable link capacity, latency, and queue sizes",
+        "Q-learning and SARSA reinforcement learning engine implemented using Python standard library",
+        "State space feature extractor mapping network metrics (RTT, loss rate, throughput) to discrete bins",
+        "Epsilon-greedy exploration decay scheduler supporting deterministic seed configurations",
+        "Custom matrix and vector operations module built entirely without external dependencies",
+        "Multi-objective reward function evaluator balancing throughput maximization and delay minimization",
+        "Adversarial network condition generator simulating dynamic packet drops, jitter, and bufferbloat",
+        "Safe policy export and import system using static JSON schema validation"
+      ],
+      "name": "NeuroFlow",
+      "pain": "High packet drop rates, bufferbloat, slow recovery after network dropouts, and extreme CPU overhead from heavy neural network models in real-time network loops.",
+      "problem": "Rule-based network congestion control algorithms (like Cubic or BBR) fail to adapt to highly dynamic, lossy wireless networks, while deep learning models are too resource-heavy and slow for real-time packet-level routing decisions.",
+      "slug": "neuroflow-congestion-learning-agent",
+      "solution": "A deterministic, lightweight local network simulator paired with a pure Python 3.12 Reinforcement Learning (Q-learning and SARSA) agent. The agent dynamically learns and optimizes congestion window sizes based solely on local packet feedback (RTT, loss, and throughput) without using external ML frameworks.",
+      "target_user": "Network engineers, simulation developers, and systems researchers.",
+      "technology": "Python 3.12",
+      "verification": "A deterministic simulation test suite utilizing fixed random seeds. It validates that: 1) the agent converges to a higher throughput and lower queue delay compared to a static sliding-window baseline, 2) the policy safely handles sudden 90% packet loss scenarios, and 3) the policy import/export module rejects malformed JSON configurations."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20260908T072843Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/main/java/factory/Core.java",
+    "src/main/java/factory/Main.java",
+    "src/test/java/factory/CoreTest.java",
+    "src/test/java/factory/IntegrationTest.java"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Traditional relational databases are too heavy for resource-constrained local systems, while standard key-value stores lack the ability to run structured SQL-like queries or handle high-throughput write bursts without severe latency spikes.",
+  "project_name": "AetherKV",
+  "project_path": "projects/aether-kv-lsm-storage",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Main.java:27: error: unclosed string literal\n            System.out.println(\"Triggering background compaction via Virtual Thread...\n                               ^\nsrc/main/java/factory/Main.java:28: error: unclosed string literal\n\");\n^\n2 errors"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:97: warning: [lossy-conversions] implicit cast from int to byte in compound assignment is possibly lossy\n                bits[hash / 8] |= (1 << (hash % 8));\n                                  ^\nsrc/main/java/factory/Core.java:346: warning: [try] auto-closeable resource Engine has a member method close() that could throw InterruptedException\n    public static class Engine implements AutoCloseable {\n                  ^\nsrc/main/java/factory/Core.java:595: warning: [serial] serializable class SQLException has no definition of serialVersionUID\n    public static class SQLException extends Exception {\n                  ^\nerror: warnings found and -Werror specified\nsrc/main/java/factory/Main.java:16: warning: [try] auto-closeable resource Engine has a member method close() that could throw InterruptedException\n        try (Core.Engine engine = new Core.Engine(dbDir, memoryBudget, sparseInterval)) {\n                         ^\nsrc/test/java/factory/CoreTest.java:108: warning: [try] auto-closeable resource Engine has a member method close() that could throw InterruptedException\n        try (Core.Engine engine = new Core.Engine(dbDir, 10000, 2)) {\n                         ^\nsrc/test/java/factory/IntegrationTest.java:37: warning: [try] auto-closeable resource Engine has a member method close() that could throw InterruptedException\n        try (Core.Engine engine = new Core.Engine(dbDir, 100, 2)) {\n                         ^\nsrc/test/java/factory/IntegrationTest.java:83: warning: [try] auto-closeable resource Engine has a member method close() that could throw InterruptedException\n        try (Core.Engine engine = new Core.Engine(dbDir, 10000, 2)) {\n                         ^\n1 error\n7 warnings"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "[PASS] Should find 2 users before crash\n[FAIL] Should recover 2 users from WAL after crash\nException in thread \"main\" java.lang.AssertionError: Test failed: Should recover 2 users from WAL after crash\n\tat factory.IntegrationTest.check(IntegrationTest.java:19)\n\tat factory.IntegrationTest.testEndToEndAndRecovery(IntegrationTest.java:66)\n\tat factory.IntegrationTest.main(IntegrationTest.java:29)"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "database",
+    "keywords": [
+      "systems-engineering",
+      "lsm-tree",
+      "sstables",
+      "bloom-filters",
+      "crash-recovery",
+      "java-21",
+      "virtual-threads"
+    ],
+    "major_features": [
+      "Sequential binary Write-Ahead Log (WAL) with transactional durability and crash-recovery logic",
+      "Active memory-table (MemTable) implemented using a concurrent skip-list data structure",
+      "SSTable writer and reader that converts MemTables to immutable on-disk sorted files with sparse block indexes",
+      "Background Size-Tiered Compaction Engine utilizing Java 21 Virtual Threads to merge overlapping SSTables",
+      "Custom serialized bitset-based Bloom Filters built for each SSTable segment to prevent redundant disk reads",
+      "SQL-like parser supporting SELECT, INSERT, DELETE, and WHERE clauses operating on byte-serialized row schemas",
+      "Multi-Version Concurrency Control (MVCC) implementing snapshot isolation for concurrent readers and writers",
+      "Dynamic memory budget monitor that automatically triggers MemTable flushes when threshold allocations are breached"
+    ],
+    "name": "AetherKV",
+    "pain": "High write amplification, long garbage collection pauses during heavy database compaction, and the complex overhead of running separate database processes for simple local applications.",
+    "problem": "Traditional relational databases are too heavy for resource-constrained local systems, while standard key-value stores lack the ability to run structured SQL-like queries or handle high-throughput write bursts without severe latency spikes.",
+    "slug": "aether-kv-lsm-storage",
+    "solution": "A zero-dependency Log-Structured Merge-Tree (LSM) storage engine written in Java 21. It features a binary Write-Ahead Log (WAL), size-tiered background compaction, Bloom filters, and a custom SQL-like query engine that processes tabular schemas directly on raw byte arrays.",
+    "target_user": "Database engineers, systems architects, and infrastructure developers seeking a lightweight, embeddable, structured storage engine.",
+    "technology": "Java 21",
+    "verification": "A deterministic test harness that uses a mock file system to simulate sudden system crashes. It asserts: 1) 100% data recovery from the WAL, 2) zero duplicate keys after background compaction merges, 3) correct Bloom filter false-positive rates under high-entropy inputs, and 4) proper error handling and parser rejection of syntactically malformed SQL queries."
+  },
+  "slug": "aether-kv-lsm-storage",
+  "standalone_status": "PENDING",
+  "target_user": "Database engineers, systems architects, and infrastructure developers seeking a lightweight, embeddable, structured storage engine.",
+  "technology": "Java 21",
+  "timestamp": "2026-09-08T07:28:43.960020+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-java architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "javac",
+        "-Xlint:all",
+        "-Werror",
+        "-d",
+        "build/classes",
+        "src/main/java/factory/Core.java",
+        "src/main/java/factory/Main.java",
+        "src/test/java/factory/CoreTest.java",
+        "src/test/java/factory/IntegrationTest.java"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.CoreTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "[PASS] Bloom Filter should contain key1\n[PASS] Bloom Filter should contain key2\n[PASS] Bloom Filter should not contain key3\n[PASS] Parsed query type should be INSERT\n[PASS] Parsed row ID should be u1\n[PASS] Parsed row age should be 30\n[PASS] Parser should reject malformed INSERT query\n[PASS] Should find 2 users in database\n[PASS] Should find 1 user with age > 27\n[PASS] Filtered user should be Alice\n[PASS] Should find 1 user after deletion\n[PASS] Remaining user should be Bob\nAll CoreTest assertions passed successfully!"
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.IntegrationTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "[PASS] Should find 2 users before crash\n[PASS] Should recover 2 users from WAL after crash\n[PASS] Recovered users should contain u1\n[PASS] u1 name should be Alice\n[PASS] u1 age should be 30\n[PASS] u1 active should be true\n[PASS] Should find all 5 users after background flushes and compactions\n[PASS] Should find 3 active users\n[PASS] Should find 2 users with age < 26\nAll IntegrationTest assertions passed successfully!"
+    }
+  ]
+}

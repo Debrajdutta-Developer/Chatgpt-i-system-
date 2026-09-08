@@ -1,0 +1,33 @@
+{
+  "name": "AetherKV",
+  "slug": "aether-kv-lsm-storage",
+  "target_user": "Database engineers, systems architects, and infrastructure developers seeking a lightweight, embeddable, structured storage engine.",
+  "problem": "Traditional relational databases are too heavy for resource-constrained local systems, while standard key-value stores lack the ability to run structured SQL-like queries or handle high-throughput write bursts without severe latency spikes.",
+  "pain": "High write amplification, long garbage collection pauses during heavy database compaction, and the complex overhead of running separate database processes for simple local applications.",
+  "solution": "A zero-dependency Log-Structured Merge-Tree (LSM) storage engine written in Java 21. It features a binary Write-Ahead Log (WAL), size-tiered background compaction, Bloom filters, and a custom SQL-like query engine that processes tabular schemas directly on raw byte arrays.",
+  "verification": "A deterministic test harness that uses a mock file system to simulate sudden system crashes. It asserts: 1) 100% data recovery from the WAL, 2) zero duplicate keys after background compaction merges, 3) correct Bloom filter false-positive rates under high-entropy inputs, and 4) proper error handling and parser rejection of syntactically malformed SQL queries.",
+  "category": "database",
+  "keywords": [
+    "systems-engineering",
+    "lsm-tree",
+    "sstables",
+    "bloom-filters",
+    "crash-recovery",
+    "java-21",
+    "virtual-threads"
+  ],
+  "major_features": [
+    "Sequential binary Write-Ahead Log (WAL) with transactional durability and crash-recovery logic",
+    "Active memory-table (MemTable) implemented using a concurrent skip-list data structure",
+    "SSTable writer and reader that converts MemTables to immutable on-disk sorted files with sparse block indexes",
+    "Background Size-Tiered Compaction Engine utilizing Java 21 Virtual Threads to merge overlapping SSTables",
+    "Custom serialized bitset-based Bloom Filters built for each SSTable segment to prevent redundant disk reads",
+    "SQL-like parser supporting SELECT, INSERT, DELETE, and WHERE clauses operating on byte-serialized row schemas",
+    "Multi-Version Concurrency Control (MVCC) implementing snapshot isolation for concurrent readers and writers",
+    "Dynamic memory budget monitor that automatically triggers MemTable flushes when threshold allocations are breached"
+  ],
+  "technology": "Java 21",
+  "factory_profile": "systems-java",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}
