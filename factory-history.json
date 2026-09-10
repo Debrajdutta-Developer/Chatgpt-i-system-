@@ -281,5 +281,110 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "systems-tool",
+    "commit_hash": null,
+    "cycle": "cycle-20260910T073150Z",
+    "date": "2026-09-10",
+    "keywords": [
+      "systems-engineering",
+      "coroutine-runtime",
+      "m-n-scheduler",
+      "work-stealing",
+      "green-threads",
+      "lock-free-queues",
+      "c11-concurrency"
+    ],
+    "major_features": [
+      "Custom context-switching engine using platform-specific assembly and ucontext.h primitives",
+      "M:N multi-threaded scheduler mapping M green threads onto N OS worker threads",
+      "Lock-free work-stealing task queues using atomic compare-and-swap (CAS) operations",
+      "Coroutine-safe synchronization primitives including custom Mutexes, Semaphores, and Condition Variables",
+      "Preemptive interrupt engine utilizing OS interval timers (setitimer) and signal handlers to prevent infinite loops",
+      "Non-blocking I/O multiplexer integrating an epoll/kqueue wrapper directly into the scheduler loop",
+      "Thread-safe channels (both buffered and unbuffered) for message-passing between green threads",
+      "Dynamic runtime deadlock detection using a directed dependency graph of active resource locks"
+    ],
+    "name": "VortexScheduler",
+    "problem": "Operating system threads incur high context-switching overhead, while existing async/await runtimes hide the scheduling mechanics, making deterministic concurrency debugging and priority inversion mitigation impossible.",
+    "purpose": "A zero-dependency, user-space M:N coroutine scheduler and runtime built in C11. It features cooperative and preemptive green threads, lock-free work-stealing queues, custom context-switching routines, and a custom epoll-based I/O multiplexer.",
+    "quality_score": 100,
+    "report_path": "reports/2026-09-10-073150-vortex-scheduler-coroutine-runtime.json",
+    "slug": "vortex-scheduler-coroutine-runtime",
+    "technology": "C11",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_engine.c",
+          "-o",
+          "build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_integration.c",
+          "-o",
+          "build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "src/main.c",
+          "-o",
+          "build/app"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]
