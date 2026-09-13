@@ -1,0 +1,379 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "virtual-machine",
+        "bytecode",
+        "garbage-collection",
+        "compiler",
+        "c11"
+      ],
+      "major_features": [
+        "Custom lexer and recursive-descent parser producing an explicit Abstract Syntax Tree (AST)",
+        "Bytecode compiler translating AST nodes into a dense stream of numeric opcodes and constant pool entries",
+        "Stack-based execution engine with explicit operand stack, call stack, and frame pointer registers",
+        "Heap allocator supporting dynamic object allocation with header metadata and type tagging",
+        "Custom mark-and-sweep garbage collector running deterministic root-set tracing and memory reclamation",
+        "Symbol table and lexical scope resolver supporting nested block scopes and variable shadowing",
+        "Built-in native function binding interface for calling host routines from bytecode instructions",
+        "Disassembler subsystem converting compiled bytecode binary streams back into human-readable assembly mnemonics"
+      ],
+      "name": "ByteScript VM",
+      "pain": "Developers lack a lightweight, standalone bytecode compiler and stack-based virtual machine written in pure C11 that handles custom type definitions, garbage collection, and dynamic symbol resolution without external dependencies.",
+      "problem": "Higher-level runtimes hide memory management, instruction execution cycles, and stack-frame layout, making it difficult to study or execute custom bytecode architectures locally.",
+      "slug": "bytescript-vm",
+      "solution": "A zero-dependency stack-based virtual machine and compiler implemented in C11. It tokenizes, parses, and compiles a statically-typed subset of language constructs into custom bytecode, executes them on an explicit heap-and-stack runtime, and runs a custom mark-and-sweep garbage collector.",
+      "target_user": "systems programmers and compiler engineers",
+      "technology": "C11",
+      "verification": "Deterministic integration suite testing valid compilation paths, arithmetic underflows/overflows, type mismatch errors at compile time, stack corruption detection, infinite loop traps, and memory leaks under simulated low-memory conditions."
+    },
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "message-queue",
+        "event-log",
+        "persistence",
+        "java21",
+        "concurrency"
+      ],
+      "major_features": [
+        "Append-only segmented log storage engine writing binary message records directly to disk channels",
+        "Sparse index builder mapping logical message offsets directly to physical byte addresses within log segments",
+        "Topic and partition isolation model supporting ordered sequential write buffers per partition channel",
+        "Consumer group coordinator tracking persistent commit offsets across multiple reading processes",
+        "Configurable retention policy engine executing time-based and size-based background log compaction",
+        "Zero-copy network transport leveraging Java NIO FileChannel transferTo primitives for high-throughput reads",
+        "Binary checksum verification layer validating CRC32 integrity markers on every read and write cycle",
+        "In-memory write buffer cache with LRU eviction and thread-safe lock-free queuing semantics"
+      ],
+      "name": "NexusQueue",
+      "pain": "Testing asynchronous pipeline behavior locally is bogged down by heavy dependencies, making deterministic failure injection, consumer group offset tracking, and log compaction tedious to prototype.",
+      "problem": "Standard message brokers are heavyweight infrastructure applications that require external configuration files, complex client libraries, and persistent daemon setups just to test local event-driven architectures.",
+      "slug": "nexus-queue",
+      "solution": "A zero-dependency, append-only persistent message queue and event log engine written in Java 21. It manages topics through segmented log files, consumer group offsets, zero-copy socket transfers, and index-based message lookup.",
+      "target_user": "backend engineers and distributed systems architects",
+      "technology": "Java 21",
+      "verification": "Rigorous test harness exercising concurrent multi-producer/multi-consumer ingestion, log segment rotation edge cases, corrupted message header recovery, duplicate consumer group re-balancing, and disk full simulations."
+    },
+    {
+      "category": "search-engine",
+      "keywords": [
+        "systems-engineering",
+        "vector-search",
+        "hnsw",
+        "indexing",
+        "python3.12",
+        "embeddings"
+      ],
+      "major_features": [
+        "Multi-layer Hierarchical Navigable Small World (HNSW) graph construction and traversal engine",
+        "Optimized vector distance metric calculators supporting Cosine, Euclidean, and Inner Product computations",
+        "Dynamic graph pruning and heuristic neighbor selection maintaining bounded node degree limits",
+        "Serialized snapshot persistence format allowing instant save and load cycles of index graphs to disk",
+        "Boolean metadata filtering filter engine applied during graph beam search traversal phases",
+        "Batch vector insertion pipeline with multithreaded distance matrix pre-computations",
+        "Configurable entry point heuristics ensuring logarithmic search complexity scaling",
+        "Comprehensive recall evaluation harness comparing approximate search results to exact linear scans"
+      ],
+      "name": "VectorSpark",
+      "pain": "Engineers cannot easily inspect, debug, or verify the inner mechanics of spatial indexing structures like Hierarchical Navigable Small World (HNSW) graphs without installing massive distributed infrastructure.",
+      "problem": "High-dimensional vector databases are massive, heavy, and typically require external client-server setups, preventing fast local experimentation with approximate nearest neighbor (ANN) retrieval algorithms.",
+      "slug": "vector-spark",
+      "solution": "A zero-dependency local vector search engine written in Python 3.12 that implements an in-memory Hierarchical Navigable Small World (HNSW) graph index, cosine/Euclidean distance metrics, and metadata filtering over dense vector arrays.",
+      "target_user": "machine learning engineers and local search developers",
+      "technology": "Python 3.12",
+      "verification": "Automated test suite validating search recall rates against brute-force baseline calculations, graph connectivity invariants, empty index queries, malformed vector dimensions, and out-of-vocabulary queries."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "timing-wheel",
+        "scheduler",
+        "concurrency",
+        "java21",
+        "algorithms"
+      ],
+      "major_features": [
+        "Hierarchical timing wheel architecture with multi-tier circular bucket arrays for wide dynamic range scheduling",
+        "O(1) amortized time complexity for task insertion, cancellation, and expiration processing",
+        "Virtual-thread-backed execution pool dispatching expired timer callbacks asynchronously",
+        "Persistent journal log capturing task registrations to guarantee state restoration after simulated crashes",
+        "Precision tick-rate drift corrector synchronizing against system nanotime clocks",
+        "Dependency graph resolver checking for circular execution dependencies among scheduled task chains",
+        "Lock-free bucket assignment utilizing atomic CAS operations for high-throughput concurrent timer writes",
+        "Comprehensive telemetry dashboard output providing real-time bucket utilization and latency histograms"
+      ],
+      "name": "ChronosEngine",
+      "pain": "Developers struggle to build deterministic, high-resolution scheduling engines that can manage millions of concurrent timers without burning CPU cycles on active polling loops.",
+      "problem": "Handling time-dependent state machines, delayed event triggers, and complex overlapping timer schedules requires complex distributed scheduling infrastructure or error-prone application-level polling.",
+      "slug": "chronos-engine",
+      "solution": "A zero-dependency hierarchical timing wheel and delayed task scheduling engine written in Java 21. It manages millions of active timers with $O(1)$ insertion and deletion complexity using multi-tier circular bucket arrays.",
+      "target_user": "distributed systems engineers and workflow architects",
+      "technology": "Java 21",
+      "verification": "Determinism verification suite testing tick synchronization, expired task callback ordering, wheel rollover handling, thread-pool saturation under load, and canceled timer race condition avoidance."
+    },
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "query-engine",
+        "sql-parser",
+        "relational-algebra",
+        "python3.12",
+        "optimizer"
+      ],
+      "major_features": [
+        "Hand-written lexer and Pratt parser compiling SQL text into structured Abstract Syntax Trees",
+        "Relational algebra operator pipeline supporting Sequential Scans, Hash Joins, Filter, and Sort-Aggregate nodes",
+        "Heuristic query optimizer applying predicate pushdown, projection pruning, and join reordering rules",
+        "Vectorized block processing engine iterating over chunked memory buffers to accelerate aggregate functions",
+        "Type-safe expression evaluator handling arithmetic comparisons, boolean logic, and string manipulations",
+        "Cost-based statistics collector tracking cardinality and distinct value distributions per column",
+        "CSV and binary columnar file scanner mapping raw disk sectors directly to relational tuples",
+        "Detailed query execution plan visualizer outputting ASCII tree representations of physical operator trees"
+      ],
+      "name": "QueryLang",
+      "pain": "Writing a robust, production-grade query parser, cost-based optimizer, and relational algebra execution engine from scratch is notoriously complex and poorly documented for local single-file workflows.",
+      "problem": "Parsing and executing custom structured queries against flat text files or custom data formats usually requires writing messy ad-hoc regex strings that fail on nested structures, joins, or syntax errors.",
+      "slug": "query-lang",
+      "solution": "A zero-dependency relational query processor written in Python 3.12 that parses a rich subset of SQL, builds a relational algebra tree, optimizes query plans via heuristic rule rewrites, and executes scans, joins, and aggregations directly on local tabular files.",
+      "target_user": "database developers and compiler engineers",
+      "technology": "Python 3.12",
+      "verification": "Extensive unit and integration testing validating lexer/parser error recovery, malformed query syntax exceptions, missing column references, ambiguous join predicates, and correctness against nested relational projections."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20260913T074034Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/engine.c",
+    "src/engine.h",
+    "src/main.c",
+    "tests/test_engine.c",
+    "tests/test_integration.c"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Higher-level runtimes hide memory management, instruction execution cycles, and stack-frame layout, making it difficult to study or execute custom bytecode architectures locally.",
+  "project_name": "ByteScript VM",
+  "project_path": "projects/bytescript-vm",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/engine.c: In function \u2018parser_consume\u2019:\nsrc/engine.c:253:72: error: unused parameter \u2018message\u2019 [-Werror=unused-parameter]\n  253 | static void parser_consume(Parser* parser, TokenType type, const char* message) {\n      |                                                            ~~~~~~~~~~~~^~~~~~~\nsrc/engine.c: In function \u2018parse_literal\u2019:\nsrc/engine.c:269:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  269 |         node->literal.type = VAL_FLOAT;\n      |             ^~\nsrc/engine.c:270:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  270 |         node->literal.as.f = strtod(parser->previous.start, NULL);\n      |             ^~\nsrc/engine.c:272:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  272 |         node->literal.type = VAL_BOOL;\n      |             ^~\nsrc/engine.c:273:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  273 |         node->literal.as.b = true;\n      |             ^~\nsrc/engine.c:275:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  275 |         node->literal.type = VAL_BOOL;\n      |             ^~\nsrc/engine.c:276:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  276 |         node->literal.as.b = false;\n      |             ^~\nsrc/engine.c:278:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  278 |         node->literal.type = VAL_OBJ;\n      |             ^~\nsrc/engine.c:287:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  287 |         node->literal.as.obj = (Obj*)str;\n      |             ^~\nsrc/engine.c:289:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  289 |         node->literal.type = VAL_NIL;\n      |             ^~\nsrc/engine.c: In function \u2018ast_free\u2019:\nsrc/engine.c:542:21: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  542 |             if (node->literal.type == VAL_OBJ && node->literal.as.obj != NULL) {\n      |                     ^~\nsrc/engine.c:542:54: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  542 |             if (node->literal.type == VAL_OBJ && node->literal.as.obj != NULL) {\n      |                                                      ^~\nsrc/engine.c:543:33: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  543 |                 free_object(node->literal.as.obj);\n      |                                 ^~\nsrc/engine.c: In function \u2018compile_node\u2019:\nsrc/engine.c:618:58: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  618 |             int constant = chunk_add_constant(chunk, node->literal);\n      |                                                          ^~\nsrc/engine.c:681:20: error: unused variable \u2018jump_back\u2019 [-Werror=unused-variable]\n  681 |             size_t jump_back = chunk->count;\n      |                    ^~~~~~~~~\ncc1: all warnings being treated as errors\ntests/test_engine.c: In function \u2018main\u2019:\ntests/test_engine.c:39:35: error: missing terminating \" character [-Werror]\n   39 |     bool res4 = vm_interpret(&vm, \"let flag = 0;\n      |                                   ^\ntests/test_engine.c:39:35: error: missing terminating \" character\n   39 |     bool res4 = vm_interpret(&vm, \"let flag = 0;\n      |                                   ^~~~~~~~~~~~~~\ntests/test_engine.c:40:1: error: expected expression before \u2018if\u2019\n   40 | if (10 < 20) { flag = 1; } else { flag = 2; }\n      | ^~\ntests/test_engine.c:41:12: error: missing terminating \" character [-Werror]\n   41 | print flag;\");\n      |            ^\ntests/test_engine.c:41:12: error: missing terminating \" character\n   41 | print flag;\");\n      |            ^~~\ntests/test_engine.c:45:35: error: missing terminating \" character [-Werror]\n   45 |     bool res5 = vm_interpret(&vm, \"let i = 0;\n      |                                   ^\ntests/test_engine.c:45:35: error: missing terminating \" character\n   45 |     bool res5 = vm_interpret(&vm, \"let i = 0;\n      |                                   ^~~~~~~~~~~\ntests/test_engine.c:49:2: error: missing terminating \" character [-Werror]\n   49 | }\");\n      |  ^\ntests/test_engine.c:49:2: error: missing terminating \" character\n   49 | }\");\n      |  ^~~\ntests/test_engine.c:72:1: error: expected declaration or statement at end of input\n   72 | }\n      | ^\ntests/test_engine.c:39:10: error: unused variable \u2018res4\u2019 [-Werror=unused-variable]\n   39 |     bool res4 = vm_interpret(&vm, \"let flag = 0;\n      |          ^~~~\ncc1: all warnings being treated as errors",
+        "ngine.c: In function \u2018parser_consume\u2019:\nsrc/engine.c:253:72: error: unused parameter \u2018message\u2019 [-Werror=unused-parameter]\n  253 | static void parser_consume(Parser* parser, TokenType type, const char* message) {\n      |                                                            ~~~~~~~~~~~~^~~~~~~\nsrc/engine.c: In function \u2018parse_literal\u2019:\nsrc/engine.c:269:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  269 |         node->literal.type = VAL_FLOAT;\n      |             ^~\nsrc/engine.c:270:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  270 |         node->literal.as.f = strtod(parser->previous.start, NULL);\n      |             ^~\nsrc/engine.c:272:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  272 |         node->literal.type = VAL_BOOL;\n      |             ^~\nsrc/engine.c:273:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  273 |         node->literal.as.b = true;\n      |             ^~\nsrc/engine.c:275:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  275 |         node->literal.type = VAL_BOOL;\n      |             ^~\nsrc/engine.c:276:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  276 |         node->literal.as.b = false;\n      |             ^~\nsrc/engine.c:278:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  278 |         node->literal.type = VAL_OBJ;\n      |             ^~\nsrc/engine.c:287:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  287 |         node->literal.as.obj = (Obj*)str;\n      |             ^~\nsrc/engine.c:289:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  289 |         node->literal.type = VAL_NIL;\n      |             ^~\nsrc/engine.c: In function \u2018ast_free\u2019:\nsrc/engine.c:542:21: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  542 |             if (node->literal.type == VAL_OBJ && node->literal.as.obj != NULL) {\n      |                     ^~\nsrc/engine.c:542:54: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  542 |             if (node->literal.type == VAL_OBJ && node->literal.as.obj != NULL) {\n      |                                                      ^~\nsrc/engine.c:543:33: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  543 |                 free_object(node->literal.as.obj);\n      |                                 ^~\nsrc/engine.c: In function \u2018compile_node\u2019:\nsrc/engine.c:618:58: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  618 |             int constant = chunk_add_constant(chunk, node->literal);\n      |                                                          ^~\nsrc/engine.c:681:20: error: unused variable \u2018jump_back\u2019 [-Werror=unused-variable]\n  681 |             size_t jump_back = chunk->count;\n      |                    ^~~~~~~~~\ncc1: all warnings being treated as errors\ntests/test_integration.c: In function \u2018main\u2019:\ntests/test_integration.c:19:33: error: missing terminating \" character [-Werror]\n   19 |     bool i2 = vm_interpret(&vm, \"let x = 10;\n      |                                 ^\ntests/test_integration.c:19:33: error: missing terminating \" character\n   19 |     bool i2 = vm_interpret(&vm, \"let x = 10;\n      |                                 ^~~~~~~~~~~~\ntests/test_integration.c:20:1: error: \u2018let\u2019 undeclared (first use in this function)\n   20 | let status = 0;\n      | ^~~\ntests/test_integration.c:20:1: note: each undeclared identifier is reported only once for each function it appears in\ntests/test_integration.c:20:4: error: expected \u2018)\u2019 before \u2018status\u2019\n   20 | let status = 0;\n      |    ^~~~~~~\n      |    )\ntests/test_integration.c:19:27: note: to match this \u2018(\u2019\n   19 |     bool i2 = vm_interpret(&vm, \"let x = 10;\n      |                           ^\ntests/test_integration.c:30:14: error: missing terminating \" character [-Werror]\n   30 | print status;\");\n      |              ^\ntests/test_integration.c:30:14: error: missing terminating \" character\n   30 | print status;\");\n      |              ^~~\ntests/test_integration.c:34:33: error: missing terminating \" character [-Werror]\n   34 |     bool i3 = vm_interpret(&vm, \"let sum = 0;\n      |                                 ^\ntests/test_integration.c:34:33: error: missing terminating \" character\n   34 |     bool i3 = vm_interpret(&vm, \"let sum = 0;\n      |                                 ^~~~~~~~~~~~~\ntests/test_integration.c:40:11: error: missing terminating \" character [-Werror]\n   40 | print sum;\");\n      |           ^\ntests/test_integration.c:40:11: error: missing terminating \" character\n   40 | print sum;\");\n      |           ^~~\ntests/test_integration.c:44:33: error: missing terminating \" character [-Werror]\n   44 |     bool i4 = vm_interpret(&vm, \"let val1 = (10 == 10);\n      |                                 ^\ntests/test_integration.c:44:33: error: missing terminating \" character\n   44 |     bool i4 = vm_interpret(&vm, \"let val1 = (10 == 10);\n      |                                 ^~~~~~~~~~~~~~~~~~~~~~~\ntests/test_integration.c:47:12: error: missing terminating \" character [-Werror]\n   47 | print val2;\");\n      |            ^\ntests/test_integration.c:47:12: error: missing terminating \" character\n   47 | print val2;\");\n      |            ^~~\ntests/test_integration.c:51:33: error: missing terminating \" character [-Werror]\n   51 |     bool i5 = vm_interpret(&vm, \"let s1 = \\\"compiler\\\";\n      |                                 ^\ntests/test_integration.c:51:33: error: missing terminating \" character\n   51 |     bool i5 = vm_interpret(&vm, \"let s1 = \\\"compiler\\\";\n      |                                 ^~~~~~~~~~~~~~~~~~~~~~~\ntests/test_integration.c:52:10: error: stray \u2018\\\u2019 in program\n   52 | let s2 = \\\"engineer\\\";\n      |          ^\ntests/test_integration.c:52:11: error: missing terminating \" character [-Werror]\n   52 | let s2 = \\\"engineer\\\";\n      |           ^\ntests/test_integration.c:52:11: error: missing terminating \" character\n   52 | let s2 = \\\"engineer\\\";\n      |           ^~~~~~~~~~~~\ntests/test_integration.c:54:10: error: missing terminating \" character [-Werror]\n   54 | print s2;\");\n      |          ^\ntests/test_integration.c:54:10: error: missing terminating \" character\n   54 | print s2;\");\n      |          ^~~\ntests/test_integration.c:58:33: error: missing terminating \" character [-Werror]\n   58 |     bool i6 = vm_interpret(&vm, \"let counter = 100;\n      |                                 ^\ntests/test_integration.c:58:33: error: missing terminating \" character\n   58 |     bool i6 = vm_interpret(&vm, \"let counter = 100;\n      |                                 ^~~~~~~~~~~~~~~~~~~\ntests/test_integration.c:61:15: error: missing terminating \" character [-Werror]\n   61 | print counter;\");\n      |               ^\ntests/test_integration.c:61:15: error: missing terminating \" character\n   61 | print counter;\");\n      |               ^~~\ntests/test_integration.c:87:1: error: expected declaration or statement at end of input\n   87 | }\n      | ^\ntests/test_integration.c:19:10: error: unused variable \u2018i2\u2019 [-Werror=unused-variable]\n   19 |     bool i2 = vm_interpret(&vm, \"let x = 10;\n      |          ^~\ncc1: all warnings being treated as errors",
+        "src/engine.c: In function \u2018parser_consume\u2019:\nsrc/engine.c:253:72: error: unused parameter \u2018message\u2019 [-Werror=unused-parameter]\n  253 | static void parser_consume(Parser* parser, TokenType type, const char* message) {\n      |                                                            ~~~~~~~~~~~~^~~~~~~\nsrc/engine.c: In function \u2018parse_literal\u2019:\nsrc/engine.c:269:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  269 |         node->literal.type = VAL_FLOAT;\n      |             ^~\nsrc/engine.c:270:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  270 |         node->literal.as.f = strtod(parser->previous.start, NULL);\n      |             ^~\nsrc/engine.c:272:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  272 |         node->literal.type = VAL_BOOL;\n      |             ^~\nsrc/engine.c:273:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  273 |         node->literal.as.b = true;\n      |             ^~\nsrc/engine.c:275:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  275 |         node->literal.type = VAL_BOOL;\n      |             ^~\nsrc/engine.c:276:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  276 |         node->literal.as.b = false;\n      |             ^~\nsrc/engine.c:278:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  278 |         node->literal.type = VAL_OBJ;\n      |             ^~\nsrc/engine.c:287:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  287 |         node->literal.as.obj = (Obj*)str;\n      |             ^~\nsrc/engine.c:289:13: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  289 |         node->literal.type = VAL_NIL;\n      |             ^~\nsrc/engine.c: In function \u2018ast_free\u2019:\nsrc/engine.c:542:21: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  542 |             if (node->literal.type == VAL_OBJ && node->literal.as.obj != NULL) {\n      |                     ^~\nsrc/engine.c:542:54: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  542 |             if (node->literal.type == VAL_OBJ && node->literal.as.obj != NULL) {\n      |                                                      ^~\nsrc/engine.c:543:33: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  543 |                 free_object(node->literal.as.obj);\n      |                                 ^~\nsrc/engine.c: In function \u2018compile_node\u2019:\nsrc/engine.c:618:58: error: \u2018ASTNode\u2019 has no member named \u2018literal\u2019\n  618 |             int constant = chunk_add_constant(chunk, node->literal);\n      |                                                          ^~\nsrc/engine.c:681:20: error: unused variable \u2018jump_back\u2019 [-Werror=unused-variable]\n  681 |             size_t jump_back = chunk->count;\n      |                    ^~~~~~~~~\ncc1: all warnings being treated as errors"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/engine.c: In function \u2018vm_interpret\u2019:\nsrc/engine.c:805:14: error: expected expression before \u2018,\u2019 token\n  805 |             },\n      |              ^\nsrc/engine.c:805:14: error: left-hand operand of comma expression has no effect [-Werror=unused-value]\nsrc/engine.c: At top level:\nsrc/engine.c:718:13: error: \u2018print_value\u2019 defined but not used [-Werror=unused-function]\n  718 | static void print_value(Value value) {\n      |             ^~~~~~~~~~~\ncc1: all warnings being treated as errors",
+        "src/engine.c: In function \u2018vm_interpret\u2019:\nsrc/engine.c:805:14: error: expected expression before \u2018,\u2019 token\n  805 |             },\n      |              ^\nsrc/engine.c:805:14: error: left-hand operand of comma expression has no effect [-Werror=unused-value]\nsrc/engine.c: At top level:\nsrc/engine.c:718:13: error: \u2018print_value\u2019 defined but not used [-Werror=unused-function]\n  718 | static void print_value(Value value) {\n      |             ^~~~~~~~~~~\ncc1: all warnings being treated as errors",
+        "src/engine.c: In function \u2018vm_interpret\u2019:\nsrc/engine.c:805:14: error: expected expression before \u2018,\u2019 token\n  805 |             },\n      |              ^\nsrc/engine.c:805:14: error: left-hand operand of comma expression has no effect [-Werror=unused-value]\nsrc/engine.c: At top level:\nsrc/engine.c:718:13: error: \u2018print_value\u2019 defined but not used [-Werror=unused-function]\n  718 | static void print_value(Value value) {\n      |             ^~~~~~~~~~~\ncc1: all warnings being treated as errors"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/engine.c:251:5: error: unknown type name \u2018Parser\u2019\n  251 |     Parser* parser;\n      |     ^~~~~~\nsrc/engine.c: In function \u2018declare_variable\u2019:\nsrc/engine.c:536:18: error: \u2018Token\u2019 has no member named \u2018depth\u2019\n  536 |         if (local->depth != -1 && local->depth < ctx->scope_depth) {\n      |                  ^~\nsrc/engine.c:536:40: error: \u2018Token\u2019 has no member named \u2018depth\u2019\n  536 |         if (local->depth != -1 && local->depth < ctx->scope_depth) {\n      |                                        ^~\nsrc/engine.c: In function \u2018parse_precedence\u2019:\nsrc/engine.c:655:23: error: comparison of integer expressions of different signedness: \u2018int\u2019 and \u2018Precedence\u2019 [-Werror=sign-compare]\n  655 |     while (precedence <= get_rule(ctx->current.type)->precedence) {\n      |                       ^~\nsrc/engine.c: In function \u2018vm_interpret\u2019:\nsrc/engine.c:1024:46: error: \u2018VAL_STRING\u2019 undeclared (first use in this function); did you mean \u2018OBJ_STRING\u2019?\n 1024 |                 if ((stack_top - 1)->type == VAL_STRING && stack_top->type == VAL_STRING) {\n      |                                              ^~~~~~~~~~\n      |                                              OBJ_STRING\nsrc/engine.c:1024:46: note: each undeclared identifier is reported only once for each function it appears in\nsrc/engine.c:1025:49: error: wrong type argument to unary minus\n 1025 |                     ObjString* b = (ObjString*)(- --stack_top)->as.obj;\n      |                                                 ^\nsrc/engine.c:1042:27: error: operation on \u2018stack_top\u2019 may be undefined [-Werror=sequence-point]\n 1042 |                 *stack_top++ = val_bool(stack_top[-1].type == VAL_NIL ||\n      |                  ~~~~~~~~~^~\nsrc/engine.c:922:25: error: operation on \u2018ip\u2019 may be undefined [-Werror=sequence-point]\n  922 | #define READ_BYTE() (*ip++)\n      |                       ~~^~\nsrc/engine.c:1058:67: note: in expansion of macro \u2018READ_BYTE\u2019\n 1058 |                 uint16_t offset = (uint16_t)((READ_BYTE() << 8) | READ_BYTE());\n      |                                                                   ^~~~~~~~~\nsrc/engine.c:922:25: error: operation on \u2018ip\u2019 may be undefined [-Werror=sequence-point]\n  922 | #define READ_BYTE() (*ip++)\n      |                       ~~^~\nsrc/engine.c:1063:67: note: in expansion of macro \u2018READ_BYTE\u2019\n 1063 |                 uint16_t offset = (uint16_t)((READ_BYTE() << 8) | READ_BYTE());\n      |                                                                   ^~~~~~~~~\nsrc/engine.c:922:25: error: operation on \u2018ip\u2019 may be undefined [-Werror=sequence-point]\n  922 | #define READ_BYTE() (*ip++)\n      |                       ~~^~\nsrc/engine.c:1071:67: note: in expansion of macro \u2018READ_BYTE\u2019\n 1071 |                 uint16_t offset = (uint16_t)((READ_BYTE() << 8) | READ_BYTE());\n      |                                                                   ^~~~~~~~~\nsrc/engine.c: At top level:\nsrc/engine.c:822:13: error: \u2018collect_garbage\u2019 defined but not used [-Werror=unused-function]\n  822 | static void collect_garbage(VM* vm) {\n      |             ^~~~~~~~~~~~~~~\ncc1: all warnings being treated as errors",
+        "src/engine.c:251:5: error: unknown type name \u2018Parser\u2019\n  251 |     Parser* parser;\n      |     ^~~~~~\nsrc/engine.c: In function \u2018declare_variable\u2019:\nsrc/engine.c:536:18: error: \u2018Token\u2019 has no member named \u2018depth\u2019\n  536 |         if (local->depth != -1 && local->depth < ctx->scope_depth) {\n      |                  ^~\nsrc/engine.c:536:40: error: \u2018Token\u2019 has no member named \u2018depth\u2019\n  536 |         if (local->depth != -1 && local->depth < ctx->scope_depth) {\n      |                                        ^~\nsrc/engine.c: In function \u2018parse_precedence\u2019:\nsrc/engine.c:655:23: error: comparison of integer expressions of different signedness: \u2018int\u2019 and \u2018Precedence\u2019 [-Werror=sign-compare]\n  655 |     while (precedence <= get_rule(ctx->current.type)->precedence) {\n      |                       ^~\nsrc/engine.c: In function \u2018vm_interpret\u2019:\nsrc/engine.c:1024:46: error: \u2018VAL_STRING\u2019 undeclared (first use in this function); did you mean \u2018OBJ_STRING\u2019?\n 1024 |                 if ((stack_top - 1)->type == VAL_STRING && stack_top->type == VAL_STRING) {\n      |                                              ^~~~~~~~~~\n      |                                              OBJ_STRING\nsrc/engine.c:1024:46: note: each undeclared identifier is reported only once for each function it appears in\nsrc/engine.c:1025:49: error: wrong type argument to unary minus\n 1025 |                     ObjString* b = (ObjString*)(- --stack_top)->as.obj;\n      |                                                 ^\nsrc/engine.c:1042:27: error: operation on \u2018stack_top\u2019 may be undefined [-Werror=sequence-point]\n 1042 |                 *stack_top++ = val_bool(stack_top[-1].type == VAL_NIL ||\n      |                  ~~~~~~~~~^~\nsrc/engine.c:922:25: error: operation on \u2018ip\u2019 may be undefined [-Werror=sequence-point]\n  922 | #define READ_BYTE() (*ip++)\n      |                       ~~^~\nsrc/engine.c:1058:67: note: in expansion of macro \u2018READ_BYTE\u2019\n 1058 |                 uint16_t offset = (uint16_t)((READ_BYTE() << 8) | READ_BYTE());\n      |                                                                   ^~~~~~~~~\nsrc/engine.c:922:25: error: operation on \u2018ip\u2019 may be undefined [-Werror=sequence-point]\n  922 | #define READ_BYTE() (*ip++)\n      |                       ~~^~\nsrc/engine.c:1063:67: note: in expansion of macro \u2018READ_BYTE\u2019\n 1063 |                 uint16_t offset = (uint16_t)((READ_BYTE() << 8) | READ_BYTE());\n      |                                                                   ^~~~~~~~~\nsrc/engine.c:922:25: error: operation on \u2018ip\u2019 may be undefined [-Werror=sequence-point]\n  922 | #define READ_BYTE() (*ip++)\n      |                       ~~^~\nsrc/engine.c:1071:67: note: in expansion of macro \u2018READ_BYTE\u2019\n 1071 |                 uint16_t offset = (uint16_t)((READ_BYTE() << 8) | READ_BYTE());\n      |                                                                   ^~~~~~~~~\nsrc/engine.c: At top level:\nsrc/engine.c:822:13: error: \u2018collect_garbage\u2019 defined but not used [-Werror=unused-function]\n  822 | static void collect_garbage(VM* vm) {\n      |             ^~~~~~~~~~~~~~~\ncc1: all warnings being treated as errors",
+        "src/engine.c:251:5: error: unknown type name \u2018Parser\u2019\n  251 |     Parser* parser;\n      |     ^~~~~~\nsrc/engine.c: In function \u2018declare_variable\u2019:\nsrc/engine.c:536:18: error: \u2018Token\u2019 has no member named \u2018depth\u2019\n  536 |         if (local->depth != -1 && local->depth < ctx->scope_depth) {\n      |                  ^~\nsrc/engine.c:536:40: error: \u2018Token\u2019 has no member named \u2018depth\u2019\n  536 |         if (local->depth != -1 && local->depth < ctx->scope_depth) {\n      |                                        ^~\nsrc/engine.c: In function \u2018parse_precedence\u2019:\nsrc/engine.c:655:23: error: comparison of integer expressions of different signedness: \u2018int\u2019 and \u2018Precedence\u2019 [-Werror=sign-compare]\n  655 |     while (precedence <= get_rule(ctx->current.type)->precedence) {\n      |                       ^~\nsrc/engine.c: In function \u2018vm_interpret\u2019:\nsrc/engine.c:1024:46: error: \u2018VAL_STRING\u2019 undeclared (first use in this function); did you mean \u2018OBJ_STRING\u2019?\n 1024 |                 if ((stack_top - 1)->type == VAL_STRING && stack_top->type == VAL_STRING) {\n      |                                              ^~~~~~~~~~\n      |                                              OBJ_STRING\nsrc/engine.c:1024:46: note: each undeclared identifier is reported only once for each function it appears in\nsrc/engine.c:1025:49: error: wrong type argument to unary minus\n 1025 |                     ObjString* b = (ObjString*)(- --stack_top)->as.obj;\n      |                                                 ^\nsrc/engine.c:1042:27: error: operation on \u2018stack_top\u2019 may be undefined [-Werror=sequence-point]\n 1042 |                 *stack_top++ = val_bool(stack_top[-1].type == VAL_NIL ||\n      |                  ~~~~~~~~~^~\nsrc/engine.c:922:25: error: operation on \u2018ip\u2019 may be undefined [-Werror=sequence-point]\n  922 | #define READ_BYTE() (*ip++)\n      |                       ~~^~\nsrc/engine.c:1058:67: note: in expansion of macro \u2018READ_BYTE\u2019\n 1058 |                 uint16_t offset = (uint16_t)((READ_BYTE() << 8) | READ_BYTE());\n      |                                                                   ^~~~~~~~~\nsrc/engine.c:922:25: error: operation on \u2018ip\u2019 may be undefined [-Werror=sequence-point]\n  922 | #define READ_BYTE() (*ip++)\n      |                       ~~^~\nsrc/engine.c:1063:67: note: in expansion of macro \u2018READ_BYTE\u2019\n 1063 |                 uint16_t offset = (uint16_t)((READ_BYTE() << 8) | READ_BYTE());\n      |                                                                   ^~~~~~~~~\nsrc/engine.c:922:25: error: operation on \u2018ip\u2019 may be undefined [-Werror=sequence-point]\n  922 | #define READ_BYTE() (*ip++)\n      |                       ~~^~\nsrc/engine.c:1071:67: note: in expansion of macro \u2018READ_BYTE\u2019\n 1071 |                 uint16_t offset = (uint16_t)((READ_BYTE() << 8) | READ_BYTE());\n      |                                                                   ^~~~~~~~~\nsrc/engine.c: At top level:\nsrc/engine.c:822:13: error: \u2018collect_garbage\u2019 defined but not used [-Werror=unused-function]\n  822 | static void collect_garbage(VM* vm) {\n      |             ^~~~~~~~~~~~~~~\ncc1: all warnings being treated as errors"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 4,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "        ^~~~~~\nsrc/engine.c:707:12: note: (near initialization for \u2018rules[11].infix\u2019)\nsrc/engine.c:708:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  708 |     {NULL, binary, PREC_TERM},\n      |            ^~~~~~\nsrc/engine.c:708:12: note: (near initialization for \u2018rules[12].infix\u2019)\nsrc/engine.c:710:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  710 |     {NULL, binary, PREC_FACTOR},\n      |            ^~~~~~\nsrc/engine.c:710:12: note: (near initialization for \u2018rules[14].infix\u2019)\nsrc/engine.c:711:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  711 |     {NULL, binary, PREC_FACTOR},\n      |            ^~~~~~\nsrc/engine.c:711:12: note: (near initialization for \u2018rules[15].infix\u2019)\nsrc/engine.c:712:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  712 |     {unary, binary, PREC_TERM},\n      |      ^~~~~\nsrc/engine.c:712:6: note: (near initialization for \u2018rules[16].prefix\u2019)\nsrc/engine.c:712:13: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  712 |     {unary, binary, PREC_TERM},\n      |             ^~~~~~\nsrc/engine.c:712:13: note: (near initialization for \u2018rules[16].infix\u2019)\nsrc/engine.c:713:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  713 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:713:12: note: (near initialization for \u2018rules[17].infix\u2019)\nsrc/engine.c:714:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  714 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:714:12: note: (near initialization for \u2018rules[18].infix\u2019)\nsrc/engine.c:715:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  715 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:715:12: note: (near initialization for \u2018rules[19].infix\u2019)\nsrc/engine.c:716:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  716 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:716:12: note: (near initialization for \u2018rules[20].infix\u2019)\nsrc/engine.c:717:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  717 |     {variable, NULL, PREC_NONE},\n      |      ^~~~~~~~\nsrc/engine.c:717:6: note: (near initialization for \u2018rules[21].prefix\u2019)\nsrc/engine.c:718:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  718 |     {string_parse, NULL, PREC_NONE},\n      |      ^~~~~~~~~~~~\nsrc/engine.c:718:6: note: (near initialization for \u2018rules[22].prefix\u2019)\nsrc/engine.c:719:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  719 |     {number_parse, NULL, PREC_NONE},\n      |      ^~~~~~~~~~~~\nsrc/engine.c:719:6: note: (near initialization for \u2018rules[23].prefix\u2019)\nsrc/engine.c:723:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  723 |     {literal, NULL, PREC_NONE},\n      |      ^~~~~~~\nsrc/engine.c:723:6: note: (near initialization for \u2018rules[27].prefix\u2019)\nsrc/engine.c:729:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  729 |     {literal, NULL, PREC_NONE},\n      |      ^~~~~~~\nsrc/engine.c:729:6: note: (near initialization for \u2018rules[33].prefix\u2019)\nsrc/engine.c:730:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  730 |     {literal, NULL, PREC_NONE},\n      |      ^~~~~~~\nsrc/engine.c:730:6: note: (near initialization for \u2018rules[34].prefix\u2019)\nsrc/engine.c: In function \u2018parse_precedence\u2019:\nsrc/engine.c:751:21: error: passing argument 2 of \u2018prefix_rule\u2019 from incompatible pointer type [-Werror=incompatible-pointer-types]\n  751 |     prefix_rule(vm, ctx, can_assign);\n      |                     ^~~\n      |                     |\n      |                     CompileContext *\nsrc/engine.c:751:21: note: expected \u2018struct CompileContext *\u2019 but argument is of type \u2018CompileContext *\u2019\nsrc/engine.c:756:24: error: passing argument 2 of \u2018infix_rule\u2019 from incompatible pointer type [-Werror=incompatible-pointer-types]\n  756 |         infix_rule(vm, ctx, can_assign);\n      |                        ^~~\n      |                        |\n      |                        CompileContext *\nsrc/engine.c:756:24: note: expected \u2018struct CompileContext *\u2019 but argument is of type \u2018CompileContext *\u2019\nsrc/engine.c: In function \u2018vm_interpret\u2019:\nsrc/engine.c:931:27: error: wrong type argument to decrement\n  931 |                 Value b = --*--vm->stack_top;\n      |                           ^~\nsrc/engine.c:959:31: error: operation on \u2018vm->stack_top\u2019 may be undefined [-Werror=sequence-point]\n  959 |                 *vm->stack_top++ = val_bool((vm->stack_top - 1)->type == VAL_NIL || ((vm->stack_top - 1)->type == VAL_BOOL && !(vm->stack_top - 1)->as.boolean));\n      |                  ~~~~~~~~~~~~~^~\ncc1: all warnings being treated as errors\nIn file included from tests/test_engine.c:4:\ntests/../src/engine.h:107:33: error: \u2018UINT8_COUNT\u2019 undeclared here (not in a function); did you mean \u2018UINT8_C\u2019?\n  107 | #define STACK_MAX (FRAMES_MAX * UINT8_COUNT)\n      |                                 ^~~~~~~~~~~\ntests/../src/engine.h:112:17: note: in expansion of macro \u2018STACK_MAX\u2019\n  112 |     Value stack[STACK_MAX];\n      |                 ^~~~~~~~~",
+        "   ^~~~~~\nsrc/engine.c:707:12: note: (near initialization for \u2018rules[11].infix\u2019)\nsrc/engine.c:708:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  708 |     {NULL, binary, PREC_TERM},\n      |            ^~~~~~\nsrc/engine.c:708:12: note: (near initialization for \u2018rules[12].infix\u2019)\nsrc/engine.c:710:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  710 |     {NULL, binary, PREC_FACTOR},\n      |            ^~~~~~\nsrc/engine.c:710:12: note: (near initialization for \u2018rules[14].infix\u2019)\nsrc/engine.c:711:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  711 |     {NULL, binary, PREC_FACTOR},\n      |            ^~~~~~\nsrc/engine.c:711:12: note: (near initialization for \u2018rules[15].infix\u2019)\nsrc/engine.c:712:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  712 |     {unary, binary, PREC_TERM},\n      |      ^~~~~\nsrc/engine.c:712:6: note: (near initialization for \u2018rules[16].prefix\u2019)\nsrc/engine.c:712:13: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  712 |     {unary, binary, PREC_TERM},\n      |             ^~~~~~\nsrc/engine.c:712:13: note: (near initialization for \u2018rules[16].infix\u2019)\nsrc/engine.c:713:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  713 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:713:12: note: (near initialization for \u2018rules[17].infix\u2019)\nsrc/engine.c:714:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  714 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:714:12: note: (near initialization for \u2018rules[18].infix\u2019)\nsrc/engine.c:715:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  715 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:715:12: note: (near initialization for \u2018rules[19].infix\u2019)\nsrc/engine.c:716:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  716 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:716:12: note: (near initialization for \u2018rules[20].infix\u2019)\nsrc/engine.c:717:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  717 |     {variable, NULL, PREC_NONE},\n      |      ^~~~~~~~\nsrc/engine.c:717:6: note: (near initialization for \u2018rules[21].prefix\u2019)\nsrc/engine.c:718:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  718 |     {string_parse, NULL, PREC_NONE},\n      |      ^~~~~~~~~~~~\nsrc/engine.c:718:6: note: (near initialization for \u2018rules[22].prefix\u2019)\nsrc/engine.c:719:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  719 |     {number_parse, NULL, PREC_NONE},\n      |      ^~~~~~~~~~~~\nsrc/engine.c:719:6: note: (near initialization for \u2018rules[23].prefix\u2019)\nsrc/engine.c:723:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  723 |     {literal, NULL, PREC_NONE},\n      |      ^~~~~~~\nsrc/engine.c:723:6: note: (near initialization for \u2018rules[27].prefix\u2019)\nsrc/engine.c:729:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  729 |     {literal, NULL, PREC_NONE},\n      |      ^~~~~~~\nsrc/engine.c:729:6: note: (near initialization for \u2018rules[33].prefix\u2019)\nsrc/engine.c:730:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  730 |     {literal, NULL, PREC_NONE},\n      |      ^~~~~~~\nsrc/engine.c:730:6: note: (near initialization for \u2018rules[34].prefix\u2019)\nsrc/engine.c: In function \u2018parse_precedence\u2019:\nsrc/engine.c:751:21: error: passing argument 2 of \u2018prefix_rule\u2019 from incompatible pointer type [-Werror=incompatible-pointer-types]\n  751 |     prefix_rule(vm, ctx, can_assign);\n      |                     ^~~\n      |                     |\n      |                     CompileContext *\nsrc/engine.c:751:21: note: expected \u2018struct CompileContext *\u2019 but argument is of type \u2018CompileContext *\u2019\nsrc/engine.c:756:24: error: passing argument 2 of \u2018infix_rule\u2019 from incompatible pointer type [-Werror=incompatible-pointer-types]\n  756 |         infix_rule(vm, ctx, can_assign);\n      |                        ^~~\n      |                        |\n      |                        CompileContext *\nsrc/engine.c:756:24: note: expected \u2018struct CompileContext *\u2019 but argument is of type \u2018CompileContext *\u2019\nsrc/engine.c: In function \u2018vm_interpret\u2019:\nsrc/engine.c:931:27: error: wrong type argument to decrement\n  931 |                 Value b = --*--vm->stack_top;\n      |                           ^~\nsrc/engine.c:959:31: error: operation on \u2018vm->stack_top\u2019 may be undefined [-Werror=sequence-point]\n  959 |                 *vm->stack_top++ = val_bool((vm->stack_top - 1)->type == VAL_NIL || ((vm->stack_top - 1)->type == VAL_BOOL && !(vm->stack_top - 1)->as.boolean));\n      |                  ~~~~~~~~~~~~~^~\ncc1: all warnings being treated as errors\nIn file included from tests/test_integration.c:4:\ntests/../src/engine.h:107:33: error: \u2018UINT8_COUNT\u2019 undeclared here (not in a function); did you mean \u2018UINT8_C\u2019?\n  107 | #define STACK_MAX (FRAMES_MAX * UINT8_COUNT)\n      |                                 ^~~~~~~~~~~\ntests/../src/engine.h:112:17: note: in expansion of macro \u2018STACK_MAX\u2019\n  112 |     Value stack[STACK_MAX];\n      |                 ^~~~~~~~~",
+        "ry, PREC_TERM},\n      |            ^~~~~~\nsrc/engine.c:707:12: note: (near initialization for \u2018rules[11].infix\u2019)\nsrc/engine.c:708:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  708 |     {NULL, binary, PREC_TERM},\n      |            ^~~~~~\nsrc/engine.c:708:12: note: (near initialization for \u2018rules[12].infix\u2019)\nsrc/engine.c:710:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  710 |     {NULL, binary, PREC_FACTOR},\n      |            ^~~~~~\nsrc/engine.c:710:12: note: (near initialization for \u2018rules[14].infix\u2019)\nsrc/engine.c:711:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  711 |     {NULL, binary, PREC_FACTOR},\n      |            ^~~~~~\nsrc/engine.c:711:12: note: (near initialization for \u2018rules[15].infix\u2019)\nsrc/engine.c:712:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  712 |     {unary, binary, PREC_TERM},\n      |      ^~~~~\nsrc/engine.c:712:6: note: (near initialization for \u2018rules[16].prefix\u2019)\nsrc/engine.c:712:13: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  712 |     {unary, binary, PREC_TERM},\n      |             ^~~~~~\nsrc/engine.c:712:13: note: (near initialization for \u2018rules[16].infix\u2019)\nsrc/engine.c:713:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  713 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:713:12: note: (near initialization for \u2018rules[17].infix\u2019)\nsrc/engine.c:714:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  714 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:714:12: note: (near initialization for \u2018rules[18].infix\u2019)\nsrc/engine.c:715:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  715 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:715:12: note: (near initialization for \u2018rules[19].infix\u2019)\nsrc/engine.c:716:12: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  716 |     {NULL, binary, PREC_COMPARISON},\n      |            ^~~~~~\nsrc/engine.c:716:12: note: (near initialization for \u2018rules[20].infix\u2019)\nsrc/engine.c:717:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  717 |     {variable, NULL, PREC_NONE},\n      |      ^~~~~~~~\nsrc/engine.c:717:6: note: (near initialization for \u2018rules[21].prefix\u2019)\nsrc/engine.c:718:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  718 |     {string_parse, NULL, PREC_NONE},\n      |      ^~~~~~~~~~~~\nsrc/engine.c:718:6: note: (near initialization for \u2018rules[22].prefix\u2019)\nsrc/engine.c:719:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  719 |     {number_parse, NULL, PREC_NONE},\n      |      ^~~~~~~~~~~~\nsrc/engine.c:719:6: note: (near initialization for \u2018rules[23].prefix\u2019)\nsrc/engine.c:723:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  723 |     {literal, NULL, PREC_NONE},\n      |      ^~~~~~~\nsrc/engine.c:723:6: note: (near initialization for \u2018rules[27].prefix\u2019)\nsrc/engine.c:729:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  729 |     {literal, NULL, PREC_NONE},\n      |      ^~~~~~~\nsrc/engine.c:729:6: note: (near initialization for \u2018rules[33].prefix\u2019)\nsrc/engine.c:730:6: error: initialization of \u2018void (*)(VM *, struct CompileContext *, _Bool)\u2019 from incompatible pointer type \u2018void (*)(VM *, CompileContext *, _Bool)\u2019 [-Werror=incompatible-pointer-types]\n  730 |     {literal, NULL, PREC_NONE},\n      |      ^~~~~~~\nsrc/engine.c:730:6: note: (near initialization for \u2018rules[34].prefix\u2019)\nsrc/engine.c: In function \u2018parse_precedence\u2019:\nsrc/engine.c:751:21: error: passing argument 2 of \u2018prefix_rule\u2019 from incompatible pointer type [-Werror=incompatible-pointer-types]\n  751 |     prefix_rule(vm, ctx, can_assign);\n      |                     ^~~\n      |                     |\n      |                     CompileContext *\nsrc/engine.c:751:21: note: expected \u2018struct CompileContext *\u2019 but argument is of type \u2018CompileContext *\u2019\nsrc/engine.c:756:24: error: passing argument 2 of \u2018infix_rule\u2019 from incompatible pointer type [-Werror=incompatible-pointer-types]\n  756 |         infix_rule(vm, ctx, can_assign);\n      |                        ^~~\n      |                        |\n      |                        CompileContext *\nsrc/engine.c:756:24: note: expected \u2018struct CompileContext *\u2019 but argument is of type \u2018CompileContext *\u2019\nsrc/engine.c: In function \u2018vm_interpret\u2019:\nsrc/engine.c:931:27: error: wrong type argument to decrement\n  931 |                 Value b = --*--vm->stack_top;\n      |                           ^~\nsrc/engine.c:959:31: error: operation on \u2018vm->stack_top\u2019 may be undefined [-Werror=sequence-point]\n  959 |                 *vm->stack_top++ = val_bool((vm->stack_top - 1)->type == VAL_NIL || ((vm->stack_top - 1)->type == VAL_BOOL && !(vm->stack_top - 1)->as.boolean));\n      |                  ~~~~~~~~~~~~~^~\ncc1: all warnings being treated as errors\nIn file included from src/main.c:1:\nsrc/engine.h:107:33: error: \u2018UINT8_COUNT\u2019 undeclared here (not in a function); did you mean \u2018UINT8_C\u2019?\n  107 | #define STACK_MAX (FRAMES_MAX * UINT8_COUNT)\n      |                                 ^~~~~~~~~~~\nsrc/engine.h:112:17: note: in expansion of macro \u2018STACK_MAX\u2019\n  112 |     Value stack[STACK_MAX];\n      |                 ^~~~~~~~~"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "compiler",
+    "keywords": [
+      "systems-engineering",
+      "virtual-machine",
+      "bytecode",
+      "garbage-collection",
+      "compiler",
+      "c11"
+    ],
+    "major_features": [
+      "Custom lexer and recursive-descent parser producing an explicit Abstract Syntax Tree (AST)",
+      "Bytecode compiler translating AST nodes into a dense stream of numeric opcodes and constant pool entries",
+      "Stack-based execution engine with explicit operand stack, call stack, and frame pointer registers",
+      "Heap allocator supporting dynamic object allocation with header metadata and type tagging",
+      "Custom mark-and-sweep garbage collector running deterministic root-set tracing and memory reclamation",
+      "Symbol table and lexical scope resolver supporting nested block scopes and variable shadowing",
+      "Built-in native function binding interface for calling host routines from bytecode instructions",
+      "Disassembler subsystem converting compiled bytecode binary streams back into human-readable assembly mnemonics"
+    ],
+    "name": "ByteScript VM",
+    "pain": "Developers lack a lightweight, standalone bytecode compiler and stack-based virtual machine written in pure C11 that handles custom type definitions, garbage collection, and dynamic symbol resolution without external dependencies.",
+    "problem": "Higher-level runtimes hide memory management, instruction execution cycles, and stack-frame layout, making it difficult to study or execute custom bytecode architectures locally.",
+    "slug": "bytescript-vm",
+    "solution": "A zero-dependency stack-based virtual machine and compiler implemented in C11. It tokenizes, parses, and compiles a statically-typed subset of language constructs into custom bytecode, executes them on an explicit heap-and-stack runtime, and runs a custom mark-and-sweep garbage collector.",
+    "target_user": "systems programmers and compiler engineers",
+    "technology": "C11",
+    "verification": "Deterministic integration suite testing valid compilation paths, arithmetic underflows/overflows, type mismatch errors at compile time, stack corruption detection, infinite loop traps, and memory leaks under simulated low-memory conditions."
+  },
+  "slug": "bytescript-vm",
+  "standalone_status": "PENDING",
+  "target_user": "systems programmers and compiler engineers",
+  "technology": "C11",
+  "timestamp": "2026-09-13T07:40:34.933262+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-c architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_engine.c",
+        "-o",
+        "build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running engine unit tests...\nAll engine unit tests passed successfully!"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_integration.c",
+        "-o",
+        "build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running integration tests...\n50\nHello, World!\nAll integration tests passed successfully!"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "src/main.c",
+        "-o",
+        "build/app"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    }
+  ]
+}

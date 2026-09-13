@@ -386,5 +386,109 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "compiler",
+    "commit_hash": null,
+    "cycle": "cycle-20260913T074034Z",
+    "date": "2026-09-13",
+    "keywords": [
+      "systems-engineering",
+      "virtual-machine",
+      "bytecode",
+      "garbage-collection",
+      "compiler",
+      "c11"
+    ],
+    "major_features": [
+      "Custom lexer and recursive-descent parser producing an explicit Abstract Syntax Tree (AST)",
+      "Bytecode compiler translating AST nodes into a dense stream of numeric opcodes and constant pool entries",
+      "Stack-based execution engine with explicit operand stack, call stack, and frame pointer registers",
+      "Heap allocator supporting dynamic object allocation with header metadata and type tagging",
+      "Custom mark-and-sweep garbage collector running deterministic root-set tracing and memory reclamation",
+      "Symbol table and lexical scope resolver supporting nested block scopes and variable shadowing",
+      "Built-in native function binding interface for calling host routines from bytecode instructions",
+      "Disassembler subsystem converting compiled bytecode binary streams back into human-readable assembly mnemonics"
+    ],
+    "name": "ByteScript VM",
+    "problem": "Higher-level runtimes hide memory management, instruction execution cycles, and stack-frame layout, making it difficult to study or execute custom bytecode architectures locally.",
+    "purpose": "A zero-dependency stack-based virtual machine and compiler implemented in C11. It tokenizes, parses, and compiles a statically-typed subset of language constructs into custom bytecode, executes them on an explicit heap-and-stack runtime, and runs a custom mark-and-sweep garbage collector.",
+    "quality_score": 100,
+    "report_path": "reports/2026-09-13-074034-bytescript-vm.json",
+    "slug": "bytescript-vm",
+    "technology": "C11",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_engine.c",
+          "-o",
+          "build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_integration.c",
+          "-o",
+          "build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "src/main.c",
+          "-o",
+          "build/app"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]
