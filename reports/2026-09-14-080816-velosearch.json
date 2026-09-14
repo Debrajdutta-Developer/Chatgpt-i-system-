@@ -1,0 +1,330 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "search-engine",
+      "keywords": [
+        "systems-engineering",
+        "hybrid-search",
+        "bm25",
+        "locality-sensitive-hashing",
+        "vector-database",
+        "reciprocal-rank-fusion"
+      ],
+      "major_features": [
+        "Inverted index builder with positional postings lists for phrase matching",
+        "Custom English Porter Stemmer and tokenizer implementing word normalization",
+        "Sparse BM25 scoring engine calculating term frequency and inverse document frequency",
+        "Dense vector index using Locality Sensitive Hashing (LSH) for high-dimensional cosine similarity",
+        "Reciprocal Rank Fusion (RRF) rank merger with configurable hyper-parameters",
+        "On-disk binary serialization layout with CRC32 integrity verification",
+        "Boolean query parser supporting nested AND, OR, and NOT operators",
+        "Dynamic document update and deletion mechanics updating both sparse and dense indexes in-place"
+      ],
+      "name": "VeloSearch",
+      "pain": "High latency, complex deployment setups, excessive memory bloat, and mismatched search results when trying to combine semantic vector search with exact keyword matching on local systems.",
+      "problem": "Standard vector databases are heavy and lack integrated lexical search, while traditional search engines require complex external services and fail to provide hybrid retrieval without substantial overhead.",
+      "slug": "velosearch",
+      "solution": "A zero-dependency hybrid vector-lexical search engine written in Python 3.12. It features a custom BM25 index, a custom Locality Sensitive Hashing (LSH) dense vector index, and a Reciprocal Rank Fusion (RRF) engine to combine semantic and keyword results.",
+      "target_user": "Data engineers and systems architects building lightweight local search solutions.",
+      "technology": "Python 3.12",
+      "verification": "Deterministic tests verifying index consistency under concurrency, zero-vector search queries, malformed text inputs, and exact RRF rank merging order using seeded random projections."
+    },
+    {
+      "category": "cache-protocol",
+      "keywords": [
+        "systems-engineering",
+        "raft-consensus",
+        "virtual-threads",
+        "write-ahead-log",
+        "distributed-systems",
+        "fault-tolerance"
+      ],
+      "major_features": [
+        "Structured concurrency RPC framework using Java 21 Virtual Threads and AutoCloseable scopes",
+        "Persistent binary Write-Ahead Log (WAL) with transaction boundaries and CRC checksums",
+        "Leader election state machine implementing randomized election timeouts",
+        "AppendEntries log replication protocol with dynamic term matching and indices synchronization",
+        "Log compaction and snapshotting to reclaim disk space while preserving state",
+        "Deterministic local network partition simulator to test split-brain scenarios",
+        "State machine replication loop driving an in-memory key-value store",
+        "Dynamic cluster membership transition protocol for safe node additions and removals"
+      ],
+      "name": "HydraRaft",
+      "pain": "Unpredictable network partitions, race conditions in leader elections, and log corruption that is difficult to isolate and test deterministically.",
+      "problem": "Distributed state machines are difficult to debug, and existing consensus libraries are tightly coupled to heavy network runtimes.",
+      "slug": "hydraraft",
+      "solution": "A zero-dependency single-JVM Raft consensus engine implemented using Java 21 Virtual Threads. It features structured concurrency, a persistent binary Write-Ahead Log (WAL) with transactional guarantees, and a local network partition simulator.",
+      "target_user": "Distributed systems developers and database engineers needing a reliable, lightweight consensus layer.",
+      "technology": "Java 21",
+      "verification": "Integration tests simulating network partitions, verifying that only the majority partition commits transactions, and recovering a crashed node's state from the binary WAL."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "file-system",
+        "journaling",
+        "crash-consistency",
+        "virtualization",
+        "disk-allocation"
+      ],
+      "major_features": [
+        "Single-file disk volume formatter with block-level allocation bitmap",
+        "Inode table manager tracking file metadata, size, permissions, and direct/indirect block pointers",
+        "Hierarchical path parser supporting dynamic directory traversal and creation",
+        "Write-Ahead Metadata Journaling engine with circular buffer log for atomic transactions",
+        "Double-indirect block addressing scheme supporting large file allocations",
+        "Hard and symbolic link implementation tracking inode reference counts",
+        "In-place file defragmenter optimizing contiguous block layouts",
+        "Integrated fsck-like recovery tool diagnosing and repairing inconsistent inode/block states"
+      ],
+      "name": "ChronosVFS",
+      "pain": "Data corruption during sudden system shutdowns, lack of granular control over block allocation, and complex portable storage isolation.",
+      "problem": "Native operating system file systems are rigid and lack isolated, portable, crash-consistent storage containers for micro-environments.",
+      "slug": "chronosvfs",
+      "solution": "A user-space virtual file system (VFS) implemented inside a single flat binary file. It features a custom journaling engine, direct/indirect block-level allocation, and an integrated recovery utility.",
+      "target_user": "Embedded systems engineers and security tool developers needing isolated, crash-resilient local storage.",
+      "technology": "C11",
+      "verification": "Deterministic tests writing highly fragmented data, cutting power (aborting the C process) mid-write, and asserting the journal recovers metadata to a valid, non-corrupted state."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "reinforcement-learning",
+        "task-scheduling",
+        "q-learning",
+        "resource-allocation",
+        "telemetry"
+      ],
+      "major_features": [
+        "Multi-resource task queue simulator modeling CPU, memory, and I/O constraints",
+        "Custom tabular Q-learning engine with adjustable discount factors and learning rates",
+        "State-space encoder mapping current system pressure vectors into discrete indices",
+        "Dynamic scheduler dispatch loop executing tasks based on agent-selected actions",
+        "Exploration-exploitation decay scheduler balance policy (epsilon-greedy)",
+        "Feedback reward calculator evaluating task execution latency and resource waste",
+        "Binary state persistence system saving and loading the Q-table matrix",
+        "Starvation detector that overrides actions to prevent long-running task lockouts"
+      ],
+      "name": "SynapseSched",
+      "pain": "Manual tuning of scheduling thresholds is error-prone, resulting in high latency spikes and underutilized hardware.",
+      "problem": "Heuristic-based resource schedulers fail to adapt to dynamic, heterogeneous system workloads, leading to CPU starvation and memory bottlenecks.",
+      "slug": "synapsesched",
+      "solution": "A local, zero-dependency reinforcement learning agent that optimizes multi-resource task scheduling. It utilizes a custom Q-learning algorithm built from scratch to schedule tasks based on live CPU, memory, and I/O feedback.",
+      "target_user": "Cloud infrastructure engineers and systems performance analysts.",
+      "technology": "Python 3.12",
+      "verification": "A deterministic test suite with fixed random seeds, asserting the agent shifts scheduling policy to prioritize memory-intensive tasks when memory pressure is high, and handling malformed/negative task resource definitions."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "compiler",
+        "lalr-parser",
+        "ssa-ir",
+        "register-allocation",
+        "graph-coloring"
+      ],
+      "major_features": [
+        "Lexical scanner with custom regular expression match engine and coordinate tracking",
+        "LALR(1) parser table generator parsing dynamic grammar definitions from scratch",
+        "Abstract Syntax Tree (AST) builder with strict static type checking",
+        "Intermediate Representation (IR) generator converting AST into Static Single Assignment (SSA) form",
+        "Variable lifetime analyzer constructing precise live ranges",
+        "Interference graph builder mapping overlapping variable lifetimes",
+        "Chaitin's graph coloring register allocator with spill-to-stack heuristics",
+        "Optimization pass implementing constant propagation and dead-code elimination"
+      ],
+      "name": "AuraIR",
+      "pain": "Debugging compiler optimizations is extremely difficult without clear intermediate representations, and manual register management leads to inefficient code.",
+      "problem": "Modern compilers are massive and obscure the mechanics of intermediate representation (IR) optimization and register allocation.",
+      "slug": "aurair",
+      "solution": "A complete compiler front-end and IR generator written in Java 21. It generates its own LALR(1) parsing tables from a grammar, builds an SSA (Static Single Assignment) intermediate representation, and performs register allocation using Chaitin's graph coloring algorithm.",
+      "target_user": "Compiler engineers, systems programmers, and language designers.",
+      "technology": "Java 21",
+      "verification": "Tests compiling invalid code structures to verify error-recovery parsing, asserting SSA form correctness (single assignment per variable), and validating register allocation boundaries when virtual registers exceed physical allocations."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20260914T080816Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/cli.py",
+    "src/engine.py",
+    "tests/test_engine.py",
+    "tests/test_integration.py"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Standard vector databases are heavy and lack integrated lexical search, while traditional search engines require complex external services and fail to provide hybrid retrieval without substantial overhead.",
+  "project_name": "VeloSearch",
+  "project_path": "projects/velosearch",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "test_boolean_filtering (test_engine.TestVeloSearchEngine.test_boolean_filtering) ... ok\ntest_boolean_parser_postfix (test_engine.TestVeloSearchEngine.test_boolean_parser_postfix) ... ok\ntest_boolean_parser_tokens (test_engine.TestVeloSearchEngine.test_boolean_parser_tokens) ... ok\ntest_deletions_and_updates (test_engine.TestVeloSearchEngine.test_deletions_and_updates) ... ok\ntest_engine_indexing_and_bm25 (test_engine.TestVeloSearchEngine.test_engine_indexing_and_bm25) ... ok\ntest_lsh_indexing (test_engine.TestVeloSearchEngine.test_lsh_indexing) ... ok\ntest_malformed_inputs (test_engine.TestVeloSearchEngine.test_malformed_inputs) ... ok\ntest_stemmer (test_engine.TestVeloSearchEngine.test_stemmer) ... FAIL\ntest_tokenizer (test_engine.TestVeloSearchEngine.test_tokenizer) ... ok\n\n======================================================================\nFAIL: test_stemmer (test_engine.TestVeloSearchEngine.test_stemmer)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/Chatgpt-i-system-/Chatgpt-i-system-/.factory-work/cycle-20260914T080816Z/velosearch/tests/test_engine.py\", line 7, in test_stemmer\n    self.assertEqual(stem(\"running\"), \"run\")\nAssertionError: 'runn' != 'run'\n- runn\n?    -\n+ run\n\n\n----------------------------------------------------------------------\nRan 9 tests in 0.001s\n\nFAILED (failures=1)"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "test_bm25_indexing (test_engine.TestVeloSearchEngine.test_bm25_indexing) ... FAIL\ntest_boolean_filtering (test_engine.TestVeloSearchEngine.test_boolean_filtering) ... ok\ntest_boolean_parser_postfix (test_engine.TestVeloSearchEngine.test_boolean_parser_postfix) ... ok\ntest_boolean_parser_tokens (test_engine.TestVeloSearchEngine.test_boolean_parser_tokens) ... FAIL\ntest_deletions_and_updates (test_engine.TestVeloSearchEngine.test_deletions_and_updates) ... ok\ntest_engine_indexing_and_bm25 (test_engine.TestVeloSearchEngine.test_engine_indexing_and_bm25) ... ok\ntest_lsh_indexing (test_engine.TestVeloSearchEngine.test_lsh_indexing) ... ok\ntest_malformed_inputs (test_engine.TestVeloSearchEngine.test_malformed_inputs) ... ok\ntest_stemmer (test_engine.TestVeloSearchEngine.test_stemmer) ... FAIL\ntest_tokenizer (test_engine.TestVeloSearchEngine.test_tokenizer) ... FAIL\n\n======================================================================\nFAIL: test_bm25_indexing (test_engine.TestVeloSearchEngine.test_bm25_indexing)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/Chatgpt-i-system-/Chatgpt-i-system-/.factory-work/cycle-20260914T080816Z/velosearch/tests/test_engine.py\", line 48, in test_bm25_indexing\n    self.assertEqual(bm25.doc_lens[\"doc1\"], 5)\nAssertionError: 4 != 5\n\n======================================================================\nFAIL: test_boolean_parser_tokens (test_engine.TestVeloSearchEngine.test_boolean_parser_tokens)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/Chatgpt-i-system-/Chatgpt-i-system-/.factory-work/cycle-20260914T080816Z/velosearch/tests/test_engine.py\", line 125, in test_boolean_parser_tokens\n    self.assertEqual(len(tokens), 3)\nAssertionError: 4 != 3\n\n======================================================================\nFAIL: test_stemmer (test_engine.TestVeloSearchEngine.test_stemmer)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/Chatgpt-i-system-/Chatgpt-i-system-/.factory-work/cycle-20260914T080816Z/velosearch/tests/test_engine.py\", line 17, in test_stemmer\n    self.assertEqual(stem(\"easily\"), \"easili\")\nAssertionError: 'easily' != 'easili'\n- easily\n?      ^\n+ easili\n?      ^\n\n\n======================================================================\nFAIL: test_tokenizer (test_engine.TestVeloSearchEngine.test_tokenizer)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/Chatgpt-i-system-/Chatgpt-i-system-/.factory-work/cycle-20260914T080816Z/velosearch/tests/test_engine.py\", line 30, in test_tokenizer\n    self.assertIn(\"fox\", tokens)\nAssertionError: 'fox' not found in ['quick', 'brown', 'foxe', 'jump', 'over', '123', 'lazy', 'dog']\n\n----------------------------------------------------------------------\nRan 10 tests in 0.063s\n\nFAILED (failures=4)"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "test_bm25_indexing (test_engine.TestVeloSearchEngine.test_bm25_indexing) ... ok\ntest_boolean_filtering (test_engine.TestVeloSearchEngine.test_boolean_filtering) ... ok\ntest_boolean_parser_postfix (test_engine.TestVeloSearchEngine.test_boolean_parser_postfix) ... ok\ntest_boolean_parser_tokens (test_engine.TestVeloSearchEngine.test_boolean_parser_tokens) ... ok\ntest_deletions_and_updates (test_engine.TestVeloSearchEngine.test_deletions_and_updates) ... ok\ntest_lsh_indexing (test_engine.TestVeloSearchEngine.test_lsh_indexing) ... ok\ntest_malformed_inputs (test_engine.TestVeloSearchEngine.test_malformed_inputs) ... ok\ntest_rrf_fusion (test_engine.TestVeloSearchEngine.test_rrf_fusion) ... ok\ntest_stemmer (test_engine.TestVeloSearchEngine.test_stemmer) ... FAIL\ntest_tokenizer (test_engine.TestVeloSearchEngine.test_tokenizer) ... FAIL\n\n======================================================================\nFAIL: test_stemmer (test_engine.TestVeloSearchEngine.test_stemmer)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/Chatgpt-i-system-/Chatgpt-i-system-/.factory-work/cycle-20260914T080816Z/velosearch/tests/test_engine.py\", line 7, in test_stemmer\n    self.assertEqual(stem(\"easily\"), \"easili\")\nAssertionError: 'easi' != 'easili'\n- easi\n+ easili\n?     ++\n\n\n======================================================================\nFAIL: test_tokenizer (test_engine.TestVeloSearchEngine.test_tokenizer)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/Chatgpt-i-system-/Chatgpt-i-system-/.factory-work/cycle-20260914T080816Z/velosearch/tests/test_engine.py\", line 23, in test_tokenizer\n    self.assertIn(\"jump\", tokens)\nAssertionError: 'jump' not found in ['quick', 'brown', 'fox', 'jumps', 'over', '123', 'lazy', 'dogs']\n\n----------------------------------------------------------------------\nRan 10 tests in 0.002s\n\nFAILED (failures=2)"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 4,
+      "failure_classes": [
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "test_bm25_indexing (test_engine.TestVeloSearchEngine.test_bm25_indexing) ... FAIL\ntest_boolean_filtering (test_engine.TestVeloSearchEngine.test_boolean_filtering) ... ok\ntest_boolean_parser_postfix (test_engine.TestVeloSearchEngine.test_boolean_parser_postfix) ... ok\ntest_boolean_parser_tokens (test_engine.TestVeloSearchEngine.test_boolean_parser_tokens) ... ok\ntest_deletions_and_updates (test_engine.TestVeloSearchEngine.test_deletions_and_updates) ... ok\ntest_lsh_indexing (test_engine.TestVeloSearchEngine.test_lsh_indexing) ... ok\ntest_malformed_inputs (test_engine.TestVeloSearchEngine.test_malformed_inputs) ... ok\ntest_rrf_fusion (test_engine.TestVeloSearchEngine.test_rrf_fusion) ... ok\ntest_stemmer (test_engine.TestVeloSearchEngine.test_stemmer) ... FAIL\ntest_tokenizer (test_engine.TestVeloSearchEngine.test_tokenizer) ... ok\n\n======================================================================\nFAIL: test_bm25_indexing (test_engine.TestVeloSearchEngine.test_bm25_indexing)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/Chatgpt-i-system-/Chatgpt-i-system-/.factory-work/cycle-20260914T080816Z/velosearch/tests/test_engine.py\", line 105, in test_bm25_indexing\n    self.assertEqual(len(res), 2)\nAssertionError: 1 != 2\n\n======================================================================\nFAIL: test_stemmer (test_engine.TestVeloSearchEngine.test_stemmer)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/Chatgpt-i-system-/Chatgpt-i-system-/.factory-work/cycle-20260914T080816Z/velosearch/tests/test_engine.py\", line 10, in test_stemmer\n    self.assertEqual(stem(\"running\"), \"run\")\nAssertionError: 'runn' != 'run'\n- runn\n?    -\n+ run\n\n\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nFAILED (failures=2)"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "search-engine",
+    "keywords": [
+      "systems-engineering",
+      "hybrid-search",
+      "bm25",
+      "locality-sensitive-hashing",
+      "vector-database",
+      "reciprocal-rank-fusion"
+    ],
+    "major_features": [
+      "Inverted index builder with positional postings lists for phrase matching",
+      "Custom English Porter Stemmer and tokenizer implementing word normalization",
+      "Sparse BM25 scoring engine calculating term frequency and inverse document frequency",
+      "Dense vector index using Locality Sensitive Hashing (LSH) for high-dimensional cosine similarity",
+      "Reciprocal Rank Fusion (RRF) rank merger with configurable hyper-parameters",
+      "On-disk binary serialization layout with CRC32 integrity verification",
+      "Boolean query parser supporting nested AND, OR, and NOT operators",
+      "Dynamic document update and deletion mechanics updating both sparse and dense indexes in-place"
+    ],
+    "name": "VeloSearch",
+    "pain": "High latency, complex deployment setups, excessive memory bloat, and mismatched search results when trying to combine semantic vector search with exact keyword matching on local systems.",
+    "problem": "Standard vector databases are heavy and lack integrated lexical search, while traditional search engines require complex external services and fail to provide hybrid retrieval without substantial overhead.",
+    "slug": "velosearch",
+    "solution": "A zero-dependency hybrid vector-lexical search engine written in Python 3.12. It features a custom BM25 index, a custom Locality Sensitive Hashing (LSH) dense vector index, and a Reciprocal Rank Fusion (RRF) engine to combine semantic and keyword results.",
+    "target_user": "Data engineers and systems architects building lightweight local search solutions.",
+    "technology": "Python 3.12",
+    "verification": "Deterministic tests verifying index consistency under concurrency, zero-vector search queries, malformed text inputs, and exact RRF rank merging order using seeded random projections."
+  },
+  "slug": "velosearch",
+  "standalone_status": "PENDING",
+  "target_user": "Data engineers and systems architects building lightweight local search solutions.",
+  "technology": "Python 3.12",
+  "timestamp": "2026-09-14T08:08:16.890382+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-python architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "compileall",
+        "-q",
+        "src",
+        "tests"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_engine.py",
+        "-v"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "test_bm25_indexing (test_engine.TestVeloSearchEngine.test_bm25_indexing) ... ok\ntest_boolean_filtering (test_engine.TestVeloSearchEngine.test_boolean_filtering) ... ok\ntest_boolean_parser_postfix (test_engine.TestVeloSearchEngine.test_boolean_parser_postfix) ... ok\ntest_boolean_parser_tokens (test_engine.TestVeloSearchEngine.test_boolean_parser_tokens) ... ok\ntest_deletions_and_updates (test_engine.TestVeloSearchEngine.test_deletions_and_updates) ... ok\ntest_lsh_indexing (test_engine.TestVeloSearchEngine.test_lsh_indexing) ... ok\ntest_malformed_inputs (test_engine.TestVeloSearchEngine.test_malformed_inputs) ... ok\ntest_rrf_fusion (test_engine.TestVeloSearchEngine.test_rrf_fusion) ... ok\ntest_stemmer (test_engine.TestVeloSearchEngine.test_stemmer) ... ok\ntest_tokenizer (test_engine.TestVeloSearchEngine.test_tokenizer) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_integration.py",
+        "-v"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "test_end_to_end_flow (test_integration.TestVeloSearchIntegration.test_end_to_end_flow) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nOK"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "VeloSearch",
+  "slug": "velosearch",
+  "target_user": "Data engineers and systems architects building lightweight local search solutions.",
+  "problem": "Standard vector databases are heavy and lack integrated lexical search, while traditional search engines require complex external services and fail to provide hybrid retrieval without substantial overhead.",
+  "pain": "High latency, complex deployment setups, excessive memory bloat, and mismatched search results when trying to combine semantic vector search with exact keyword matching on local systems.",
+  "solution": "A zero-dependency hybrid vector-lexical search engine written in Python 3.12. It features a custom BM25 index, a custom Locality Sensitive Hashing (LSH) dense vector index, and a Reciprocal Rank Fusion (RRF) engine to combine semantic and keyword results.",
+  "verification": "Deterministic tests verifying index consistency under concurrency, zero-vector search queries, malformed text inputs, and exact RRF rank merging order using seeded random projections.",
+  "category": "search-engine",
+  "keywords": [
+    "systems-engineering",
+    "hybrid-search",
+    "bm25",
+    "locality-sensitive-hashing",
+    "vector-database",
+    "reciprocal-rank-fusion"
+  ],
+  "major_features": [
+    "Inverted index builder with positional postings lists for phrase matching",
+    "Custom English Porter Stemmer and tokenizer implementing word normalization",
+    "Sparse BM25 scoring engine calculating term frequency and inverse document frequency",
+    "Dense vector index using Locality Sensitive Hashing (LSH) for high-dimensional cosine similarity",
+    "Reciprocal Rank Fusion (RRF) rank merger with configurable hyper-parameters",
+    "On-disk binary serialization layout with CRC32 integrity verification",
+    "Boolean query parser supporting nested AND, OR, and NOT operators",
+    "Dynamic document update and deletion mechanics updating both sparse and dense indexes in-place"
+  ],
+  "technology": "Python 3.12",
+  "factory_profile": "systems-python",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

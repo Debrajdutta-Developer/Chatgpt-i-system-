@@ -490,5 +490,85 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "search-engine",
+    "commit_hash": null,
+    "cycle": "cycle-20260914T080816Z",
+    "date": "2026-09-14",
+    "keywords": [
+      "systems-engineering",
+      "hybrid-search",
+      "bm25",
+      "locality-sensitive-hashing",
+      "vector-database",
+      "reciprocal-rank-fusion"
+    ],
+    "major_features": [
+      "Inverted index builder with positional postings lists for phrase matching",
+      "Custom English Porter Stemmer and tokenizer implementing word normalization",
+      "Sparse BM25 scoring engine calculating term frequency and inverse document frequency",
+      "Dense vector index using Locality Sensitive Hashing (LSH) for high-dimensional cosine similarity",
+      "Reciprocal Rank Fusion (RRF) rank merger with configurable hyper-parameters",
+      "On-disk binary serialization layout with CRC32 integrity verification",
+      "Boolean query parser supporting nested AND, OR, and NOT operators",
+      "Dynamic document update and deletion mechanics updating both sparse and dense indexes in-place"
+    ],
+    "name": "VeloSearch",
+    "problem": "Standard vector databases are heavy and lack integrated lexical search, while traditional search engines require complex external services and fail to provide hybrid retrieval without substantial overhead.",
+    "purpose": "A zero-dependency hybrid vector-lexical search engine written in Python 3.12. It features a custom BM25 index, a custom Locality Sensitive Hashing (LSH) dense vector index, and a Reciprocal Rank Fusion (RRF) engine to combine semantic and keyword results.",
+    "quality_score": 100,
+    "report_path": "reports/2026-09-14-080816-velosearch.json",
+    "slug": "velosearch",
+    "technology": "Python 3.12",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "python",
+          "-m",
+          "compileall",
+          "-q",
+          "src",
+          "tests"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "python",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_engine.py",
+          "-v"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "python",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tests",
+          "-p",
+          "test_integration.py",
+          "-v"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]
