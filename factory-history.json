@@ -570,5 +570,79 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "database",
+    "commit_hash": null,
+    "cycle": "cycle-20260916T075621Z",
+    "date": "2026-09-16",
+    "keywords": [
+      "systems-engineering",
+      "columnar-storage",
+      "vectorized-execution",
+      "query-optimizer",
+      "compression-algorithms"
+    ],
+    "major_features": [
+      "Custom SQL lexer and AST parser supporting projection, filtering, and aggregate JOIN queries",
+      "Columnar binary file writer with run-length encoding (RLE) and dictionary compression schemes",
+      "Cost-Based Optimizer (CBO) translating ASTs to physical execution plans using catalog histograms",
+      "Physical execution engine implementing the Volcano Iterator model (open/next/close) over column chunks",
+      "Hybrid Hash Join and Sort-Merge Join algorithms operating directly on memory-mapped column buffers",
+      "Vectorized execution operator processing blocks of values to minimize virtual method call overhead",
+      "Dynamic transactional schema evolution engine supporting column addition, deletion, and renaming",
+      "Parallel column scan orchestrator utilizing Java 21 Virtual Threads for concurrent block retrieval"
+    ],
+    "name": "ColumnaDB",
+    "problem": "Row-oriented databases struggle with analytical aggregation queries (OLAP) because they must load entire rows into memory, wasting massive I/O bandwidth on unused columns.",
+    "purpose": "A zero-dependency columnar database engine written in Java 21. It implements custom binary storage structures, Run-Length Encoding (RLE), dictionary compression, a Cost-Based Optimizer (CBO) utilizing table statistics, and a Volcano-style vectorized execution model.",
+    "quality_score": 100,
+    "report_path": "reports/2026-09-16-075621-columnadb.json",
+    "slug": "columnadb",
+    "technology": "Java 21",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "javac",
+          "-Xlint:all",
+          "-Werror",
+          "-d",
+          "build/classes",
+          "src/main/java/factory/Core.java",
+          "src/main/java/factory/Main.java",
+          "src/test/java/factory/CoreTest.java",
+          "src/test/java/factory/IntegrationTest.java"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "java",
+          "-ea",
+          "-cp",
+          "build/classes",
+          "factory.CoreTest"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "java",
+          "-ea",
+          "-cp",
+          "build/classes",
+          "factory.IntegrationTest"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]

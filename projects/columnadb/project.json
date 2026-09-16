@@ -1,0 +1,31 @@
+{
+  "name": "ColumnaDB",
+  "slug": "columnadb",
+  "target_user": "Database engineers and systems architects building high-performance analytical query engines.",
+  "problem": "Row-oriented databases struggle with analytical aggregation queries (OLAP) because they must load entire rows into memory, wasting massive I/O bandwidth on unused columns.",
+  "pain": "Slow analytical reports, high memory overhead, and lack of fine-grained column serialization/compression options in standard embedded engines.",
+  "solution": "A zero-dependency columnar database engine written in Java 21. It implements custom binary storage structures, Run-Length Encoding (RLE), dictionary compression, a Cost-Based Optimizer (CBO) utilizing table statistics, and a Volcano-style vectorized execution model.",
+  "verification": "A deterministic test suite that generates synthetic multi-column tables, corrupts specific columnar blocks to test CRC32 integrity, executes nested queries, and asserts that the Cost-Based Optimizer selects the mathematically optimal physical join plan.",
+  "category": "database",
+  "keywords": [
+    "systems-engineering",
+    "columnar-storage",
+    "vectorized-execution",
+    "query-optimizer",
+    "compression-algorithms"
+  ],
+  "major_features": [
+    "Custom SQL lexer and AST parser supporting projection, filtering, and aggregate JOIN queries",
+    "Columnar binary file writer with run-length encoding (RLE) and dictionary compression schemes",
+    "Cost-Based Optimizer (CBO) translating ASTs to physical execution plans using catalog histograms",
+    "Physical execution engine implementing the Volcano Iterator model (open/next/close) over column chunks",
+    "Hybrid Hash Join and Sort-Merge Join algorithms operating directly on memory-mapped column buffers",
+    "Vectorized execution operator processing blocks of values to minimize virtual method call overhead",
+    "Dynamic transactional schema evolution engine supporting column addition, deletion, and renaming",
+    "Parallel column scan orchestrator utilizing Java 21 Virtual Threads for concurrent block retrieval"
+  ],
+  "technology": "Java 21",
+  "factory_profile": "systems-java",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

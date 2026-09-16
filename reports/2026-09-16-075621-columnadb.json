@@ -1,0 +1,349 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "columnar-storage",
+        "vectorized-execution",
+        "query-optimizer",
+        "compression-algorithms"
+      ],
+      "major_features": [
+        "Custom SQL lexer and AST parser supporting projection, filtering, and aggregate JOIN queries",
+        "Columnar binary file writer with run-length encoding (RLE) and dictionary compression schemes",
+        "Cost-Based Optimizer (CBO) translating ASTs to physical execution plans using catalog histograms",
+        "Physical execution engine implementing the Volcano Iterator model (open/next/close) over column chunks",
+        "Hybrid Hash Join and Sort-Merge Join algorithms operating directly on memory-mapped column buffers",
+        "Vectorized execution operator processing blocks of values to minimize virtual method call overhead",
+        "Dynamic transactional schema evolution engine supporting column addition, deletion, and renaming",
+        "Parallel column scan orchestrator utilizing Java 21 Virtual Threads for concurrent block retrieval"
+      ],
+      "name": "ColumnaDB",
+      "pain": "Slow analytical reports, high memory overhead, and lack of fine-grained column serialization/compression options in standard embedded engines.",
+      "problem": "Row-oriented databases struggle with analytical aggregation queries (OLAP) because they must load entire rows into memory, wasting massive I/O bandwidth on unused columns.",
+      "slug": "columnadb",
+      "solution": "A zero-dependency columnar database engine written in Java 21. It implements custom binary storage structures, Run-Length Encoding (RLE), dictionary compression, a Cost-Based Optimizer (CBO) utilizing table statistics, and a Volcano-style vectorized execution model.",
+      "target_user": "Database engineers and systems architects building high-performance analytical query engines.",
+      "technology": "Java 21",
+      "verification": "A deterministic test suite that generates synthetic multi-column tables, corrupts specific columnar blocks to test CRC32 integrity, executes nested queries, and asserts that the Cost-Based Optimizer selects the mathematically optimal physical join plan."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "userspace-network-stack",
+        "tcp-ip-protocol",
+        "congestion-control",
+        "sliding-window"
+      ],
+      "major_features": [
+        "Linux TUN/TAP virtual network interface driver for raw Ethernet frame reading and writing",
+        "ARP (Address Resolution Protocol) cache with automatic entry timeout, lookup, and request queueing",
+        "IPv4 packet parser and reassembler with TTL handling, options parsing, and header checksum validation",
+        "Complete RFC-compliant TCP state machine managing transitions (SYN, ESTABLISHED, FIN-WAIT, etc.)",
+        "Sliding window flow control adjusting dynamically based on receiver buffer advertisements",
+        "TCP Congestion Control engine implementing Slow Start, Congestion Avoidance, and Fast Retransmit (Tahoe/Reno)",
+        "Out-of-order packet reassembly queue utilizing a red-black tree for efficient sequence insertion",
+        "Virtual routing table supporting static routes, longest-prefix matching, and gateway redirects"
+      ],
+      "name": "NetStackC",
+      "pain": "Kernel panic risks when debugging network drivers, high overhead of virtualization, and inability to isolate packet loss scenarios deterministically.",
+      "problem": "Operating system network stacks are monolithic, hard to debug, and run in kernel space, making custom protocol prototyping and deterministic packet-level testing highly complex.",
+      "slug": "netstackc",
+      "solution": "A fully-featured userspace TCP/IP stack implemented in C11. It interfaces with a Linux TUN/TAP device to read/write raw Ethernet frames, parsing and managing ARP, IPv4, and a complete TCP state machine with custom sliding-window flow control and congestion management.",
+      "target_user": "Embedded systems developers and network security researchers studying low-level network protocol design.",
+      "technology": "C11",
+      "verification": "A deterministic packet injection harness that simulates random packet drops, byte duplication, out-of-order delivery, and corrupted checksums, verifying that the sliding window and congestion control engines converge to error-free state delivery."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "raft-consensus",
+        "actor-model",
+        "virtual-threads",
+        "fault-injection"
+      ],
+      "major_features": [
+        "Virtual-thread-backed Actor model runtime with non-blocking mailboxes and message-passing",
+        "Raft Consensus Protocol engine (Leader Election, Log Replication, Safety, and Joint Consensus membership changes)",
+        "Replicated Finite State Machine (FSM) engine with automated snapshotting and log compaction",
+        "Deterministic local network simulator simulating packet loss, asymmetric latency, and out-of-order delivery",
+        "Append-only binary log storage engine with CRC32 verification and crash-recovery logic",
+        "Dynamic cluster membership transition manager supporting single-server changes without service interruption",
+        "Jepsen-style chaos harness injecting split-brain partitions, leader crashes, and network partitions",
+        "Linearizable read-query engine utilizing lease reads to bypass log replication on read-only transactions"
+      ],
+      "name": "RaftActor",
+      "pain": "Hard-to-reproduce split-brain scenarios, silent data corruption during leader transitions, and heavy thread-context switching overhead under high concurrent loads.",
+      "problem": "Distributed consensus engines like ZooKeeper or Consul are complex to deploy, while standard Raft libraries hide state transitions, making it hard to inject deterministic partition faults for testing.",
+      "slug": "raftactor",
+      "solution": "A lightweight, local-first distributed consensus and actor runtime written in Java 21. It uses Virtual Threads to run hundreds of independent actors communicating via lock-free mailboxes, coordinating a replicated state machine via an in-memory implementation of the Raft consensus protocol.",
+      "target_user": "Distributed systems engineers requiring a highly testable, fault-tolerant consensus layer without heavy external infrastructure.",
+      "technology": "Java 21",
+      "verification": "A Jepsen-style fault injection harness that simulates asymmetric network partitions, clock drift, and node crashes over local loopback interfaces, asserting that the cluster consistently maintains linearizability."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "reinforcement-learning",
+        "scheduler",
+        "neural-network-from-scratch",
+        "resource-allocation"
+      ],
+      "major_features": [
+        "Custom matrix and tensor operations library implemented in pure Python (no NumPy) with backpropagation",
+        "Deep Q-Network (DQN) engine with experience replay buffer and target network synchronization",
+        "Multi-core CPU and memory allocator simulator generating dynamic, realistic scheduling workloads",
+        "Strict Sandboxed Action Interpreter validating agent decisions against hard safety boundaries (e.g., thermal limits)",
+        "Feedback loop adapter converting system throughput, latency, and cache-miss metrics into scalar rewards",
+        "Normalized state-space encoder transforming raw hardware metrics into optimized neural network input tensors",
+        "Deterministic offline replay system for replaying historical workload traces to evaluate policy drift",
+        "Policy serialization and rollback module reverting weights if real-time performance drops below a baseline threshold"
+      ],
+      "name": "NeuroSched",
+      "pain": "High latency spikes in multi-tenant environments, manual parameter tuning cycles, and lack of safe, isolated runtime adaptation mechanisms.",
+      "problem": "Static heuristic schedulers (like round-robin or priority queues) fail to adapt to dynamic, heterogeneous system workloads, leading to CPU starvation or resource underutilization.",
+      "slug": "neurosched",
+      "solution": "A safe, zero-dependency local reinforcement learning agent for resource scheduling implemented in Python 3.12. It features a custom tensor-math and neural-network library written from scratch, training an agent via Q-learning to optimize CPU/Memory task allocations in a simulated multi-core system.",
+      "target_user": "Systems software engineers and researchers designing self-optimizing runtimes and operating system schedulers.",
+      "technology": "Python 3.12",
+      "verification": "An offline training simulator that runs deterministic workloads, asserts that the agent never executes illegal/unsafe states, and verifies that the policy converges to a scheduling efficiency within 5% of a mathematical optimum."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "version-control",
+        "content-addressable-storage",
+        "diff-algorithm",
+        "three-way-merge"
+      ],
+      "major_features": [
+        "Custom SHA-1 content-addressable storage engine mapping files to hashed directory paths",
+        "Binary object serializer implementing a lightweight LZW compression codec for blob storage",
+        "Index (staging area) parser and writer supporting state tracking, file metadata, and conflict markers",
+        "Directed Acyclic Graph (DAG) commit traverser detecting ancestor relationships and finding common merge bases",
+        "Myers' O(ND) difference algorithm producing line-level patches between arbitrary file versions",
+        "Three-way merge engine (diff3 equivalent) resolving non-overlapping edits and flagging overlapping conflicts",
+        "Packfile generator compiling multiple loose blobs into unified delta-compressed archives with binary indexes",
+        "Transactional ref-manager ensuring branch, tag, and HEAD updates are atomic and resilient to crashes"
+      ],
+      "name": "GitLite",
+      "pain": "High resource overhead of executing external processes, difficulty in programmatically managing merge conflicts, and opaque binary packfile structures.",
+      "problem": "Standard Git is a complex, heavy binary with an extensive C footprint, making it difficult to embed in custom environments, run deterministically in memory, or audit for security compliance.",
+      "slug": "gitlite",
+      "solution": "A complete, low-level, Git-compatible content-addressable version control system written in C11. It implements a custom SHA-1 filesystem store, delta-compression packing, Myers' O(ND) diffing, and a three-way merge engine.",
+      "target_user": "Systems programmers, DevOps engineers, and tool builders who want to embed lightweight, custom version control workflows directly into their applications.",
+      "technology": "C11",
+      "verification": "A deterministic test harness creating highly complex branching topologies, executing concurrent merges, injecting corrupted/truncated object files, and asserting that the diff/merge engine resolves conflicts identically to canonical Git."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20260916T075621Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/main/java/factory/Core.java",
+    "src/main/java/factory/Main.java",
+    "src/test/java/factory/CoreTest.java",
+    "src/test/java/factory/IntegrationTest.java"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Row-oriented databases struggle with analytical aggregation queries (OLAP) because they must load entire rows into memory, wasting massive I/O bandwidth on unused columns.",
+  "project_name": "ColumnaDB",
+  "project_path": "projects/columnadb",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:418: warning: [serial] serializable class ColumnSchema has no definition of serialVersionUID\n    public static class ColumnSchema implements Serializable {\n                  ^\nsrc/main/java/factory/Core.java:428: warning: [serial] serializable class TableSchema has no definition of serialVersionUID\n    public static class TableSchema implements Serializable {\n                  ^\nsrc/main/java/factory/Core.java:430: warning: [serial] non-transient instance field of a serializable class declared with a non-serializable type\n        public List<ColumnSchema> columns = new ArrayList<>();\n                                  ^\nsrc/main/java/factory/Core.java:517: warning: [unchecked] unchecked call to compareTo(T) as a member of the raw type Comparable\n                    if (((Comparable) vals[i - 1]).compareTo(vals[i]) > 0) {\n                                                            ^\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nsrc/main/java/factory/Core.java:913: warning: [rawtypes] found raw type: Comparable\n                Comparable k1 = (Comparable) r1.get(leftKey);\n                ^\n  missing type arguments for generic class Comparable<T>\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nsrc/main/java/factory/Core.java:914: warning: [rawtypes] found raw type: Comparable\n                Comparable k2 = (Comparable) r2.get(leftKey);\n                ^\n  missing type arguments for generic class Comparable<T>\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nsrc/main/java/factory/Core.java:918: warning: [unchecked] unchecked call to compareTo(T) as a member of the raw type Comparable\n                return k1.compareTo(k2);\n                                   ^\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nsrc/main/java/factory/Core.java:921: warning: [rawtypes] found raw type: Comparable\n                Comparable k1 = (Comparable) r1.get(rightKey);\n                ^\n  missing type arguments for generic class Comparable<T>\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nsrc/main/java/factory/Core.java:922: warning: [rawtypes] found raw type: Comparable\n                Comparable k2 = (Comparable) r2.get(rightKey);\n                ^\n  missing type arguments for generic class Comparable<T>\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nsrc/main/java/factory/Core.java:926: warning: [unchecked] unchecked call to compareTo(T) as a member of the raw type Comparable\n                return k1.compareTo(k2);\n                                   ^\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nsrc/main/java/factory/Core.java:940: warning: [rawtypes] found raw type: Comparable\n                Comparable lKey = (Comparable) lRow.get(leftKey);\n                ^\n  missing type arguments for generic class Comparable<T>\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nsrc/main/java/factory/Core.java:942: warning: [rawtypes] found raw type: Comparable\n                Comparable rKey = (Comparable) rRow.get(rightKey);\n                ^\n  missing type arguments for generic class Comparable<T>\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nsrc/main/java/factory/Core.java:948: warning: [unchecked] unchecked call to compareTo(T) as a member of the raw type Comparable\n                int cmp = lKey.compareTo(rKey);\n                                        ^\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nsrc/main/java/factory/Core.java:957: warning: [rawtypes] found raw type: Comparable\n                        Comparable tempRKey = (Comparable) tempRRow.get(rightKey);\n                        ^\n  missing type arguments for generic class Comparable<T>\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nsrc/main/java/factory/Core.java:958: warning: [unchecked] unchecked call to compareTo(T) as a member of the raw type Comparable\n                        if (tempRKey != null && tempRKey.compareTo(lKey) == 0) {\n                                                                  ^\n  where T is a type-variable:\n    T extends Object declared in interface Comparable\nerror: warnings found and -Werror specified\n1 error\n15 warnings"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:31: warning: [serial] non-transient instance field of a serializable class declared with a non-serializable type\n        public List<ColumnSchema> columns = new ArrayList<>();\n                                  ^\nerror: warnings found and -Werror specified\n1 error\n1 warning"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:32: warning: [serial] non-transient instance field of a serializable class declared with a non-serializable type\n        public List<ColumnSchema> columns = new ArrayList<>();\n                                  ^\nerror: warnings found and -Werror specified\nsrc/main/java/factory/Main.java:28: error: cannot find symbol\n            List<BlockMeta> metas = writer.writeColumn(data, Core.CompressionType.RLE);\n                 ^\n  symbol:   class BlockMeta\n  location: class Main\nsrc/main/java/factory/Main.java:44: error: cannot find symbol\n            VectorBlock vb;\n            ^\n  symbol:   class VectorBlock\n  location: class Main\nsrc/test/java/factory/CoreTest.java:39: error: cannot find symbol\n            List<BlockMeta> metas = writer.writeColumn(inputData, Core.CompressionType.NONE);\n                 ^\n  symbol:   class BlockMeta\n  location: class CoreTest\nsrc/test/java/factory/IntegrationTest.java:45: error: cannot find symbol\n            List<BlockMeta> metas = writer.writeColumn(orderIds, Core.CompressionType.NONE);\n                 ^\n  symbol:   class BlockMeta\n  location: class IntegrationTest\nsrc/test/java/factory/IntegrationTest.java:57: error: cannot find symbol\n            VectorBlock vb = filterOp.next();\n            ^\n  symbol:   class VectorBlock\n  location: class IntegrationTest\n6 errors\n1 warning"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 4,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:34: warning: [serial] non-transient instance field of a serializable class declared with a non-serializable type\n        public List<ColumnSchema> columns = new ArrayList<>();\n                                  ^\nerror: warnings found and -Werror specified\nsrc/main/java/factory/Main.java:21: error: cannot find symbol\n            List<Object> amounts = Arrays.invokeLater ? Arrays.asList(100.5, 200.0, 100.5, 350.75, 200.0) : Arrays.asList(100.5, 200.0, 100.5, 350.75, 200.0);\n                                         ^\n  symbol:   variable invokeLater\n  location: class Arrays\n2 errors\n1 warning"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 5,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Main.java:42: error: cannot find symbol\n            disk.put(\"sales.id\", serializeColumn(\"id\", DataType.INT, salesIds, CompressionType.NONE));\n                                 ^\n  symbol:   method serializeColumn(String,DataType,List<Object>,CompressionType)\n  location: class Main\nsrc/main/java/factory/Main.java:43: error: cannot find symbol\n            disk.put(\"sales.product_id\", serializeColumn(\"product_id\", DataType.INT, salesProductIds, CompressionType.NONE));\n                                         ^\n  symbol:   method serializeColumn(String,DataType,List<Object>,CompressionType)\n  location: class Main\nsrc/main/java/factory/Main.java:44: error: cannot find symbol\n            disk.put(\"sales.amount\", serializeColumn(\"amount\", DataType.INT, salesAmounts, CompressionType.NONE));\n                                     ^\n  symbol:   method serializeColumn(String,DataType,List<Object>,CompressionType)\n  location: class Main\nsrc/main/java/factory/Main.java:45: error: cannot find symbol\n            disk.put(\"sales.region\", serializeColumn(\"region\", DataType.VARCHAR, salesRegions, CompressionType.RLE));\n                                     ^\n  symbol:   method serializeColumn(String,DataType,List<Object>,CompressionType)\n  location: class Main\nsrc/main/java/factory/Main.java:47: error: cannot find symbol\n            disk.put(\"products.id\", serializeColumn(\"id\", DataType.INT, productIds, CompressionType.NONE));\n                                    ^\n  symbol:   method serializeColumn(String,DataType,List<Object>,CompressionType)\n  location: class Main\nsrc/main/java/factory/Main.java:48: error: cannot find symbol\n            disk.put(\"products.name\", serializeColumn(\"name\", DataType.VARCHAR, productNames, CompressionType.DICTIONARY));\n                                      ^\n  symbol:   method serializeColumn(String,DataType,List<Object>,CompressionType)\n  location: class Main\nsrc/main/java/factory/Main.java:76: error: cannot find symbol\n        List<Token> tokens = tokenize(sql);\n                             ^\n  symbol:   method tokenize(String)\n  location: class Main\nsrc/main/java/factory/Main.java:116: error: cannot find symbol\n            SelectQuery evolvedQuery = new Parser(tokenize(evolvedSql)).parse();\n                                                  ^\n  symbol:   method tokenize(String)\n  location: class Main\nsrc/test/java/factory/CoreTest.java:43: warning: [lossy-conversions] implicit cast from int to byte in compound assignment is possibly lossy\n        corruptedBytes[corruptedBytes.length - 1] ^= 0xFF;\n                                                     ^\nsrc/test/java/factory/IntegrationTest.java:38: error: cannot find symbol\n        disk.put(\"users.id\", serializeColumn(\"id\", DataType.INT, List.of(1, 2, 3), CompressionType.NONE));\n                             ^\n  symbol:   method serializeColumn(String,DataType,List<Integer>,CompressionType)\n  location: class IntegrationTest\nsrc/test/java/factory/IntegrationTest.java:39: error: cannot find symbol\n        disk.put(\"users.name\", serializeColumn(\"name\", DataType.VARCHAR, List.of(\"Alice\", \"Bob\", \"Charlie\"), CompressionType.DICTIONARY));\n                               ^\n  symbol:   method serializeColumn(String,DataType,List<String>,CompressionType)\n  location: class IntegrationTest\nsrc/test/java/factory/IntegrationTest.java:40: error: cannot find symbol\n        disk.put(\"users.age\", serializeColumn(\"age\", DataType.INT, List.of(25, 30, 35), CompressionType.NONE));\n                              ^\n  symbol:   method serializeColumn(String,DataType,List<Integer>,CompressionType)\n  location: class IntegrationTest\nsrc/test/java/factory/IntegrationTest.java:42: error: cannot find symbol\n        disk.put(\"orders.id\", serializeColumn(\"id\", DataType.INT, List.of(10, 20, 30, 40), CompressionType.NONE));\n                              ^\n  symbol:   method serializeColumn(String,DataType,List<Integer>,CompressionType)\n  location: class IntegrationTest\nsrc/test/java/factory/IntegrationTest.java:43: error: cannot find symbol\n        disk.put(\"orders.user_id\", serializeColumn(\"user_id\", DataType.INT, List.of(1, 2, 1, 3), CompressionType.NONE));\n                                   ^\n  symbol:   method serializeColumn(String,DataType,List<Integer>,CompressionType)\n  location: class IntegrationTest\nsrc/test/java/factory/IntegrationTest.java:44: error: cannot find symbol\n        disk.put(\"orders.price\", serializeColumn(\"price\", DataType.INT, List.of(100, 200, 150, 300), CompressionType.NONE));\n                                 ^\n  symbol:   method serializeColumn(String,DataType,List<Integer>,CompressionType)\n  location: class IntegrationTest\nsrc/test/java/factory/IntegrationTest.java:58: error: cannot find symbol\n        List<Token> tokens = tokenize(sql);\n                             ^\n  symbol:   method tokenize(String)\n  location: class IntegrationTest\n15 errors\n1 warning"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 6,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/test/java/factory/CoreTest.java:48: warning: [lossy-conversions] implicit cast from int to byte in compound assignment is possibly lossy\n            rleBlock.rawData[0] ^= 0xFF; // Corrupt raw byte\n                                   ^\nerror: warnings found and -Werror specified\n1 error\n1 warning"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 7,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/test/java/factory/CoreTest.java:87: error: cannot find symbol\n            ByteBuffer.wrap(rawScanBytes).asIntBuffer().put(scanData);\n            ^\n  symbol:   variable ByteBuffer\n  location: class CoreTest\n1 error"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "database",
+    "keywords": [
+      "systems-engineering",
+      "columnar-storage",
+      "vectorized-execution",
+      "query-optimizer",
+      "compression-algorithms"
+    ],
+    "major_features": [
+      "Custom SQL lexer and AST parser supporting projection, filtering, and aggregate JOIN queries",
+      "Columnar binary file writer with run-length encoding (RLE) and dictionary compression schemes",
+      "Cost-Based Optimizer (CBO) translating ASTs to physical execution plans using catalog histograms",
+      "Physical execution engine implementing the Volcano Iterator model (open/next/close) over column chunks",
+      "Hybrid Hash Join and Sort-Merge Join algorithms operating directly on memory-mapped column buffers",
+      "Vectorized execution operator processing blocks of values to minimize virtual method call overhead",
+      "Dynamic transactional schema evolution engine supporting column addition, deletion, and renaming",
+      "Parallel column scan orchestrator utilizing Java 21 Virtual Threads for concurrent block retrieval"
+    ],
+    "name": "ColumnaDB",
+    "pain": "Slow analytical reports, high memory overhead, and lack of fine-grained column serialization/compression options in standard embedded engines.",
+    "problem": "Row-oriented databases struggle with analytical aggregation queries (OLAP) because they must load entire rows into memory, wasting massive I/O bandwidth on unused columns.",
+    "slug": "columnadb",
+    "solution": "A zero-dependency columnar database engine written in Java 21. It implements custom binary storage structures, Run-Length Encoding (RLE), dictionary compression, a Cost-Based Optimizer (CBO) utilizing table statistics, and a Volcano-style vectorized execution model.",
+    "target_user": "Database engineers and systems architects building high-performance analytical query engines.",
+    "technology": "Java 21",
+    "verification": "A deterministic test suite that generates synthetic multi-column tables, corrupts specific columnar blocks to test CRC32 integrity, executes nested queries, and asserts that the Cost-Based Optimizer selects the mathematically optimal physical join plan."
+  },
+  "slug": "columnadb",
+  "standalone_status": "PENDING",
+  "target_user": "Database engineers and systems architects building high-performance analytical query engines.",
+  "technology": "Java 21",
+  "timestamp": "2026-09-16T07:56:21.730242+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-java architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "javac",
+        "-Xlint:all",
+        "-Werror",
+        "-d",
+        "build/classes",
+        "src/main/java/factory/Core.java",
+        "src/main/java/factory/Main.java",
+        "src/test/java/factory/CoreTest.java",
+        "src/test/java/factory/IntegrationTest.java"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.CoreTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running CoreTest Suite...\n  [PASS] RLE encoding and decoding roundtrip preserves exact values\n  [PASS] RLE handles empty array inputs correctly\n  [PASS] CRC32 checksum verifies untampered byte arrays successfully\n  [PASS] CRC32 checksum detects data tampering and corruption\n  [PASS] Storage engine writes and reads column segments with integrity\n  [PASS] SQL Parser correctly extracts table name\n  [PASS] SQL Parser correctly extracts projection column count\n  [PASS] SQL Parser correctly extracts WHERE filter column\n  [PASS] SQL Parser correctly extracts WHERE filter integer value\n  [PASS] CBO selects smaller table as build side for Hash Join\nCoreTest completed successfully. Total assertions passed: 10"
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.IntegrationTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running IntegrationTest Suite...\n  [INTEGRATION PASS] Successfully generated and stored multi-column analytical dataset\n  [INTEGRATION PASS] Vector scanner successfully retrieved first batch\n  [INTEGRATION PASS] Vector batch respects maximum batch size limit of 1024\n  [INTEGRATION PASS] Vector batch data element 0 is correct\n  [INTEGRATION PASS] Vector batch data element 1023 is correct\n  [INTEGRATION PASS] Vector scanner successfully retrieved second batch\n  [INTEGRATION PASS] Second vector batch contains remaining rows\n  [INTEGRATION PASS] Second vector batch data element starts at index 1024\n  [INTEGRATION PASS] Vector scanner returns null after end of stream\n  [INTEGRATION PASS] Storage engine successfully triggers integrity check failure on corrupted segment\n  [INTEGRATION PASS] CBO correctly adjusts build side when table statistics change\nIntegrationTest completed successfully. Total checks passed: 11"
+    }
+  ]
+}

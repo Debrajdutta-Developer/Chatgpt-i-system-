@@ -1,0 +1,10 @@
+build/
+__pycache__/
+*.py[cod]
+*.class
+*.o
+*.out
+*.db
+*.sqlite
+*.sqlite3
+.factory-work/
