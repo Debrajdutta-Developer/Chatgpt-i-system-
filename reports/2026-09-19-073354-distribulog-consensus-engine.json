@@ -1,0 +1,305 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "distributed-systems",
+        "consensus-algorithm",
+        "raft",
+        "virtual-threads",
+        "replicated-log"
+      ],
+      "major_features": [
+        "Leader election with randomized election timeouts managed by Java 21 Virtual Threads.",
+        "Log replication with index and term matching rules to enforce consensus agreement.",
+        "On-disk binary commit-log format featuring CRC32 checksum validation for corruption detection.",
+        "Zero-copy transfer implementation utilizing NIO FileChannel and SocketChannel primitives.",
+        "State machine replication loop executing basic key-value operations deterministically.",
+        "Cluster membership change protocol supporting joint consensus for dynamic node configuration.",
+        "Log compaction and snapshotting engine to prevent infinite log growth on disk.",
+        "Dynamic network partition injector simulating packet loss, reordering, and socket delays locally."
+      ],
+      "name": "DistribuLog",
+      "pain": "Late-stage failures in consensus state transition, high CPU overhead from standard thread-per-connection models, and data corruption during network partitions.",
+      "problem": "Traditional distributed logs rely on heavy external runtimes (like ZooKeeper) and struggle with high-throughput, low-latency replication on modern multi-core hardware.",
+      "slug": "distribulog-consensus-engine",
+      "solution": "A zero-dependency, local-consensus replicated write-ahead log using Java 21 Virtual Threads. It implements a custom raft-like consensus protocol over loopback TCP sockets, utilizing non-blocking SocketChannels and on-disk binary log structures.",
+      "target_user": "Infrastructure engineers building high-availability state stores and distributed messaging fabrics.",
+      "technology": "Java 21",
+      "verification": "A deterministic testing harness that injects network partitions, message delays, and disk write failures while asserting log consistency across 3 local nodes using strict Jepsen-style linearizability checks."
+    },
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "stream-processing",
+        "complex-event-processing",
+        "temporal-query",
+        "coroutines",
+        "sliding-windows"
+      ],
+      "major_features": [
+        "Temporal query parser supporting continuous SELECT STREAM queries with dynamic WINDOW clauses.",
+        "Tumbling and sliding window managers supporting event-time and processing-time semantics.",
+        "Watermark generation engine tracking event-time progress and handling out-of-order data.",
+        "Pattern matching engine supporting regular-expression-like sequences over data streams (e.g., A followed by B).",
+        "Vectorized micro-batch accumulator optimizing memory layout and processing execution.",
+        "Dynamic query graph compiler translating AST nodes into an active pipeline of Python generators.",
+        "Cooperative backpressure controller utilizing asyncio queues to manage producer flow.",
+        "On-disk state checkpointing mechanism enabling fault-tolerant stream recovery from recorded logs."
+      ],
+      "name": "HydroQuery",
+      "pain": "High latency, out-of-order data arrival breaking aggregation windows, and lack of deterministic debugging for complex temporal patterns.",
+      "problem": "Stream processing frameworks are resource-heavy, complex to deploy, and hard to test deterministically on local developer machines.",
+      "slug": "hydroquery-stream-engine",
+      "solution": "A zero-dependency, local complex event processing (CEP) engine in Python 3.12. It compiles declarative temporal queries into a cooperative coroutine pipeline that handles sliding/tumbling windows, watermarks, and state checkpointing.",
+      "target_user": "Data platform engineers processing real-time telemetry, clickstreams, or IoT data locally without heavy Spark/Flink clusters.",
+      "technology": "Python 3.12",
+      "verification": "Deterministic unit tests injecting out-of-order timestamps and late-arriving events, verifying that watermarks trigger window closing and aggregations exactly match mathematical invariants."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "memory-allocator",
+        "shadow-memory",
+        "elf-parser",
+        "stack-unwinding",
+        "heap-profiler"
+      ],
+      "major_features": [
+        "Thread-safe shadow memory bitmap tracking allocation boundaries and poison zones.",
+        "Interception layer overriding standard memory management calls with atomic telemetry hooks.",
+        "On-the-fly ELF and DWARF symbol table parser resolving instruction addresses to source locations.",
+        "Custom frame-pointer stack unwinder running without external library dependencies to prevent deadlocks.",
+        "Real-time memory leak detection engine reporting unreferenced allocations on program termination.",
+        "Use-after-free detector utilizing a quarantine buffer that delays block reuse and invalidates memory pages.",
+        "Dynamic heap fragmentation visualizer outputting ANSI terminal-based memory allocation heatmaps.",
+        "Deterministic fault-injection harness simulating hardware memory exhaustion on configurable allocation cycles."
+      ],
+      "name": "MemSentry",
+      "pain": "Debugging segmentation faults hours after the actual corruption occurred, and high overhead of dynamic binary instrumentation tools during development.",
+      "problem": "C memory management is notoriously error-prone, leading to silent heap corruptions, use-after-free bugs, and hard-to-trace memory leaks.",
+      "slug": "memsentry-allocator-profiler",
+      "solution": "A zero-dependency, thread-safe memory allocator wrapper and dynamic heap profiler in C11. It intercepts allocations, builds a shadow memory map to detect overflows, and implements custom stack unwinding and ELF parsing for real-time telemetry.",
+      "target_user": "Systems programmers writing high-performance C applications who need to detect memory bugs without the massive slowdown of Valgrind.",
+      "technology": "C11",
+      "verification": "Integration tests that deliberately run malformed memory operations (e.g., writing 1 byte past a malloc block, double-freeing, missing free) and assert that MemSentry deterministically captures the exact line number and aborts safely."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "reinforcement-learning",
+        "dqn",
+        "neural-network",
+        "safety-shield",
+        "local-agent"
+      ],
+      "major_features": [
+        "Pure Python feedforward neural network with customizable layer architecture, weights, and biases.",
+        "Backpropagation engine with SGD and Adam optimizer variants implemented from scratch using only standard math libraries.",
+        "Experience replay buffer with prioritized sweeping based on temporal-difference (TD) errors.",
+        "Epsilon-greedy exploration decay scheduler with explicit local feedback evaluation loops.",
+        "Hardcoded deterministic safety shield that intercepts agent actions and overrides them if they violate constraints.",
+        "Binary model serialization format saving and loading checkpoints with SHA-256 integrity verification.",
+        "Real-time performance metric tracker monitoring loss convergence and policy stability over local runs.",
+        "Custom environment simulator modeling dynamic, state-based resource constraints (e.g., CPU/memory scheduling)."
+      ],
+      "name": "NeuralForge",
+      "pain": "Unbounded exploratory actions of learning agents during training that violate safety constraints, and heavy dependencies on massive ML frameworks.",
+      "problem": "Modern reinforcement learning models are too resource-intensive to run locally without specialized hardware and can take unpredictable actions that damage physical equipment.",
+      "slug": "neuralforge-safe-rl-agent",
+      "solution": "A safe, zero-dependency reinforcement learning engine in Python 3.12. It implements a feedforward neural network and Deep Q-Network (DQN) from scratch, wrapping the agent's action space in a hardcoded deterministic safety shield.",
+      "target_user": "Embedded systems and robotics developers requiring intelligent, local control policies that must never violate physical safety boundaries.",
+      "technology": "Python 3.12",
+      "verification": "Deterministic evaluation scripts with static feedback loops that test the agent in a simulated constrained grid-world, ensuring that 100% of unsafe actions are successfully intercepted and overridden by the safety shield."
+    },
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "graph-database",
+        "index-free-adjacency",
+        "acid-transactions",
+        "virtual-threads",
+        "graph-traversal"
+      ],
+      "major_features": [
+        "Index-free adjacency storage layout mapping nodes, edges, and properties directly to binary files using byte pointers.",
+        "Graph query parser supporting match patterns, node filtering, and edge-directed traversals.",
+        "ACID Transaction manager with write-ahead logging (WAL) and strict two-phase locking (2PL) for nodes and edges.",
+        "Parallel graph traversal engine utilizing Java 21 Virtual Threads to run multi-threaded BFS/DFS traversals.",
+        "Dynamic property-index engine (B+ Tree) for quickly locating starting nodes by property values.",
+        "Custom Page Cache with LRU eviction policy managing memory-mapped file buffers.",
+        "Shortest-path solver implementing Dijkstra's algorithm directly over the binary storage layout.",
+        "Schema-free property storage using dynamic byte-packing for heterogeneous attributes."
+      ],
+      "name": "SynapseDB",
+      "pain": "Query latency spikes when traversing relationships beyond 3 degrees of separation, and risk of data corruption during concurrent writes on dynamic graphs.",
+      "problem": "Relational databases require expensive recursive JOIN operations to traverse graphs, while existing graph databases are heavy, JVM-bloated, or non-transactional.",
+      "slug": "synapsedb-graph-engine",
+      "solution": "A zero-dependency, embedded Graph Database Engine in Java 21. It implements index-free adjacency storage, a custom declarative traversal language, dynamic property serialization, and multi-threaded traversals using Virtual Threads.",
+      "target_user": "Software architects processing deeply nested social networks, fraud rings, or dependency graphs locally.",
+      "technology": "Java 21",
+      "verification": "Concurrent execution tests simulating hundreds of write transactions alongside parallel deep graph traversals (BFS/DFS), verifying ACID compliance via write-ahead log recovery and asserting correct traversal results."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20260919T073354Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/main/java/factory/Core.java",
+    "src/main/java/factory/Main.java",
+    "src/test/java/factory/CoreTest.java",
+    "src/test/java/factory/IntegrationTest.java"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Traditional distributed logs rely on heavy external runtimes (like ZooKeeper) and struggle with high-throughput, low-latency replication on modern multi-core hardware.",
+  "project_name": "DistribuLog",
+  "project_path": "projects/distribulog-consensus-engine",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:32: warning: [this-escape] possible 'this' escape before subclass is fully initialized\n            this.crc = calculateCRC();\n                                   ^\nerror: warnings found and -Werror specified\nsrc/main/java/factory/Main.java:56: error: processRequest(String) has private access in ConsensusEngine\n                String resp1 = leader.processRequest(\"CLIENT_REQ:PUT:user_1:Alice\");\n                                     ^\nsrc/main/java/factory/Main.java:57: error: processRequest(String) has private access in ConsensusEngine\n                String resp2 = leader.processRequest(\"CLIENT_REQ:PUT:user_2:Bob\");\n                                     ^\nsrc/test/java/factory/IntegrationTest.java:62: error: processRequest(String) has private access in ConsensusEngine\n            String resp = leader.processRequest(\"CLIENT_REQ:PUT:testKey:testVal\");\n                                ^\nsrc/test/java/factory/IntegrationTest.java:104: error: processRequest(String) has private access in ConsensusEngine\n            String resp2 = newLeader.processRequest(\"CLIENT_REQ:PUT:partitionKey:partitionVal\");\n                                    ^\n5 errors\n1 warning"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:15: warning: [serial] serializable class LogEntry has no definition of serialVersionUID\n    public static class LogEntry implements Serializable {\n                  ^\nerror: warnings found and -Werror specified\n1 error\n1 warning"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "systems-tool",
+    "keywords": [
+      "systems-engineering",
+      "distributed-systems",
+      "consensus-algorithm",
+      "raft",
+      "virtual-threads",
+      "replicated-log"
+    ],
+    "major_features": [
+      "Leader election with randomized election timeouts managed by Java 21 Virtual Threads.",
+      "Log replication with index and term matching rules to enforce consensus agreement.",
+      "On-disk binary commit-log format featuring CRC32 checksum validation for corruption detection.",
+      "Zero-copy transfer implementation utilizing NIO FileChannel and SocketChannel primitives.",
+      "State machine replication loop executing basic key-value operations deterministically.",
+      "Cluster membership change protocol supporting joint consensus for dynamic node configuration.",
+      "Log compaction and snapshotting engine to prevent infinite log growth on disk.",
+      "Dynamic network partition injector simulating packet loss, reordering, and socket delays locally."
+    ],
+    "name": "DistribuLog",
+    "pain": "Late-stage failures in consensus state transition, high CPU overhead from standard thread-per-connection models, and data corruption during network partitions.",
+    "problem": "Traditional distributed logs rely on heavy external runtimes (like ZooKeeper) and struggle with high-throughput, low-latency replication on modern multi-core hardware.",
+    "slug": "distribulog-consensus-engine",
+    "solution": "A zero-dependency, local-consensus replicated write-ahead log using Java 21 Virtual Threads. It implements a custom raft-like consensus protocol over loopback TCP sockets, utilizing non-blocking SocketChannels and on-disk binary log structures.",
+    "target_user": "Infrastructure engineers building high-availability state stores and distributed messaging fabrics.",
+    "technology": "Java 21",
+    "verification": "A deterministic testing harness that injects network partitions, message delays, and disk write failures while asserting log consistency across 3 local nodes using strict Jepsen-style linearizability checks."
+  },
+  "slug": "distribulog-consensus-engine",
+  "standalone_status": "PENDING",
+  "target_user": "Infrastructure engineers building high-availability state stores and distributed messaging fabrics.",
+  "technology": "Java 21",
+  "timestamp": "2026-09-19T07:33:54.717137+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-java architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "javac",
+        "-Xlint:all",
+        "-Werror",
+        "-d",
+        "build/classes",
+        "src/main/java/factory/Core.java",
+        "src/main/java/factory/Main.java",
+        "src/test/java/factory/CoreTest.java",
+        "src/test/java/factory/IntegrationTest.java"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.CoreTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running CoreTest unit assertions...\n[PASS] LogEntry term must be correctly initialized\n[PASS] LogEntry index must be correctly initialized\n[PASS] LogEntry command must be correctly initialized\n[PASS] WAL must successfully append and read back 1 entry\n[PASS] WAL replayed entry term must match original\n[PASS] WAL replayed entry index must match original\n[PASS] WAL replayed entry command must match original\n[PASS] WAL must contain 2 entries before truncation\n[PASS] WAL must contain exactly 1 entry after truncating index 101+\n[PASS] PeerInfo ID must be correctly set\n[PASS] PeerInfo port must be correctly set\nAll 11 CoreTest assertions passed successfully."
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.IntegrationTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running IntegrationTest cluster assertions...\n[INTEGRATION PASS] Node 1 starts as FOLLOWER\n[INTEGRATION PASS] Node 2 starts as FOLLOWER\n[INTEGRATION PASS] Node 3 starts as FOLLOWER\n[INTEGRATION PASS] Node 1 successfully transitions to LEADER\n[INTEGRATION PASS] Node 1 term is greater than 0 after promotion\n[INTEGRATION PASS] Leader node successfully executes client write\n[INTEGRATION PASS] State machine reflects committed write for 'system'\n[INTEGRATION PASS] Leader node successfully executes second client write\n[INTEGRATION PASS] State machine reflects committed write for 'version'\n[INTEGRATION PASS] State machine returns null for unwritten keys\nAll 10 IntegrationTest assertions passed successfully."
+    }
+  ]
+}

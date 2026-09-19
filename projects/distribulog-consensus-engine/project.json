@@ -1,0 +1,32 @@
+{
+  "name": "DistribuLog",
+  "slug": "distribulog-consensus-engine",
+  "target_user": "Infrastructure engineers building high-availability state stores and distributed messaging fabrics.",
+  "problem": "Traditional distributed logs rely on heavy external runtimes (like ZooKeeper) and struggle with high-throughput, low-latency replication on modern multi-core hardware.",
+  "pain": "Late-stage failures in consensus state transition, high CPU overhead from standard thread-per-connection models, and data corruption during network partitions.",
+  "solution": "A zero-dependency, local-consensus replicated write-ahead log using Java 21 Virtual Threads. It implements a custom raft-like consensus protocol over loopback TCP sockets, utilizing non-blocking SocketChannels and on-disk binary log structures.",
+  "verification": "A deterministic testing harness that injects network partitions, message delays, and disk write failures while asserting log consistency across 3 local nodes using strict Jepsen-style linearizability checks.",
+  "category": "systems-tool",
+  "keywords": [
+    "systems-engineering",
+    "distributed-systems",
+    "consensus-algorithm",
+    "raft",
+    "virtual-threads",
+    "replicated-log"
+  ],
+  "major_features": [
+    "Leader election with randomized election timeouts managed by Java 21 Virtual Threads.",
+    "Log replication with index and term matching rules to enforce consensus agreement.",
+    "On-disk binary commit-log format featuring CRC32 checksum validation for corruption detection.",
+    "Zero-copy transfer implementation utilizing NIO FileChannel and SocketChannel primitives.",
+    "State machine replication loop executing basic key-value operations deterministically.",
+    "Cluster membership change protocol supporting joint consensus for dynamic node configuration.",
+    "Log compaction and snapshotting engine to prevent infinite log growth on disk.",
+    "Dynamic network partition injector simulating packet loss, reordering, and socket delays locally."
+  ],
+  "technology": "Java 21",
+  "factory_profile": "systems-java",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}
