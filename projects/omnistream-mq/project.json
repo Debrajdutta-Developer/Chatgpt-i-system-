@@ -1,0 +1,31 @@
+{
+  "name": "OmniStream MQ",
+  "slug": "omnistream-mq",
+  "target_user": "Systems Engineers and Distributed Infrastructure Architects",
+  "problem": "Traditional enterprise message queues require heavy external cluster management, while raw socket protocols lack consumer group balancing, acknowledgment persistence, and durability guarantees.",
+  "pain": "Developers building local-first event-driven pipelines lack lightweight brokers that support multiplexed consumer subscriptions, dead-letter queues, and deterministic message replay without heavy external runtimes.",
+  "solution": "A high-performance Java 21 broker implementing a binary wire protocol, zero-copy segment file I/O, consumer group rebalancing, and configurable retention policies entirely from scratch.",
+  "verification": "Deterministic integration suite testing concurrent producers, consumer group partition handoffs, abrupt client disconnection recovery, and corrupted offset index repair using automated byte-injection scripts.",
+  "category": "systems-tool",
+  "keywords": [
+    "systems-engineering",
+    "message-queue",
+    "tcp-protocol",
+    "zero-copy",
+    "java-21"
+  ],
+  "major_features": [
+    "Custom binary wire protocol supporting framed message frames and multiplexed connection streams",
+    "Segmented append-only on-disk log storage with configurable byte-size and time-based rotation",
+    "Consumer group coordination engine implementing dynamic partition assignment and heartbeat liveness tracking",
+    "Explicit message acknowledgment (ACK) and negative acknowledgment (NACK) offset tracking loops",
+    "Dead-Letter Queue (DLQ) diversion mechanism for messages exceeding maximum delivery retry thresholds",
+    "Configurable message retention policy enforcing background disk compaction and segment pruning",
+    "Non-blocking TCP network server utilizing Java 21 Selector and SocketChannel multiplexing",
+    "Deterministic integration harness injecting network packet drops, socket delays, and disk full simulations"
+  ],
+  "technology": "Java 21",
+  "factory_profile": "systems-java",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

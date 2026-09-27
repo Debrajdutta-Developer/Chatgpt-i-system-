@@ -1,0 +1,239 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "message-queue",
+        "tcp-protocol",
+        "zero-copy",
+        "java-21"
+      ],
+      "major_features": [
+        "Custom binary wire protocol supporting framed message frames and multiplexed connection streams",
+        "Segmented append-only on-disk log storage with configurable byte-size and time-based rotation",
+        "Consumer group coordination engine implementing dynamic partition assignment and heartbeat liveness tracking",
+        "Explicit message acknowledgment (ACK) and negative acknowledgment (NACK) offset tracking loops",
+        "Dead-Letter Queue (DLQ) diversion mechanism for messages exceeding maximum delivery retry thresholds",
+        "Configurable message retention policy enforcing background disk compaction and segment pruning",
+        "Non-blocking TCP network server utilizing Java 21 Selector and SocketChannel multiplexing",
+        "Deterministic integration harness injecting network packet drops, socket delays, and disk full simulations"
+      ],
+      "name": "OmniStream MQ",
+      "pain": "Developers building local-first event-driven pipelines lack lightweight brokers that support multiplexed consumer subscriptions, dead-letter queues, and deterministic message replay without heavy external runtimes.",
+      "problem": "Traditional enterprise message queues require heavy external cluster management, while raw socket protocols lack consumer group balancing, acknowledgment persistence, and durability guarantees.",
+      "slug": "omnistream-mq",
+      "solution": "A high-performance Java 21 broker implementing a binary wire protocol, zero-copy segment file I/O, consumer group rebalancing, and configurable retention policies entirely from scratch.",
+      "target_user": "Systems Engineers and Distributed Infrastructure Architects",
+      "technology": "Java 21",
+      "verification": "Deterministic integration suite testing concurrent producers, consumer group partition handoffs, abrupt client disconnection recovery, and corrupted offset index repair using automated byte-injection scripts."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20260927T083607Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/main/java/factory/Core.java",
+    "src/main/java/factory/Main.java",
+    "src/test/java/factory/CoreTest.java",
+    "src/test/java/factory/IntegrationTest.java"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Traditional enterprise message queues require heavy external cluster management, while raw socket protocols lack consumer group balancing, acknowledgment persistence, and durability guarantees.",
+  "project_name": "OmniStream MQ",
+  "project_path": "projects/omnistream-mq",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:23: warning: [serial] serializable class Message has no definition of serialVersionUID\n    public static class Message implements Serializable {\n                  ^\nsrc/main/java/factory/Core.java:149: error: cannot find symbol\n                logFiles.sort(Comparator.naturalOrdering());\n                                        ^\n  symbol:   method naturalOrdering()\n  location: interface Comparator\nsrc/test/java/factory/CoreTest.java:44: error: incompatible types: ByteArrayInputStream cannot be converted to ReadableByteChannel\n        Core.Frame deframed = Core.Frame.deserialize(bais);\n                                                     ^\nsrc/test/java/factory/IntegrationTest.java:56: error: incompatible types: InputStream cannot be converted to ReadableByteChannel\n            Core.Frame respFrame = Core.Frame.deserialize(socket.getInputStream());\n                                                                               ^\nsrc/test/java/factory/IntegrationTest.java:75: error: incompatible types: InputStream cannot be converted to ReadableByteChannel\n            Core.Frame consResp = Core.Frame.deserialize(socket.getInputStream());\n                                                                              ^\nsrc/test/java/factory/IntegrationTest.java:104: error: incompatible types: InputStream cannot be converted to ReadableByteChannel\n            Core.Frame joinResp = Core.Frame.deserialize(socket.getInputStream());\n                                                                              ^\nsrc/test/java/factory/IntegrationTest.java:119: error: incompatible types: InputStream cannot be converted to ReadableByteChannel\n            Core.Frame hbResp = Core.Frame.deserialize(socket.getInputStream());\n                                                                            ^\nsrc/test/java/factory/IntegrationTest.java:134: error: incompatible types: InputStream cannot be converted to ReadableByteChannel\n            Core.Frame ackResp = Core.Frame.deserialize(socket.getInputStream());\n                                                                             ^\nsrc/test/java/factory/IntegrationTest.java:149: error: incompatible types: InputStream cannot be converted to ReadableByteChannel\n            Core.Frame nackResp = Core.Frame.deserialize(socket.getInputStream());\n                                                                              ^\nsrc/test/java/factory/IntegrationTest.java:153: warning: [try] explicit call to close() on an auto-closeable resource\n            socket.close();\n                  ^\nsrc/test/java/factory/IntegrationTest.java:161: error: incompatible types: InputStream cannot be converted to ReadableByteChannel\n                Core.Frame resp2 = Core.Frame.deserialize(socket2.getInputStream());\n                                                                                ^\nNote: Some messages have been simplified; recompile with -Xdiags:verbose to get full output\n9 errors\n2 warnings"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "=== Running IntegrationTest ===\njava.io.EOFException: Connection closed while reading frame header\n\tat factory.Core$Frame.deserialize(Core.java:59)\n\tat factory.IntegrationTest.testProduceAndConsume(IntegrationTest.java:64)\n\tat factory.IntegrationTest.main(IntegrationTest.java:33)"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:24: warning: [serial] serializable class Message has no definition of serialVersionUID\n    public static class Message implements Serializable {\n                  ^\nerror: warnings found and -Werror specified\n1 error\n1 warning"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 4,
+      "failure_classes": [
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "Exception in thread \"main\" java.lang.RuntimeException: Test failed: Checksum failed\n\tat factory.CoreTest.check(CoreTest.java:4)\n\tat factory.CoreTest.main(CoreTest.java:14)"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 5,
+      "failure_classes": [
+        "TEST_FAILURE",
+        "NETWORK_FAILURE"
+      ],
+      "summaries": [
+        "Running OmniStream MQ Core Tests...\n[CHECK PASS] Serialized record is non-empty\n[CHECK PASS] Deserialized offset matches original\n[CHECK PASS] Deserialized payload matches original\n[CHECK PASS] Decoded frame is not null\n[CHECK PASS] Decoded command matches\n[CHECK PASS] Decoded payload matches\n[CHECK PASS] First segment offset is 0\n[CHECK PASS] Second segment offset is 1\nException in thread \"main\" java.io.IOException: Checksum failed: stored=0 computed=2795658254\n\tat factory.Core$MessageRecord.deserialize(Core.java:62)\n\tat factory.Core$LogSegment.read(Core.java:232)\n\tat factory.CoreTest.main(CoreTest.java:49)",
+        "Running OmniStream MQ Integration Tests...\nOmniStream MQ Server started on port 19092\n[INTEGRATION CHECK PASS] Client connected to OmniStream MQ server successfully\nException in thread \"main\" java.net.SocketException: Connection reset\n\tat java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:318)\n\tat java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:346)\n\tat java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:796)\n\tat java.base/java.net.Socket$SocketInputStream.read(Socket.java:1099)\n\tat java.base/java.net.Socket$SocketInputStream.read(Socket.java:1093)\n\tat factory.Core$WireProtocol.decodeFrame(Core.java:107)\n\tat factory.IntegrationTest.main(IntegrationTest.java:57)"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 6,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:76: warning: [static] static method should be qualified by type name, MessageRecord, instead of by an expression\n                throw new IOException(\"Checksum failed: stored=\" + storedCrc + \" computed=\" + record.computeCrc(offset, timestamp, payload));\n                                                                                                    ^\nerror: warnings found and -Werror specified\n1 error\n1 warning"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 7,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/test/java/factory/CoreTest.java:60: error: incompatible types: possible lossy conversion from int to byte\n        Core.WireFrame frame = new Core.WireFrame(Core.CMD_PRODUCE, payload);\n                                                      ^\nNote: Some messages have been simplified; recompile with -Xdiags:verbose to get full output\n1 error"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "systems-tool",
+    "keywords": [
+      "systems-engineering",
+      "message-queue",
+      "tcp-protocol",
+      "zero-copy",
+      "java-21"
+    ],
+    "major_features": [
+      "Custom binary wire protocol supporting framed message frames and multiplexed connection streams",
+      "Segmented append-only on-disk log storage with configurable byte-size and time-based rotation",
+      "Consumer group coordination engine implementing dynamic partition assignment and heartbeat liveness tracking",
+      "Explicit message acknowledgment (ACK) and negative acknowledgment (NACK) offset tracking loops",
+      "Dead-Letter Queue (DLQ) diversion mechanism for messages exceeding maximum delivery retry thresholds",
+      "Configurable message retention policy enforcing background disk compaction and segment pruning",
+      "Non-blocking TCP network server utilizing Java 21 Selector and SocketChannel multiplexing",
+      "Deterministic integration harness injecting network packet drops, socket delays, and disk full simulations"
+    ],
+    "name": "OmniStream MQ",
+    "pain": "Developers building local-first event-driven pipelines lack lightweight brokers that support multiplexed consumer subscriptions, dead-letter queues, and deterministic message replay without heavy external runtimes.",
+    "problem": "Traditional enterprise message queues require heavy external cluster management, while raw socket protocols lack consumer group balancing, acknowledgment persistence, and durability guarantees.",
+    "slug": "omnistream-mq",
+    "solution": "A high-performance Java 21 broker implementing a binary wire protocol, zero-copy segment file I/O, consumer group rebalancing, and configurable retention policies entirely from scratch.",
+    "target_user": "Systems Engineers and Distributed Infrastructure Architects",
+    "technology": "Java 21",
+    "verification": "Deterministic integration suite testing concurrent producers, consumer group partition handoffs, abrupt client disconnection recovery, and corrupted offset index repair using automated byte-injection scripts."
+  },
+  "slug": "omnistream-mq",
+  "standalone_status": "PENDING",
+  "target_user": "Systems Engineers and Distributed Infrastructure Architects",
+  "technology": "Java 21",
+  "timestamp": "2026-09-27T08:36:07.850795+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-java architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "javac",
+        "-Xlint:all",
+        "-Werror",
+        "-d",
+        "build/classes",
+        "src/main/java/factory/Core.java",
+        "src/main/java/factory/Main.java",
+        "src/test/java/factory/CoreTest.java",
+        "src/test/java/factory/IntegrationTest.java"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.CoreTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "=== Starting CoreTest ===\n[PASS] WireFrame deserializes non-null object\n[PASS] WireFrame preserves command type\n[PASS] WireFrame preserves stream ID\n[PASS] WireFrame preserves payload bytes\n[PASS] First log offset is 0\n[PASS] Second log offset is 1\n[PASS] PartitionLog contains 2 messages\n[PASS] PartitionLog reads correct message count\n[PASS] First message data matches\n[PASS] Consumer group distributes partitions evenly to client-A\n[PASS] Consumer group distributes partitions evenly to client-B\n[PASS] Message exceeding retry threshold is diverted to DLQ\n[PASS] DLQ contains the correct poisoned message\n[PASS] Acknowledged message is successfully removed from active log\n=== CoreTest Completed Successfully: 14 assertions verified ==="
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.IntegrationTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "=== Starting IntegrationTest ===\n[CHECK PASS] TCP client successfully connected to broker server\n[CHECK PASS] Client received response from broker after produce\n[CHECK PASS] Produce response frame is valid\n[CHECK PASS] Produce response matches stream ID 101\n[CHECK PASS] Produce response command is CMD_RESPONSE\n[CHECK PASS] Broker assigned offset 0 to first produced message\n[CHECK PASS] Consume response frame is valid\n[CHECK PASS] Consume response matches stream ID 102\n[CHECK PASS] Consumer retrieved exactly 1 message from broker log\n[CHECK PASS] Consumed message has correct offset 0\n[CHECK PASS] Consumed message data matches original payload\n[CHECK PASS] TCP client socket closed successfully\n[CHECK PASS] Broker server terminated cleanly\n=== IntegrationTest Completed Successfully: 13 checks verified ==="
+    }
+  ]
+}
