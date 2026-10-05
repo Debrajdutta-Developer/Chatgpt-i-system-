@@ -1,0 +1,31 @@
+{
+  "name": "ChronosEngine",
+  "slug": "chronos-engine",
+  "target_user": "Systems Engineers & Distributed Systems Architects",
+  "problem": "Standard system clocks are susceptible to NTP leaps, network skews, and lack reliable monotonicity across distributed processes, making distributed transaction ordering non-deterministic.",
+  "pain": "Debugging race conditions and causal consistency violations across microservices due to imprecise time synchronization leads to silent data corruption.",
+  "solution": "A zero-dependency Hybrid Logical Clock (HLC) and event-sequencing engine written in Java 21 that combines physical wall-clock time with logical counters to guarantee causal ordering without heavy coordination.",
+  "verification": "Deterministic unit tests simulating extreme NTP time jumps, clock drift corrections, and out-of-order message delivery to verify causal consistency invariants and monotonicity.",
+  "category": "systems-tool",
+  "keywords": [
+    "systems-engineering",
+    "hybrid-logical-clock",
+    "causal-consistency",
+    "distributed-systems",
+    "java-21"
+  ],
+  "major_features": [
+    "Hybrid Logical Clock implementation combining wall-clock millis with logical counters",
+    "Causality tracking engine validating happened-before relationships between distributed events",
+    "NTP clock drift detector and dynamic skew compensator handling backward time jumps",
+    "Lock-free state machine registry updating local timestamps atomically via VarHandles",
+    "Binary serialization layout packing timestamps and event payloads into compact byte arrays",
+    "Loopback TCP network simulation harness injecting arbitrary network delays and packet reordering",
+    "Causal dependency violation detector throwing immediate runtime exceptions on ordering breaches",
+    "Comprehensive metrics collector logging physical time deltas and logical counter overflow frequencies"
+  ],
+  "technology": "Java 21",
+  "factory_profile": "systems-java",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}
