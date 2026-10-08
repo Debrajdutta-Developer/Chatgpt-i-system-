@@ -1,0 +1,31 @@
+{
+  "name": "ChronoGraph DB",
+  "slug": "chronograph-db",
+  "target_user": "Database engineers and systems architects building auditing, lineage, or historical relationship-tracking systems.",
+  "problem": "Standard graph databases only represent the current state of a network, making temporal queries (e.g., reconstruct the ownership chain of an asset at a precise microsecond) slow, complex, and requiring expensive full-history scans.",
+  "pain": "Tracking historical relationships requires manually duplicating nodes/edges with start/end timestamps, causing explosive schema complexity, slow path-finding queries, and high storage overhead.",
+  "solution": "A zero-dependency temporal graph database engine written in Java 21. It manages an on-disk append-only log of graph mutations, builds spatial-temporal indexes, and evaluates pathfinding queries (DFS/BFS/Dijkstra) integrated with point-in-time snapshot filters using MVCC.",
+  "verification": "A deterministic test suite that injects corrupted transaction logs to verify recovery, executes concurrent virtual-thread readers under MVCC isolation, asserts graph traversal path accuracy across historical snapshots, and verifies precise recovery after simulated JVM crashes.",
+  "category": "database",
+  "keywords": [
+    "systems-engineering",
+    "temporal-database",
+    "graph-database",
+    "mvcc",
+    "virtual-threads"
+  ],
+  "major_features": [
+    "Immutable temporal vertex and edge records with nanosecond-precision valid-time intervals.",
+    "High-performance B+Tree index mapping node identifiers to historical state locations.",
+    "Custom spatial-temporal indexing for fast point-in-time and interval-slice queries.",
+    "Query engine executing BFS, DFS, and Dijkstra pathfinding over specific historical snapshots.",
+    "Append-only transactional mutation log with crash-recovery logic.",
+    "Multi-Version Concurrency Control (MVCC) utilizing Java 21 VarHandles for atomic state transitions.",
+    "Virtual Thread-based concurrent query processor managing thread pools dynamically.",
+    "Dynamic index compaction and garbage collection of superseded, out-of-retention records."
+  ],
+  "technology": "Java 21",
+  "factory_profile": "systems-java",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

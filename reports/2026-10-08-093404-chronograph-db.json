@@ -1,0 +1,329 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "temporal-database",
+        "graph-database",
+        "mvcc",
+        "virtual-threads"
+      ],
+      "major_features": [
+        "Immutable temporal vertex and edge records with nanosecond-precision valid-time intervals.",
+        "High-performance B+Tree index mapping node identifiers to historical state locations.",
+        "Custom spatial-temporal indexing for fast point-in-time and interval-slice queries.",
+        "Query engine executing BFS, DFS, and Dijkstra pathfinding over specific historical snapshots.",
+        "Append-only transactional mutation log with crash-recovery logic.",
+        "Multi-Version Concurrency Control (MVCC) utilizing Java 21 VarHandles for atomic state transitions.",
+        "Virtual Thread-based concurrent query processor managing thread pools dynamically.",
+        "Dynamic index compaction and garbage collection of superseded, out-of-retention records."
+      ],
+      "name": "ChronoGraph DB",
+      "pain": "Tracking historical relationships requires manually duplicating nodes/edges with start/end timestamps, causing explosive schema complexity, slow path-finding queries, and high storage overhead.",
+      "problem": "Standard graph databases only represent the current state of a network, making temporal queries (e.g., reconstruct the ownership chain of an asset at a precise microsecond) slow, complex, and requiring expensive full-history scans.",
+      "slug": "chronograph-db",
+      "solution": "A zero-dependency temporal graph database engine written in Java 21. It manages an on-disk append-only log of graph mutations, builds spatial-temporal indexes, and evaluates pathfinding queries (DFS/BFS/Dijkstra) integrated with point-in-time snapshot filters using MVCC.",
+      "target_user": "Database engineers and systems architects building auditing, lineage, or historical relationship-tracking systems.",
+      "technology": "Java 21",
+      "verification": "A deterministic test suite that injects corrupted transaction logs to verify recovery, executes concurrent virtual-thread readers under MVCC isolation, asserts graph traversal path accuracy across historical snapshots, and verifies precise recovery after simulated JVM crashes."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "tcp-ip-stack",
+        "user-space-networking",
+        "congestion-control",
+        "c11"
+      ],
+      "major_features": [
+        "Virtual TAP/TUN interface reader and writer loop using non-blocking I/O.",
+        "Ethernet frame parsing, validation, and generation including ARP resolution.",
+        "IPv4 packet routing engine with TTL decrementing, checksum computation, and basic fragmentation.",
+        "RFC 793 compliant TCP state machine tracking handshake, data transfer, and teardown states.",
+        "Sliding window flow-control mechanism dynamically adjusting window sizes based on buffer availability.",
+        "TCP Congestion Control implementing Slow Start, Congestion Avoidance, Fast Retransmit, and Fast Recovery.",
+        "Retransmission queue with exponential backoff and dynamic Round-Trip Time (RTT) estimation.",
+        "Custom socket-like API (bind, listen, accept, read, write, close) for user applications."
+      ],
+      "name": "MicroIP Stack",
+      "pain": "Kernel bypass frameworks are massive and complex, while raw socket APIs force developers to rely on heavy OS scheduling and network stack implementations.",
+      "problem": "Operating system network stacks introduce latency, context-switching overhead, and generalized resource consumption that is unsuitable for ultra-low-latency or resource-constrained embedded environments.",
+      "slug": "micro-ip-stack",
+      "solution": "A dependency-free, user-space TCP/IP stack written in C11 operating over a virtual TAP/TUN interface. It implements core Ethernet, ARP, IPv4, and TCP protocols entirely from scratch, using a custom state machine to handle connections, sliding windows, and congestion control.",
+      "target_user": "Embedded systems developers and network infrastructure engineers seeking deep control over packet processing without OS kernel overhead.",
+      "technology": "C11",
+      "verification": "Deterministic unit tests using synthetic packet injection to verify the TCP state transition matrix, sliding-window flow control under packet loss, retransmission timeouts, and graceful handling of malformed or out-of-order IP packets."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "reinforcement-learning",
+        "resource-scheduling",
+        "sandboxing",
+        "python-3-12"
+      ],
+      "major_features": [
+        "Custom matrix arithmetic and Q-learning training algorithm written from scratch using pure Python.",
+        "Local resource telemetry collector monitoring process CPU, memory, and disk I/O metrics.",
+        "Mathematical safety-boundary wrapper intercepting and overriding unsafe agent decisions before application.",
+        "Multi-tenant task priority queue dynamically adjusting process nice-values and cgroup limits.",
+        "Explicit reward function engine calculating utility from execution latency and resource efficiency.",
+        "Deterministic simulation testbed executing synthetic workloads to train the agent offline.",
+        "Local checkpoint manager saving and restoring policy weights in a compact binary format.",
+        "Real-time CLI dashboard rendering learning curves, resource charts, and safety intervention logs."
+      ],
+      "name": "SafeSched Agent",
+      "pain": "Static CPU/Memory quotas cause either severe resource underutilization or critical application starvation, while cloud-based AI orchestrators introduce latency and security risks.",
+      "problem": "Hardcoded heuristic schedulers fail to adapt to dynamic, noisy, and unpredictable local workloads, while traditional deep learning models are too heavy and lack safety guarantees.",
+      "slug": "safesched-agent",
+      "solution": "A zero-dependency, safe local learning agent in Python 3.12 that dynamically schedules local tasks using a custom reinforcement learning engine (Q-learning) implemented from scratch. It utilizes a strict, mathematically-provable safety boundary to prevent resource starvation.",
+      "target_user": "Systems engineers managing multi-tenant local environments who need intelligent, safe, and zero-cloud resource optimization.",
+      "technology": "Python 3.12",
+      "verification": "A deterministic simulation test suite that feeds historical performance logs, simulates sudden resource spikes, asserts that the agent stays within hard-coded safety boundaries, and verifies algebraic correctness of the training gradient."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "filesystem",
+        "crash-resilience",
+        "copy-on-write",
+        "c11"
+      ],
+      "major_features": [
+        "Binary disk formatter creating structured superblock, block bitmap, and data block layouts.",
+        "Copy-on-Write (CoW) B-Tree directory index supporting nested paths and fast file lookups.",
+        "Write-Ahead Metadata Journal ensuring transactional integrity and atomic multi-block mutations.",
+        "Custom block allocator with defragmentation and contiguous sector allocation heuristics.",
+        "In-memory block cache utilizing a Least Recently Used (LRU) eviction policy.",
+        "File handle manager supporting concurrent read/write operations with fine-grained locking.",
+        "Dynamic crash recovery engine parsing the journal to replay or rollback unfinished transactions.",
+        "Diagnostic tool reporting disk usage, fragmentation metrics, and block-level integrity checks."
+      ],
+      "name": "VDisk Filesystem",
+      "pain": "Storing structured files inside a single flat-file container often leads to corruption during power losses, fragmentation, and poor metadata performance.",
+      "problem": "Standard filesystems are tied to specific operating systems, difficult to run inside sandboxes, and lack integrated transactional safety for single-file storage containers.",
+      "slug": "vdisk-filesystem",
+      "solution": "A zero-dependency, crash-resilient virtual disk storage engine written in C11. It formats a single binary file with a custom block structure, implementing a Copy-on-Write (CoW) B-Tree directory, block allocation bitmaps, and a write-ahead metadata journal.",
+      "target_user": "Systems programmers and security engineers needing a lightweight, self-contained, crash-resilient virtual storage container.",
+      "technology": "C11",
+      "verification": "Automated integration tests executing random file mutations, triggering mid-write process termination, and verifying that the recovery log restores the filesystem to a consistent, uncorrupted state."
+    },
+    {
+      "category": "cache-protocol",
+      "keywords": [
+        "systems-engineering",
+        "distributed-cache",
+        "gossip-protocol",
+        "consistent-hashing",
+        "python-3-12"
+      ],
+      "major_features": [
+        "Custom binary wire protocol with message framing, checksums, and type-safe serialization.",
+        "SWIM Gossip protocol implementation for automatic, decentralized peer discovery and liveness tracking.",
+        "Consistent hashing ring using MD5/SHA-256 and configurable virtual nodes to minimize redistribution.",
+        "Dynamic partition rebalancing engine relocating keys seamlessly when nodes join or leave.",
+        "Thread-safe in-memory storage engine featuring LRU eviction and TTL-based expiration.",
+        "Non-blocking network loop utilizing Python's selectors module for concurrent TCP connections.",
+        "Local failure detector utilizing suspected-state propagation to prevent false positives.",
+        "Administrative CLI tool displaying cluster topology, keyspace distribution, and node latencies."
+      ],
+      "name": "GossipCache Cluster",
+      "pain": "Setting up Redis/Memcached clusters requires heavy configuration, external consensus services, and high memory overhead for small-to-medium local environments.",
+      "problem": "Centralized cache systems introduce single points of failure and complex clustering software, while simple local caches cannot scale or share data across processes.",
+      "slug": "gossipcache-cluster",
+      "solution": "A zero-dependency, distributed in-memory cache written in Python 3.12. It implements peer-to-peer cluster discovery via the SWIM gossip protocol, consistent hashing with virtual nodes for data distribution, and a custom binary wire protocol.",
+      "target_user": "DevOps and backend engineers building low-overhead, highly available local cache clusters.",
+      "technology": "Python 3.12",
+      "verification": "Multi-process integration tests simulating node joins, unexpected node crashes, network partition events, and verifying deterministic key redistribution and cache consistency."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261008T093404Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/main/java/factory/Core.java",
+    "src/main/java/factory/Main.java",
+    "src/test/java/factory/CoreTest.java",
+    "src/test/java/factory/IntegrationTest.java"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Standard graph databases only represent the current state of a network, making temporal queries (e.g., reconstruct the ownership chain of an asset at a precise microsecond) slow, complex, and requiring expensive full-history scans.",
+  "project_name": "ChronoGraph DB",
+  "project_path": "projects/chronograph-db",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:146: warning: [rawtypes] found raw type: HashSet\n        Set<String> visited = new HashSet();\n                                  ^\n  missing type arguments for generic class HashSet<E>\n  where E is a type-variable:\n    E extends Object declared in class HashSet\nsrc/main/java/factory/Core.java:146: warning: [unchecked] unchecked conversion\n        Set<String> visited = new HashSet();\n                              ^\n  required: Set<String>\n  found:    HashSet\nerror: warnings found and -Werror specified\nsrc/test/java/factory/IntegrationTest.java:34: warning: [rawtypes] found raw type: CompletableFuture\n                CompletableFuture<?>[] futures = new CompletableFuture[10];\n                                                     ^\n  missing type arguments for generic class CompletableFuture<T>\n  where T is a type-variable:\n    T extends Object declared in class CompletableFuture\n1 error\n3 warnings"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Main.java:74: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n    private static void handleClient(Socket socket, ChronoGraphEngine engine) { \n                                                    ^\nsrc/main/java/factory/Main.java:97: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n    private static String executeCommand(ChronoGraphEngine engine, String line) {\n                                         ^\nerror: warnings found and -Werror specified\nsrc/main/java/factory/Main.java:25: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n        ^\nsrc/main/java/factory/Main.java:25: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n                                       ^\nsrc/main/java/factory/Main.java:116: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    Map<String, String> props = args.length > 4 ? ChronoGraphEngine.deserializeProperties(args[4]) : Map.of();\n                                                                  ^\nsrc/main/java/factory/Main.java:129: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    Map<String, String> props = args.length > 6 ? ChronoGraphEngine.deserializeProperties(args[6]) : Map.of();\n                                                                  ^\nsrc/main/java/factory/Main.java:153: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                        vr.id(), vr.validFrom(), vr.validTo(), ChronoGraphEngine.serializeProperties(vr.properties()));\n                                                               ^\nsrc/test/java/factory/CoreTest.java:36: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n        ^\nsrc/test/java/factory/CoreTest.java:36: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n                                       ^\nsrc/test/java/factory/CoreTest.java:81: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        ChronoGraphEngine recoveredEngine = new ChronoGraphEngine(logFile);\n        ^\nsrc/test/java/factory/CoreTest.java:81: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        ChronoGraphEngine recoveredEngine = new ChronoGraphEngine(logFile);\n                                                ^\nsrc/test/java/factory/IntegrationTest.java:42: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n        ^\nsrc/test/java/factory/IntegrationTest.java:42: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n                                       ^\nsrc/test/java/factory/IntegrationTest.java:92: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        ChronoGraphEngine recoveryEngine = new ChronoGraphEngine(logFile);\n        ^\nsrc/test/java/factory/IntegrationTest.java:92: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        ChronoGraphEngine recoveryEngine = new ChronoGraphEngine(logFile);\n                                               ^\n1 error\n15 warnings"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "Main.java:44: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n    private static void handleClient(Socket socket, ChronoGraphEngine engine) {\n                                                    ^\nsrc/main/java/factory/Main.java:62: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n    private static String executeCommand(ChronoGraphEngine engine, String line) {\n                                         ^\nerror: warnings found and -Werror specified\nsrc/main/java/factory/Main.java:23: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        ChronoGraphEngine engine;\n        ^\nsrc/main/java/factory/Main.java:25: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            engine = new ChronoGraphEngine(logFile);\n                         ^\nsrc/main/java/factory/Main.java:74: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    Map<String, String> props = args.length > 4 ? ChronoGraphEngine.deserializeProperties(args[4]) : Map.of();\n                                                                  ^\nsrc/main/java/factory/Main.java:85: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    Map<String, String> props = args.length > 6 ? ChronoGraphEngine.deserializeProperties(args[6]) : Map.of();\n                                                                  ^\nsrc/main/java/factory/Main.java:93: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    VertexRecord vr = engine.getVertexAt(id, time);\n                    ^\nsrc/main/java/factory/Main.java:96: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                            vr.id(), vr.validFrom(), vr.validTo(), ChronoGraphEngine.serializeProperties(vr.properties()));\n                                                                   ^\nsrc/test/java/factory/CoreTest.java:26: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n            ^\nsrc/test/java/factory/CoreTest.java:26: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n                                           ^\nsrc/test/java/factory/CoreTest.java:30: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            VertexRecord v1 = engine.getVertexAt(\"V1\", 150);\n            ^\nsrc/test/java/factory/CoreTest.java:35: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            VertexRecord v1Before = engine.getVertexAt(\"V1\", 50);\n            ^\nsrc/test/java/factory/CoreTest.java:38: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            VertexRecord v1After = engine.getVertexAt(\"V1\", 250);\n            ^\nsrc/test/java/factory/CoreTest.java:43: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            VertexRecord v1New = engine.getVertexAt(\"V1\", 250);\n            ^\nsrc/test/java/factory/CoreTest.java:51: warning: auxiliary class EdgeRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            EdgeRecord e1At200 = engine.getEdgeAt(\"E1\", 200);\n            ^\nsrc/test/java/factory/CoreTest.java:56: warning: auxiliary class EdgeRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            EdgeRecord e1At100 = engine.getEdgeAt(\"E1\", 100);\n            ^\nsrc/test/java/factory/CoreTest.java:78: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine recoveredEngine = new ChronoGraphEngine(logFile);\n            ^\nsrc/test/java/factory/CoreTest.java:78: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine recoveredEngine = new ChronoGraphEngine(logFile);\n                                                    ^\nsrc/test/java/factory/CoreTest.java:79: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            VertexRecord recoveredV2 = recoveredEngine.getVertexAt(\"V2\", 200);\n            ^\nsrc/test/java/factory/CoreTest.java:83: warning: auxiliary class EdgeRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            EdgeRecord recoveredE1 = recoveredEngine.getEdgeAt(\"E1\", 200);\n            ^\nsrc/test/java/factory/IntegrationTest.java:28: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n            ^\nsrc/test/java/factory/IntegrationTest.java:28: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n                                           ^\nsrc/test/java/factory/IntegrationTest.java:63: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    VertexRecord vr = engine.getVertexAt(\"AssetA\", snapshotTime);\n                    ^\nsrc/test/java/factory/IntegrationTest.java:82: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine recoveryEngine = new ChronoGraphEngine(logFile);\n            ^\nsrc/test/java/factory/IntegrationTest.java:82: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine recoveryEngine = new ChronoGraphEngine(logFile);\n                                                   ^\n1 error\n25 warnings"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 4,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "e) {\n                                         ^\nerror: warnings found and -Werror specified\nsrc/main/java/factory/Main.java:21: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n                ^\nsrc/main/java/factory/Main.java:21: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n                                               ^\nsrc/main/java/factory/Main.java:78: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    Map<String, String> props = args.length > 4 ? ChronoGraphEngine.deserializeProperties(args[4]) : Map.of();\n                                                                  ^\nsrc/main/java/factory/Main.java:90: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    Map<String, String> props = args.length > 7 ? ChronoGraphEngine.deserializeProperties(args[7]) : Map.of();\n                                                                  ^\nsrc/main/java/factory/Main.java:98: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    VertexRecord vr = engine.getVertexAt(id, time);\n                    ^\nsrc/main/java/factory/Main.java:100: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    return String.format(\"VERTEX %s %d %d %s\", vr.id(), vr.validFrom(), vr.validTo(), ChronoGraphEngine.serializeProperties(vr.properties()));\n                                                                                                      ^\nsrc/test/java/factory/CoreTest.java:25: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n            ^\nsrc/test/java/factory/CoreTest.java:25: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n                                           ^\nsrc/test/java/factory/CoreTest.java:29: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            VertexRecord v1 = engine.getVertexAt(\"V1\", 150);\n            ^\nsrc/test/java/factory/CoreTest.java:34: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            VertexRecord v1Before = engine.getVertexAt(\"V1\", 50);\n            ^\nsrc/test/java/factory/CoreTest.java:36: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            VertexRecord v1After = engine.getVertexAt(\"V1\", 250);\n            ^\nsrc/test/java/factory/CoreTest.java:41: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            VertexRecord v1New = engine.getVertexAt(\"V1\", 250);\n            ^\nsrc/test/java/factory/CoreTest.java:48: warning: auxiliary class EdgeRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            EdgeRecord e1At200 = engine.getEdgeAt(\"E1\", 200);\n            ^\nsrc/test/java/factory/CoreTest.java:52: warning: auxiliary class EdgeRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            EdgeRecord e1At100 = engine.getEdgeAt(\"E1\", 100);\n            ^\nsrc/test/java/factory/CoreTest.java:62: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine recoveredEngine = new ChronoGraphEngine(logFile);\n            ^\nsrc/test/java/factory/CoreTest.java:62: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine recoveredEngine = new ChronoGraphEngine(logFile);\n                                                    ^\nsrc/test/java/factory/CoreTest.java:63: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            VertexRecord recoveredV2 = recoveredEngine.getVertexAt(\"V2\", 200);\n            ^\nsrc/test/java/factory/CoreTest.java:67: warning: auxiliary class EdgeRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            EdgeRecord recoveredE1 = recoveredEngine.getEdgeAt(\"E1\", 200);\n            ^\nsrc/test/java/factory/IntegrationTest.java:28: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n            ^\nsrc/test/java/factory/IntegrationTest.java:28: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            ChronoGraphEngine engine = new ChronoGraphEngine(logFile);\n                                           ^\nsrc/test/java/factory/IntegrationTest.java:61: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                        VertexRecord vr = engine.getVertexAt(\"NodeA\", snapshotTime);\n                        ^\nsrc/test/java/factory/IntegrationTest.java:73: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            String serialized = ChronoGraphEngine.serializeProperties(origProps);\n                                ^\nsrc/test/java/factory/IntegrationTest.java:74: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            Map<String, String> deserialized = ChronoGraphEngine.deserializeProperties(serialized);\n                                               ^\nsrc/test/java/factory/IntegrationTest.java:80: warning: auxiliary class ChronoGraphEngine in src/main/java/factory/Core.java should not be accessed from outside its own source file\n            Map<String, String> emptyProps = ChronoGraphEngine.deserializeProperties(\"\");\n                                             ^\n1 error\n27 warnings"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 5,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:69: error: class ChronoGraphEngine is public, should be declared in a file named ChronoGraphEngine.java\npublic class ChronoGraphEngine {\n       ^\nsrc/main/java/factory/Main.java:52: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    VertexRecord vr = engine.getVertexAt(id, time);\n                    ^\nsrc/test/java/factory/CoreTest.java:31: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        VertexRecord v1At150 = engine.getVertexAt(\"V1\", 150);\n        ^\nsrc/test/java/factory/CoreTest.java:38: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        VertexRecord v1Before = engine.getVertexAt(\"V1\", 50);\n        ^\nsrc/test/java/factory/CoreTest.java:43: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        VertexRecord v1Old = engine.getVertexAt(\"V1\", 150);\n        ^\nsrc/test/java/factory/CoreTest.java:46: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        VertexRecord v1New = engine.getVertexAt(\"V1\", 250);\n        ^\nsrc/test/java/factory/CoreTest.java:53: warning: auxiliary class EdgeRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        EdgeRecord e1At200 = engine.getEdgeAt(\"E1\", 200);\n        ^\nsrc/test/java/factory/CoreTest.java:58: warning: auxiliary class EdgeRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        EdgeRecord e1At100 = engine.getEdgeAt(\"E1\", 100);\n        ^\nsrc/test/java/factory/CoreTest.java:69: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        VertexRecord recoveredV2 = recoveredEngine.getVertexAt(\"V2\", 200);\n        ^\nsrc/test/java/factory/CoreTest.java:73: warning: auxiliary class EdgeRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n        EdgeRecord recoveredE1 = recoveredEngine.getEdgeAt(\"E1\", 200);\n        ^\nsrc/test/java/factory/IntegrationTest.java:56: warning: auxiliary class VertexRecord in src/main/java/factory/Core.java should not be accessed from outside its own source file\n                    VertexRecord vr = engine.getVertexAt(\"NodeA\", snapshotTime);\n                    ^\n1 error\n10 warnings"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "database",
+    "keywords": [
+      "systems-engineering",
+      "temporal-database",
+      "graph-database",
+      "mvcc",
+      "virtual-threads"
+    ],
+    "major_features": [
+      "Immutable temporal vertex and edge records with nanosecond-precision valid-time intervals.",
+      "High-performance B+Tree index mapping node identifiers to historical state locations.",
+      "Custom spatial-temporal indexing for fast point-in-time and interval-slice queries.",
+      "Query engine executing BFS, DFS, and Dijkstra pathfinding over specific historical snapshots.",
+      "Append-only transactional mutation log with crash-recovery logic.",
+      "Multi-Version Concurrency Control (MVCC) utilizing Java 21 VarHandles for atomic state transitions.",
+      "Virtual Thread-based concurrent query processor managing thread pools dynamically.",
+      "Dynamic index compaction and garbage collection of superseded, out-of-retention records."
+    ],
+    "name": "ChronoGraph DB",
+    "pain": "Tracking historical relationships requires manually duplicating nodes/edges with start/end timestamps, causing explosive schema complexity, slow path-finding queries, and high storage overhead.",
+    "problem": "Standard graph databases only represent the current state of a network, making temporal queries (e.g., reconstruct the ownership chain of an asset at a precise microsecond) slow, complex, and requiring expensive full-history scans.",
+    "slug": "chronograph-db",
+    "solution": "A zero-dependency temporal graph database engine written in Java 21. It manages an on-disk append-only log of graph mutations, builds spatial-temporal indexes, and evaluates pathfinding queries (DFS/BFS/Dijkstra) integrated with point-in-time snapshot filters using MVCC.",
+    "target_user": "Database engineers and systems architects building auditing, lineage, or historical relationship-tracking systems.",
+    "technology": "Java 21",
+    "verification": "A deterministic test suite that injects corrupted transaction logs to verify recovery, executes concurrent virtual-thread readers under MVCC isolation, asserts graph traversal path accuracy across historical snapshots, and verifies precise recovery after simulated JVM crashes."
+  },
+  "slug": "chronograph-db",
+  "standalone_status": "PENDING",
+  "target_user": "Database engineers and systems architects building auditing, lineage, or historical relationship-tracking systems.",
+  "technology": "Java 21",
+  "timestamp": "2026-10-08T09:34:04.653758+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-java architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "javac",
+        "-Xlint:all",
+        "-Werror",
+        "-d",
+        "build/classes",
+        "src/main/java/factory/Core.java",
+        "src/main/java/factory/Main.java",
+        "src/test/java/factory/CoreTest.java",
+        "src/test/java/factory/IntegrationTest.java"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.CoreTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running CoreTest suite...\n  [PASS] Vertex V1 exists at t=150\n  [PASS] Vertex V1 has 'old' property at t=150\n  [PASS] Vertex V1 exists at t=250\n  [PASS] Vertex V1 has 'new' property at t=250\n  [PASS] Vertex V1 does not exist before t=100\n  [PASS] Vertex V1 does not exist after t=300\n  [PASS] Edge E1 exists at t=150\n  [PASS] Edge E1 weight is 5.0 at t=150\n  [PASS] Edge E1 exists at t=250\n  [PASS] Edge E1 weight is 2.0 at t=250\n  [PASS] Edge E1 does not exist at t=50\n  [PASS] Recovered vertex V2 exists at t=200\n  [PASS] Recovered vertex property intact\n  [PASS] Recovered edge E1 exists at t=200\n  [PASS] Recovered edge weight intact\n  [PASS] Dijkstra shortest path contains 3 nodes\n  [PASS] Path starts at N1\n  [PASS] Path goes through N2\n  [PASS] Path ends at N3\nAll CoreTest checks passed successfully! Total assertions: 19"
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.IntegrationTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running IntegrationTest suite...\n  [PASS] Virtual thread reader task 1 succeeded\n  [PASS] Virtual thread reader task 2 succeeded\n  [PASS] Virtual thread reader task 3 succeeded\n  [PASS] Alice connected to Asset1 at t=150\n  [PASS] Bob not connected to Asset1 at t=150\n  [PASS] Bob connected to Asset1 at t=250\n  [PASS] Alice not connected to Asset1 at t=250\n  [PASS] BFS finds 3-node path X->Y->Z\n  [PASS] Dijkstra finds 3-node path X->Y->Z\n  [PASS] Dijkstra path terminates at Z\nAll IntegrationTest checks passed successfully! Total assertions: 10"
+    }
+  ]
+}
