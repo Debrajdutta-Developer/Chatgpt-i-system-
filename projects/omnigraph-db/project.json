@@ -1,0 +1,31 @@
+{
+  "name": "OmniGraph DB",
+  "slug": "omnigraph-db",
+  "target_user": "Systems Engineers and Data Infrastructure Developers",
+  "problem": "Traditional graph databases require massive memory overhead and complex external caching tiers to traverse multi-hop relationships without latency spikes under heavy concurrent writes.",
+  "pain": "Graph traversals hit exponential disk I/O penalties when navigating pointer-chasing patterns across un-indexed property sets.",
+  "solution": "A zero-dependency property graph database engine written in Java 21 implementing compressed adjacency lists, an explicit property map store, a rule-based query planner, and a custom Cypher-subset parser.",
+  "verification": "Deterministic integration suite testing graph cycle detection, invalid edge deletion rollback, concurrent multi-hop pathfinding under race conditions, and malformed Cypher syntax throwing explicit parse errors.",
+  "category": "database",
+  "keywords": [
+    "systems-engineering",
+    "graph-database",
+    "adjacency-list",
+    "query-planner",
+    "java-21"
+  ],
+  "major_features": [
+    "Custom Cypher-subset parser producing an AST for node and edge mutations",
+    "Compressed adjacency list storage engine utilizing direct byte buffers",
+    "Property map store with type-tagged variable-length attribute encoding",
+    "Bidirectional graph traversal engine supporting Breadth-First and Depth-First searches",
+    "Rule-based query optimizer generating execution plans from structural statistics",
+    "Multi-Version Concurrency Control (MVCC) for isolated concurrent graph updates",
+    "Virtual Thread-based parallel pathfinding worker orchestrator",
+    "Crash-recovery engine rebuilding indices from an append-only mutation journal"
+  ],
+  "technology": "Java 21",
+  "factory_profile": "systems-java",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

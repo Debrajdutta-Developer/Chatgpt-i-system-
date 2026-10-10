@@ -941,5 +941,79 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "database",
+    "commit_hash": null,
+    "cycle": "cycle-20261010T090718Z",
+    "date": "2026-10-10",
+    "keywords": [
+      "systems-engineering",
+      "graph-database",
+      "adjacency-list",
+      "query-planner",
+      "java-21"
+    ],
+    "major_features": [
+      "Custom Cypher-subset parser producing an AST for node and edge mutations",
+      "Compressed adjacency list storage engine utilizing direct byte buffers",
+      "Property map store with type-tagged variable-length attribute encoding",
+      "Bidirectional graph traversal engine supporting Breadth-First and Depth-First searches",
+      "Rule-based query optimizer generating execution plans from structural statistics",
+      "Multi-Version Concurrency Control (MVCC) for isolated concurrent graph updates",
+      "Virtual Thread-based parallel pathfinding worker orchestrator",
+      "Crash-recovery engine rebuilding indices from an append-only mutation journal"
+    ],
+    "name": "OmniGraph DB",
+    "problem": "Traditional graph databases require massive memory overhead and complex external caching tiers to traverse multi-hop relationships without latency spikes under heavy concurrent writes.",
+    "purpose": "A zero-dependency property graph database engine written in Java 21 implementing compressed adjacency lists, an explicit property map store, a rule-based query planner, and a custom Cypher-subset parser.",
+    "quality_score": 100,
+    "report_path": "reports/2026-10-10-090718-omnigraph-db.json",
+    "slug": "omnigraph-db",
+    "technology": "Java 21",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "javac",
+          "-Xlint:all",
+          "-Werror",
+          "-d",
+          "build/classes",
+          "src/main/java/factory/Core.java",
+          "src/main/java/factory/Main.java",
+          "src/test/java/factory/CoreTest.java",
+          "src/test/java/factory/IntegrationTest.java"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "java",
+          "-ea",
+          "-cp",
+          "build/classes",
+          "factory.CoreTest"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "java",
+          "-ea",
+          "-cp",
+          "build/classes",
+          "factory.IntegrationTest"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]

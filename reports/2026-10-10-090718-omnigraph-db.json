@@ -1,0 +1,309 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "graph-database",
+        "adjacency-list",
+        "query-planner",
+        "java-21"
+      ],
+      "major_features": [
+        "Custom Cypher-subset parser producing an AST for node and edge mutations",
+        "Compressed adjacency list storage engine utilizing direct byte buffers",
+        "Property map store with type-tagged variable-length attribute encoding",
+        "Bidirectional graph traversal engine supporting Breadth-First and Depth-First searches",
+        "Rule-based query optimizer generating execution plans from structural statistics",
+        "Multi-Version Concurrency Control (MVCC) for isolated concurrent graph updates",
+        "Virtual Thread-based parallel pathfinding worker orchestrator",
+        "Crash-recovery engine rebuilding indices from an append-only mutation journal"
+      ],
+      "name": "OmniGraph DB",
+      "pain": "Graph traversals hit exponential disk I/O penalties when navigating pointer-chasing patterns across un-indexed property sets.",
+      "problem": "Traditional graph databases require massive memory overhead and complex external caching tiers to traverse multi-hop relationships without latency spikes under heavy concurrent writes.",
+      "slug": "omnigraph-db",
+      "solution": "A zero-dependency property graph database engine written in Java 21 implementing compressed adjacency lists, an explicit property map store, a rule-based query planner, and a custom Cypher-subset parser.",
+      "target_user": "Systems Engineers and Data Infrastructure Developers",
+      "technology": "Java 21",
+      "verification": "Deterministic integration suite testing graph cycle detection, invalid edge deletion rollback, concurrent multi-hop pathfinding under race conditions, and malformed Cypher syntax throwing explicit parse errors."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "interpreter",
+        "type-checker",
+        "pointer-arithmetic",
+        "c11"
+      ],
+      "major_features": [
+        "Hand-written lexical analyzer handling multi-line comments and escape sequences",
+        "Recursive-descent parser building a concrete syntax tree for declarations and statements",
+        "Static semantic analyzer enforcing strict type checking and variable declarations",
+        "Symbol table supporting nested block scopes, function prototypes, and variable shadowing",
+        "Explicit virtual stack frame allocator tracking local variables and return addresses",
+        "Pointer arithmetic emulation enforcing strict memory bounds and null-dereference checks",
+        "Built-in standard library bindings for basic console input and formatted output",
+        "Interactive source disassembler dumping active stack frames and heap allocations on panic"
+      ],
+      "name": "C-Minus Interpreter",
+      "pain": "Debugging syntax errors and dynamic runtime boundary violations requires heavy debugger attachments that hide evaluation stack frames.",
+      "problem": "Modern production compilers obscure memory layout, symbol resolution stages, and type-checking mechanics behind complex optimization passes and heavy toolchains.",
+      "slug": "c-minus-interpreter",
+      "solution": "A zero-dependency source interpreter and type checker for a subset of the C language implemented in C11, featuring explicit lexical scoping, pointer arithmetic emulation, and custom stack frame layouts.",
+      "target_user": "Compiler Engineers and Systems Programming Students",
+      "technology": "C11",
+      "verification": "Comprehensive test harness executing conformance suites covering recursive functions, illegal pointer dereferences, type coercion mismatches, and lexical scope leakage errors."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "pub-sub",
+        "binary-protocol",
+        "topic-routing",
+        "java-21"
+      ],
+      "major_features": [
+        "Custom binary framing protocol with magic bytes and payload checksum validation",
+        "Wildcard topic routing engine supporting single-level and multi-level matching",
+        "Segmented disk-backed message log with configurable retention and byte rotation",
+        "Consumer group offset tracking engine managing partition assignment leases",
+        "Explicit client-side acknowledgment (ACK) and negative acknowledgment (NACK) loops",
+        "Dead-letter queue (DLQ) routing mechanism for repeatedly failing message deliveries",
+        "Non-blocking TCP network server utilizing Java 21 Selector and SocketChannel multiplexing",
+        "Dynamic backpressure controller dropping slow consumer sockets under high memory load"
+      ],
+      "name": "HexaStream Broker",
+      "pain": "Client applications drop messages during network partitions due to missing client-side acknowledgment tracking and poor buffer management.",
+      "problem": "Lightweight event brokers lack multi-topic pattern subscriptions and fine-grained dead-letter routing without heavy cluster coordination layers.",
+      "slug": "hexastream-broker",
+      "solution": "A zero-dependency pub-sub streaming broker implemented in Java 21, featuring a custom binary framing protocol, wildcard topic routing, partition offset indexing, and explicit client acknowledgement loops.",
+      "target_user": "Distributed Systems Developers and Infrastructure Architects",
+      "technology": "Java 21",
+      "verification": "Automated network simulation tests injecting socket delays, unexpected client disconnections, invalid packet magic bytes, and out-of-order acknowledgment frames."
+    },
+    {
+      "category": "search-engine",
+      "keywords": [
+        "systems-engineering",
+        "suffix-automaton",
+        "inverted-index",
+        "fuzzy-search",
+        "python-3.12"
+      ],
+      "major_features": [
+        "Custom suffix automaton builder constructing deterministic finite state transducers",
+        "Inverted positional postings list generator for phrase and proximity queries",
+        "Fuzzy string matching engine utilizing Levenshtein automata and bitap algorithms",
+        "Boolean query parser resolving complex nested AND, OR, and NOT operator trees",
+        "Dynamic document ingestion and deletion pipeline updating automaton states in-place",
+        "On-disk binary serialization format with CRC32 block integrity verification",
+        "Custom tokenization and normalization pipeline stripping punctuation and applying stem rules",
+        "Streaming query execution engine returning ranked hits with snippet highlights"
+      ],
+      "name": "LexiGrep Engine",
+      "pain": "Regular expression engines incur severe backtracking performance penalties on highly ambiguous patterns.",
+      "problem": "Standard string-matching utilities fail to execute fuzzy sub-string indexing and structured multi-field pattern matches efficiently across massive raw text streams without heavy search clusters.",
+      "slug": "lexigrep-engine",
+      "solution": "A zero-dependency full-text search engine implemented in Python 3.12 that builds an in-memory suffix automaton and an inverted positional posting index with wildcard phrase matching capabilities.",
+      "target_user": "Search Infrastructure Engineers and Log Processing Toolbuilders",
+      "technology": "Python 3.12",
+      "verification": "Deterministic test battery verifying correct fuzzy edit-distance boundary matches, escaped regex parsing errors, index persistence round-trips, and malformed query syntax handling."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "local-learning",
+        "time-series",
+        "online-weights",
+        "python-3.12"
+      ],
+      "major_features": [
+        "Online linear regression engine updating weights iteratively via gradient descent",
+        "Sliding-window time-series feature extractor calculating rolling averages and variance",
+        "Local reward-penalty feedback loop adjusting decision thresholds strictly from explicit signals",
+        "Anomaly scoring engine flagging metric deviations exceeding dynamic standard deviations",
+        "State persistence manager serializing model coefficients to JSON with checksum verification",
+        "Rule evaluation engine matching weighted feature vectors against safe execution triggers",
+        "Strict sandboxed state validator preventing external process spawning or shell command execution",
+        "Comprehensive metrics logging subsystem tracking convergence rates and error bounds"
+      ],
+      "name": "Cognitive Grid Agent",
+      "pain": "Complex multi-variable sensor feeds generate alert storms due to static thresholds lacking temporal context.",
+      "problem": "Local automation rules engines are rigid, requiring manual threshold configurations that fail to adapt to shifting operational baselines without cloud dependencies.",
+      "slug": "cognitive-grid-agent",
+      "solution": "A zero-dependency local learning agent implemented in Python 3.12 that processes numerical time-series metrics through an online linear weighting model, adapting exclusively from local reward/penalty feedback.",
+      "target_user": "Edge Systems Developers and Local Automation Engineers",
+      "technology": "Python 3.12",
+      "verification": "Deterministic verification runner testing safe bounded weight updates, explicit zero-feedback drift handling, malformed sensor payload rejection, and local state persistence constraints."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261010T090718Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/main/java/factory/Core.java",
+    "src/main/java/factory/Main.java",
+    "src/test/java/factory/CoreTest.java",
+    "src/test/java/factory/IntegrationTest.java"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Traditional graph databases require massive memory overhead and complex external caching tiers to traverse multi-hop relationships without latency spikes under heavy concurrent writes.",
+  "project_name": "OmniGraph DB",
+  "project_path": "projects/omnigraph-db",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:14: error: invalid method declaration; return type required\n        PropertyType(int id) { this.id = (byte) id; }\n        ^\nsrc/main/java/factory/Core.java:479: error: class, interface, enum, or record expected\n}\n^\n2 errors"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:389: error: cannot find symbol\n                Queue<PathState> queue = new LinkedList\u0644();\n                                             ^\n  symbol:   class LinkedList\u0644\n  location: class GraphEngine\nsrc/main/java/factory/Core.java:428: error: no suitable method found for supplyAsync(()->bfs(st[...]epth),ThreadFactory)\n            return CompletableFuture.supplyAsync(() -> bfs(startNodeId, maxDepth), Thread.ofVirtual().factory());\n                                    ^\n    method CompletableFuture.<U#1>supplyAsync(Supplier<U#1>) is not applicable\n      (cannot infer type-variable(s) U#1\n        (actual and formal argument lists differ in length))\n    method CompletableFuture.<U#2>supplyAsync(Supplier<U#2>,Executor) is not applicable\n      (cannot infer type-variable(s) U#2\n        (argument mismatch; ThreadFactory cannot be converted to Executor))\n  where U#1,U#2 are type-variables:\n    U#1 extends Object declared in method <U#1>supplyAsync(Supplier<U#1>)\n    U#2 extends Object declared in method <U#2>supplyAsync(Supplier<U#2>,Executor)\nsrc/test/java/factory/IntegrationTest.java:93: error: bad operand types for binary operator '!='\n        check(recovered.getNode(p1) != longValue(0), \"Journal recovery preserves nodes across engine re-initialization\");\n                                    ^\n  first type:  Node\n  second type: long\n3 errors"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:298: error: ')' expected\n            if (part.endsWith(\"))\") part = part.substring(0, part.length() - 1);\n                                   ^\n1 error"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "database",
+    "keywords": [
+      "systems-engineering",
+      "graph-database",
+      "adjacency-list",
+      "query-planner",
+      "java-21"
+    ],
+    "major_features": [
+      "Custom Cypher-subset parser producing an AST for node and edge mutations",
+      "Compressed adjacency list storage engine utilizing direct byte buffers",
+      "Property map store with type-tagged variable-length attribute encoding",
+      "Bidirectional graph traversal engine supporting Breadth-First and Depth-First searches",
+      "Rule-based query optimizer generating execution plans from structural statistics",
+      "Multi-Version Concurrency Control (MVCC) for isolated concurrent graph updates",
+      "Virtual Thread-based parallel pathfinding worker orchestrator",
+      "Crash-recovery engine rebuilding indices from an append-only mutation journal"
+    ],
+    "name": "OmniGraph DB",
+    "pain": "Graph traversals hit exponential disk I/O penalties when navigating pointer-chasing patterns across un-indexed property sets.",
+    "problem": "Traditional graph databases require massive memory overhead and complex external caching tiers to traverse multi-hop relationships without latency spikes under heavy concurrent writes.",
+    "slug": "omnigraph-db",
+    "solution": "A zero-dependency property graph database engine written in Java 21 implementing compressed adjacency lists, an explicit property map store, a rule-based query planner, and a custom Cypher-subset parser.",
+    "target_user": "Systems Engineers and Data Infrastructure Developers",
+    "technology": "Java 21",
+    "verification": "Deterministic integration suite testing graph cycle detection, invalid edge deletion rollback, concurrent multi-hop pathfinding under race conditions, and malformed Cypher syntax throwing explicit parse errors."
+  },
+  "slug": "omnigraph-db",
+  "standalone_status": "PENDING",
+  "target_user": "Systems Engineers and Data Infrastructure Developers",
+  "technology": "Java 21",
+  "timestamp": "2026-10-10T09:07:18.193198+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-java architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "javac",
+        "-Xlint:all",
+        "-Werror",
+        "-d",
+        "build/classes",
+        "src/main/java/factory/Core.java",
+        "src/main/java/factory/Main.java",
+        "src/test/java/factory/CoreTest.java",
+        "src/test/java/factory/IntegrationTest.java"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.CoreTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running CoreTest Suite...\nPASS: Node n1 is successfully created\nPASS: Node n1 ID is correctly assigned as 1\nPASS: Node n1 label is Person\nPASS: Node n2 ID is correctly assigned as 2\nPASS: Edge is successfully created between n1 and n2\nPASS: Edge source ID matches n1\nPASS: Edge target ID matches n2\nPASS: Edge type is KNOWS\nPASS: Cypher parser identifies CREATE command\nPASS: Cypher parser identifies Person label\nPASS: Cypher parser identifies variable p\nPASS: Malformed Cypher query throws explicit parse error\nPASS: Query planner generates 4 execution steps for CREATE\nPASS: First plan step is SCAN_CATALOG\nPASS: Storage engine allocates correct direct buffer capacity\nPASS: PropertyValue correctly tags LONG type\nPASS: PropertyValue returns correct LONG value\nPASS: Edge is successfully deleted\nPASS: Deleted edge is no longer in database\nPASS: Journal records mutation events\nPASS: Journal records node creation event\nAll CoreTest assertions passed successfully (21 checks)."
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.IntegrationTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running IntegrationTest Suite...\nPASS-INT: Linear graph has no cycles detected\nPASS-INT: Cyclic graph correctly triggers cycle detection\nPASS-INT: Cycle edge successfully removed\nPASS-INT: Cycle is resolved after edge removal\nPASS-INT: BFS finds path of length 3 between n1 and n3\nPASS-INT: BFS path starts at n1\nPASS-INT: BFS path ends at n3\nPASS-INT: Virtual thread concurrent pathfinding result 1 is valid\nPASS-INT: Virtual thread concurrent pathfinding result 2 is valid\nPASS-INT: Blank Cypher query throws parse error\nPASS-INT: Malformed CREATE syntax throws parse error\nPASS-INT: Node stores property successfully\nPASS-INT: Stored property type is STRING\nPASS-INT: Stored property value matches expected string\nAll IntegrationTest assertions passed successfully (14 checks)."
+    }
+  ]
+}
