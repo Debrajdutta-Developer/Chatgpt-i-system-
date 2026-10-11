@@ -1,0 +1,31 @@
+{
+  "name": "NexusQL Engine",
+  "slug": "nexusql-engine",
+  "target_user": "Systems Engineers, Database Architects",
+  "problem": "Single-node relational databases often bottleneck on locking contention and lack a custom-built, cost-based query optimizer and vectorized execution pipeline built entirely from scratch.",
+  "pain": "Standard database internals are buried behind massive legacy codebases, making it difficult to study or experiment with custom cost-based optimizers and lock-free execution engines.",
+  "solution": "A zero-dependency relational database storage and execution engine written in Java 21 featuring a custom SQL parser, a cost-based optimizer using catalog histograms, a lock-free page cache, and a vectorized Volcano-style iterator model.",
+  "verification": "Deterministic integration suite executing malformed SQL statements, synthetic out-of-order transaction histories, concurrent write stress tests, and corrupted binary page recovery verification.",
+  "category": "database",
+  "keywords": [
+    "systems-engineering",
+    "database",
+    "storage-engine",
+    "query-optimizer",
+    "java-21"
+  ],
+  "major_features": [
+    "Custom SQL lexer and recursive-descent parser producing an explicit Abstract Syntax Tree",
+    "Cost-based query optimizer (CBO) translating logical plans using column statistics histograms",
+    "Vectorized execution engine processing blocks of tuples to minimize virtual dispatch overhead",
+    "Lock-free page cache implementing an eviction policy with atomic handle tracking",
+    "Multi-Version Concurrency Control (MVCC) snapshot isolation engine for concurrent readers and writers",
+    "Binary slotted-page storage manager supporting variable-length record packing and splitting",
+    "Parallel scan orchestrator utilizing Java 21 Virtual Threads for concurrent block retrieval",
+    "Deterministic crash-recovery subsystem replaying a binary Write-Ahead Log (WAL) with checkpoint validation"
+  ],
+  "technology": "Java 21",
+  "factory_profile": "systems-java",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

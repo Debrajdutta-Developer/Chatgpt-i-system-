@@ -1,0 +1,289 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "database",
+        "storage-engine",
+        "query-optimizer",
+        "java-21"
+      ],
+      "major_features": [
+        "Custom SQL lexer and recursive-descent parser producing an explicit Abstract Syntax Tree",
+        "Cost-based query optimizer (CBO) translating logical plans using column statistics histograms",
+        "Vectorized execution engine processing blocks of tuples to minimize virtual dispatch overhead",
+        "Lock-free page cache implementing an eviction policy with atomic handle tracking",
+        "Multi-Version Concurrency Control (MVCC) snapshot isolation engine for concurrent readers and writers",
+        "Binary slotted-page storage manager supporting variable-length record packing and splitting",
+        "Parallel scan orchestrator utilizing Java 21 Virtual Threads for concurrent block retrieval",
+        "Deterministic crash-recovery subsystem replaying a binary Write-Ahead Log (WAL) with checkpoint validation"
+      ],
+      "name": "NexusQL Engine",
+      "pain": "Standard database internals are buried behind massive legacy codebases, making it difficult to study or experiment with custom cost-based optimizers and lock-free execution engines.",
+      "problem": "Single-node relational databases often bottleneck on locking contention and lack a custom-built, cost-based query optimizer and vectorized execution pipeline built entirely from scratch.",
+      "slug": "nexusql-engine",
+      "solution": "A zero-dependency relational database storage and execution engine written in Java 21 featuring a custom SQL parser, a cost-based optimizer using catalog histograms, a lock-free page cache, and a vectorized Volcano-style iterator model.",
+      "target_user": "Systems Engineers, Database Architects",
+      "technology": "Java 21",
+      "verification": "Deterministic integration suite executing malformed SQL statements, synthetic out-of-order transaction histories, concurrent write stress tests, and corrupted binary page recovery verification."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "compiler",
+        "virtual-machine",
+        "runtime",
+        "c11"
+      ],
+      "major_features": [
+        "Custom lexer and recursive-descent parser supporting statements, functions, and closures",
+        "Stack-based bytecode compiler translating AST nodes into dense numeric opcodes",
+        "Virtual machine execution loop managing explicit call frames, stack pointers, and registers",
+        "Reference-counting memory manager tracking heap allocations with metadata headers",
+        "Cycle-detection garbage collection pass resolving deferred circular reference graphs",
+        "First-class closure implementation capturing and retaining outer lexical environment scopes",
+        "Built-in foreign function interface (FFI) bindings for executing host system routines",
+        "Disassembler subsystem formatting binary bytecode streams into human-readable assembly"
+      ],
+      "name": "Kerno Runtime",
+      "pain": "Writing a complete language runtime from scratch requires handling complex edge cases like reference cycle breaking, stack frame unwinding, and precise symbol table resolution.",
+      "problem": "Higher-level languages abstract away memory management and stack layout, hiding how closures, lexical scoping, and automatic reference counting function at the machine level.",
+      "slug": "kerno-runtime",
+      "solution": "A zero-dependency lexical-scoping interpreter and reference-counting virtual machine implemented in C11, featuring a custom AST compiler, first-class closures, dynamic environment frames, and a cycle-detecting reference tracker.",
+      "target_user": "Compiler Engineers, Systems Programmers",
+      "technology": "C11",
+      "verification": "Test suite featuring invalid syntax trees, recursive reference cycles, uninitialized variable access, stack overflow boundary conditions, and memory leak verification scripts."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "message-queue",
+        "distributed-systems",
+        "networking",
+        "java-21"
+      ],
+      "major_features": [
+        "Custom binary wire protocol supporting framed message payloads and multiplexed streams",
+        "Segmented append-only on-disk log storage with configurable byte-size and time rotation",
+        "Consumer group coordination engine handling dynamic partition assignment and heartbeats",
+        "Explicit message acknowledgment (ACK) and offset commit tracking loops",
+        "Non-blocking TCP network server utilizing Java 21 Selector and SocketChannel multiplexing",
+        "Zero-copy file transfer pipeline utilizing NIO FileChannel and socket transmission",
+        "Configurable retention policy enforcing background disk compaction and segment pruning",
+        "Deterministic integration harness simulating network packet drops and socket delays"
+      ],
+      "name": "SentryStream",
+      "pain": "Building a fault-tolerant message queue requires manual handling of segment file rotation, offset tracking, and asynchronous network selector multiplexing without external dependencies.",
+      "problem": "Enterprise message brokers are heavily bloated, while lightweight socket servers lack robust consumer group coordination, message deduplication, and zero-copy log persistence.",
+      "slug": "sentrystream",
+      "solution": "A high-performance append-only message log and broker written in Java 21, implementing a custom binary wire protocol, zero-copy file segment mapping, consumer group offset rebalancing, and retention compaction.",
+      "target_user": "Distributed Systems Engineers, Infrastructure Developers",
+      "technology": "Java 21",
+      "verification": "Test harness injecting socket connection drops, corrupt length-prefixed frames, overlapping consumer group rebalances, and disk-full write exceptions."
+    },
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "storage-engine",
+        "b-plus-tree",
+        "indexing",
+        "python-3.12"
+      ],
+      "major_features": [
+        "Self-balancing B+Tree node splitting and merging algorithms implemented on binary blocks",
+        "Fixed-size node layout supporting key-value slot compaction and pointer management",
+        "On-disk binary serialization layout with embedded CRC32 integrity verification checksums",
+        "Range query iterator supporting forward and backward traversal across disk leaf nodes",
+        "Write-Ahead Log (WAL) recording structural mutations for crash recovery",
+        "LRU block cache managing memory-mapped file pages with pin-count locking",
+        "Multi-Version Concurrency Control (MVCC) maintaining historical node versions for snapshots",
+        "Background compaction utility defragmenting split leaf nodes and reclaiming free pages"
+      ],
+      "name": "ApexIndex",
+      "pain": "Writing a self-balancing B+Tree or LSM-tree index from scratch requires complex node splitting, page layout serialization, and concurrency control logic.",
+      "problem": "Standard disk-based storage struggles to maintain sub-millisecond range queries over high-cardinality keys without consuming excessive RAM or suffering from fragmentation.",
+      "slug": "apexindex",
+      "solution": "A zero-dependency disk-backed B+Tree indexing engine written in Python 3.12, providing node splitting, batched transactional updates, MVCC iteration, and binary block serialization with CRC32 verification.",
+      "target_user": "Database Engineers, Storage Architects",
+      "technology": "Python 3.12",
+      "verification": "Comprehensive test suite covering root node splits under high-volume insertions, missing key lookups, malformed disk blocks, and concurrent read-write transaction isolation."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "agent-engine",
+        "reasoning",
+        "state-machine",
+        "java-21"
+      ],
+      "major_features": [
+        "Deterministic state-transition planner evaluating rule graphs via forward chaining",
+        "Working memory subsystem maintaining typed facts with automated TTL expiration",
+        "Constraint validation engine detecting and resolving contradictory belief states",
+        "Heuristic scoring module ranking prospective action paths based on local weights",
+        "Immutable audit log recording every inference step and state mutation with timestamps",
+        "Bounded context window manager dropping stale facts according to priority policies",
+        "Explicit feedback adaptation loop adjusting internal weight parameters from local telemetry",
+        "Virtual Thread-based concurrent rule evaluation engine processing decoupled sub-goals"
+      ],
+      "name": "CognitiveGrid Agent",
+      "pain": "Designing an autonomous local agent without heavy external frameworks requires managing explicit belief-desire-intent loops, rule constraints, and bounded memory buffers manually.",
+      "problem": "Local decision-making agents often lack a transparent, inspectable constraint engine and deterministic state-transition memory, relying on opaque probabilistic black boxes.",
+      "slug": "cognitivegrid-agent",
+      "solution": "A zero-dependency local reasoning agent engine written in Java 21, implementing a deterministic state-transition planner, a working memory rule engine, local heuristic scoring, and immutable audit logs.",
+      "target_user": "AI Researchers, Systems Architects",
+      "technology": "Java 21",
+      "verification": "Test framework evaluating conflicting constraint rules, cyclic goal dependencies, bounded memory overflow conditions, and corrupted state restoration sequences."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261011T092049Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/main/java/factory/Core.java",
+    "src/main/java/factory/Main.java",
+    "src/test/java/factory/CoreTest.java",
+    "src/test/java/factory/IntegrationTest.java"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Single-node relational databases often bottleneck on locking contention and lack a custom-built, cost-based query optimizer and vectorized execution pipeline built entirely from scratch.",
+  "project_name": "NexusQL Engine",
+  "project_path": "projects/nexusql-engine",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "=== Running CoreTest Suite ===\n[PASS] assertLexerTokenCountNonZero\n[PASS] assertLexerFirstTokenSelect\n[PASS] assertParserProducesSelectStmt\n[PASS] assertParserTableNameCorrect\n[PASS] assertParserWhereColumnCorrect\n[PASS] assertParserWhereValueCorrect\n[PASS] assertSlottedPageInsertFirstRecord\n[PASS] assertSlottedPageInsertSecondRecord\n[PASS] assertSlottedPageItemCountTwo\nException in thread \"main\" java.lang.NegativeArraySizeException: -16\n\tat factory.Core$SlottedPage.getRecord(Core.java:326)\n\tat factory.CoreTest.main(CoreTest.java:46)"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "database",
+    "keywords": [
+      "systems-engineering",
+      "database",
+      "storage-engine",
+      "query-optimizer",
+      "java-21"
+    ],
+    "major_features": [
+      "Custom SQL lexer and recursive-descent parser producing an explicit Abstract Syntax Tree",
+      "Cost-based query optimizer (CBO) translating logical plans using column statistics histograms",
+      "Vectorized execution engine processing blocks of tuples to minimize virtual dispatch overhead",
+      "Lock-free page cache implementing an eviction policy with atomic handle tracking",
+      "Multi-Version Concurrency Control (MVCC) snapshot isolation engine for concurrent readers and writers",
+      "Binary slotted-page storage manager supporting variable-length record packing and splitting",
+      "Parallel scan orchestrator utilizing Java 21 Virtual Threads for concurrent block retrieval",
+      "Deterministic crash-recovery subsystem replaying a binary Write-Ahead Log (WAL) with checkpoint validation"
+    ],
+    "name": "NexusQL Engine",
+    "pain": "Standard database internals are buried behind massive legacy codebases, making it difficult to study or experiment with custom cost-based optimizers and lock-free execution engines.",
+    "problem": "Single-node relational databases often bottleneck on locking contention and lack a custom-built, cost-based query optimizer and vectorized execution pipeline built entirely from scratch.",
+    "slug": "nexusql-engine",
+    "solution": "A zero-dependency relational database storage and execution engine written in Java 21 featuring a custom SQL parser, a cost-based optimizer using catalog histograms, a lock-free page cache, and a vectorized Volcano-style iterator model.",
+    "target_user": "Systems Engineers, Database Architects",
+    "technology": "Java 21",
+    "verification": "Deterministic integration suite executing malformed SQL statements, synthetic out-of-order transaction histories, concurrent write stress tests, and corrupted binary page recovery verification."
+  },
+  "slug": "nexusql-engine",
+  "standalone_status": "PENDING",
+  "target_user": "Systems Engineers, Database Architects",
+  "technology": "Java 21",
+  "timestamp": "2026-10-11T09:20:49.616937+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-java architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "javac",
+        "-Xlint:all",
+        "-Werror",
+        "-d",
+        "build/classes",
+        "src/main/java/factory/Core.java",
+        "src/main/java/factory/Main.java",
+        "src/test/java/factory/CoreTest.java",
+        "src/test/java/factory/IntegrationTest.java"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.CoreTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running CoreTest Suite...\n[PASS] assertLexerTokenCountNonZero\n[PASS] assertLexerFirstTokenSelect\n[PASS] assertParserProducesSelectStmt\n[PASS] assertParserTableNameCorrect\n[PASS] assertParserWhereColumnCorrect\n[PASS] assertParserWhereValueCorrect\n[PASS] assertSlottedPageInsertFirstRecord\n[PASS] assertSlottedPageInsertSecondRecord\n[PASS] assertSlottedPageItemCountTwo\n[PASS] assertSlottedPageRecordZeroContent\n[PASS] assertPageCacheSizeOne\n[PASS] assertMVCCMonotonicTransactions\n[PASS] assertMVCCVisibilityTrue\nCoreTest Suite completed successfully with all assertions verified."
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.IntegrationTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running IntegrationTest Suite...\n[INTEGRATION PASS] assertCatalogTableRegistered\n[INTEGRATION PASS] assertCatalogHistogramRegistered\n[INTEGRATION PASS] assertCBOProducesIndexScanPlan\n[INTEGRATION PASS] assertVectorBatchSizeMatches\n[INTEGRATION PASS] assertVectorBatchFirstElement\n[INTEGRATION PASS] assertVectorBatchSecondElement\n[INTEGRATION PASS] assertWALEntryCountThree\n[INTEGRATION PASS] assertWALFirstEntryBegin\n[INTEGRATION PASS] assertRecoveredPageItemCount\n[INTEGRATION PASS] assertRecoveredPageRecordContent\nIntegrationTest Suite completed successfully with all assertions verified."
+    }
+  ]
+}
