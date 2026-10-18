@@ -1,0 +1,32 @@
+{
+  "name": "EtherRoute",
+  "slug": "etherroute",
+  "target_user": "Network Protocol Engineers and Systems Architects",
+  "problem": "Standard userspace networking stacks hide packet routing mechanics and lack programmable flow control, deterministic queue management, and isolated congestion testing harnesses.",
+  "pain": "Simulating complex packet loss, route calculation anomalies, and transport-layer reliability protocols locally requires heavy virtual machine infrastructure.",
+  "solution": "A zero-dependency userspace network router and transport protocol stack implemented in Java 21, featuring a custom IP packet parser, routing table lookup engine, and reliable sliding-window transport layer.",
+  "verification": "Rigorous test suite injecting corrupted Ethernet frames, overlapping subnet masks, dropped packets, and out-of-order TCP segments into loopback socket channels to verify state machine robustness.",
+  "category": "systems-tool",
+  "keywords": [
+    "systems-engineering",
+    "networking",
+    "protocol-stack",
+    "tcp-ip",
+    "java-21",
+    "systems-infrastructure"
+  ],
+  "major_features": [
+    "Custom Ethernet frame and IPv4/IPv6 packet parser operating directly on raw byte buffers",
+    "Longest-Prefix Match (LPM) routing table lookup engine implemented using compressed trie structures",
+    "Reliable transport layer implementing sliding-window flow control and selective acknowledgment (SACK)",
+    "Congestion control state machine incorporating slow-start, congestion avoidance, and fast recovery loops",
+    "Non-blocking I/O multiplexer utilizing Java 21 Selector and SocketChannel primitives",
+    "Virtual network interface simulation harness supporting loopback packet injection and bridging",
+    "Deterministic network delay and jitter emulator injecting configurable latency profiles",
+    "Comprehensive traffic metrics collector logging packet loss ratios, retransmissions, and throughput"
+  ],
+  "technology": "Java 21",
+  "factory_profile": "systems-java",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

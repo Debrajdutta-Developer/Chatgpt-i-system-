@@ -1,0 +1,330 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "database",
+        "storage-engine",
+        "b-plus-tree",
+        "c11",
+        "systems-infrastructure"
+      ],
+      "major_features": [
+        "Custom SQL lexer and recursive-descent parser generating an explicit Abstract Syntax Tree",
+        "Cost-based query optimizer utilizing table statistics and catalog histograms",
+        "Lock-free page cache implementing clock-pro eviction algorithms with atomic handle tracking",
+        "Binary B+Tree index manager supporting variable-length keys and node splitting algorithms",
+        "Multi-Version Concurrency Control (MVCC) snapshot isolation engine for concurrent readers and writers",
+        "Slotted-page storage layout supporting variable-length record packing and fragmentation cleanup",
+        "Volcano-style physical execution iterator model processing tuple streams through relational operators",
+        "Deterministic crash-recovery subsystem replaying a binary Write-Ahead Log (WAL) with checksum validation"
+      ],
+      "name": "KernoSQL",
+      "pain": "Developers building local high-throughput applications lack an observable, modular relational storage engine with customizable access paths and explicit concurrency control mechanics.",
+      "problem": "Embedded relational databases often suffer from monolithic locking architectures, opaque query processing, and lack transparent cost-based optimization or lock-free buffer pool management.",
+      "slug": "kernosql",
+      "solution": "A zero-dependency relational database engine written in C11 featuring a custom SQL parser, an extensible cost-based optimizer, a lock-free page cache, and a binary B+Tree index manager.",
+      "target_user": "Systems Engineers and Database Developers",
+      "technology": "C11",
+      "verification": "Deterministic integration suite feeding malformed SQL syntax, out-of-order transaction histories, concurrent write contention spikes, and corrupted binary page files to verify recovery invariants."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "networking",
+        "protocol-stack",
+        "tcp-ip",
+        "java-21",
+        "systems-infrastructure"
+      ],
+      "major_features": [
+        "Custom Ethernet frame and IPv4/IPv6 packet parser operating directly on raw byte buffers",
+        "Longest-Prefix Match (LPM) routing table lookup engine implemented using compressed trie structures",
+        "Reliable transport layer implementing sliding-window flow control and selective acknowledgment (SACK)",
+        "Congestion control state machine incorporating slow-start, congestion avoidance, and fast recovery loops",
+        "Non-blocking I/O multiplexer utilizing Java 21 Selector and SocketChannel primitives",
+        "Virtual network interface simulation harness supporting loopback packet injection and bridging",
+        "Deterministic network delay and jitter emulator injecting configurable latency profiles",
+        "Comprehensive traffic metrics collector logging packet loss ratios, retransmissions, and throughput"
+      ],
+      "name": "EtherRoute",
+      "pain": "Simulating complex packet loss, route calculation anomalies, and transport-layer reliability protocols locally requires heavy virtual machine infrastructure.",
+      "problem": "Standard userspace networking stacks hide packet routing mechanics and lack programmable flow control, deterministic queue management, and isolated congestion testing harnesses.",
+      "slug": "etherroute",
+      "solution": "A zero-dependency userspace network router and transport protocol stack implemented in Java 21, featuring a custom IP packet parser, routing table lookup engine, and reliable sliding-window transport layer.",
+      "target_user": "Network Protocol Engineers and Systems Architects",
+      "technology": "Java 21",
+      "verification": "Rigorous test suite injecting corrupted Ethernet frames, overlapping subnet masks, dropped packets, and out-of-order TCP segments into loopback socket channels to verify state machine robustness."
+    },
+    {
+      "category": "search-engine",
+      "keywords": [
+        "systems-engineering",
+        "vector-search",
+        "hnsw",
+        "python-3.12",
+        "indexing",
+        "similarity-search"
+      ],
+      "major_features": [
+        "Hierarchical Navigable Small World (HNSW) multi-layer graph index construction and greedy search",
+        "Product Quantization (PQ) compression engine reducing high-dimensional vector memory footprint",
+        "Custom distance metric calculators supporting Cosine similarity, Euclidean distance, and Inner Product",
+        "On-disk binary serialization layout packing graph adjacency lists and vector centroids with CRC32 verification",
+        "Dynamic index maintenance supporting in-place vector insertion and node deletion mechanics",
+        "Brute-force exact k-nearest neighbor fallback validator for recall accuracy benchmarking",
+        "Configurable efSearch and M graph traversal hyper-parameter tuning interface",
+        "Batch query execution engine processing multi-vector requests concurrently"
+      ],
+      "name": "Vectoris",
+      "pain": "Studying the exact mechanics of approximate nearest neighbor search requires parsing complex library wrappers without visibility into hierarchical graph topologies.",
+      "problem": "Vector similarity search libraries are monolithic C++ binaries that lack transparent index inspection tools, custom distance metrics, and inspectable memory layouts.",
+      "slug": "vectoris",
+      "solution": "A zero-dependency approximate nearest neighbor (ANN) vector search engine written in Python 3.12, implementing a Hierarchical Navigable Small World (HNSW) graph index and Product Quantization.",
+      "target_user": "Machine Learning Infrastructure Engineers",
+      "technology": "Python 3.12",
+      "verification": "Extensive unit and property-based test harness validating graph connectivity invariants, empty query handling, high-dimensional degenerate vectors, and serialization round-trip integrity."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "compiler",
+        "interpreter",
+        "type-checker",
+        "java-21",
+        "ast"
+      ],
+      "major_features": [
+        "Pratt parser and recursive-descent lexer producing a fully annotated Abstract Syntax Tree (AST)",
+        "Static semantic analyzer and type inference engine detecting type mismatches and scope violations",
+        "Environment and lexical scope symbol table supporting nested block scopes and variable shadowing",
+        "Stack-based execution engine with explicit operand stack, call stack, and frame pointer registers",
+        "Heap allocator supporting dynamic object allocation with header metadata and runtime type tagging",
+        "Reference-counting garbage collector handling cyclic reference detection and memory reclamation",
+        "Built-in native function binding interface for calling host Java routines from interpreted scripts",
+        "Disassembler subsystem converting AST nodes into human-readable intermediate representation bytecode"
+      ],
+      "name": "LexiScript",
+      "pain": "Developers exploring language runtime mechanics lack an observable interpreter with explicit stack-frame inspection, type checking, and precise memory collection phases.",
+      "problem": "Interpreters and compilers are often difficult to analyze due to tightly coupled lexing, parsing, and execution phases that obscure intermediate representations.",
+      "slug": "lexiscript",
+      "solution": "A zero-dependency statically-typed programming language interpreter and type checker built in Java 21, featuring a Pratt parser, static symbol analyzer, and custom reference-counting garbage collector.",
+      "target_user": "Language Implementers and Compiler Engineers",
+      "technology": "Java 21",
+      "verification": "Comprehensive test harness executing invalid syntax tokens, circular type references, uninitialized variable access, and deep recursion exhaustion to verify exception safety and diagnostics."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "agent-engine",
+        "finite-state-machine",
+        "python-3.12",
+        "local-agents",
+        "orchestration"
+      ],
+      "major_features": [
+        "Explicit finite-state machine (FSM) orchestrating agent perception, thought, and action loops",
+        "Secure local tool execution sandbox enforcing strict argument type validation and execution timeouts",
+        "Append-only state journaling engine recording every reasoning step with cryptographic hashing",
+        "Local feedback ingestion parser incorporating explicit numeric and categorical reward signals",
+        "State rollback and checkpointing mechanism allowing execution branch pruning and restoration",
+        "Deterministic plan validator preventing infinite recursion and circular dependency deadlocks",
+        "On-disk structured memory store persisting agent context across local execution sessions",
+        "Comprehensive telemetry audit logger exporting execution traces into standardized JSON contracts"
+      ],
+      "name": "AgenticFlow",
+      "pain": "Building robust local workflows that execute multi-step deterministic reasoning loops without external API dependencies is hindered by lack of inspectable state machines.",
+      "problem": "Local agent frameworks often rely on heavy external agentic loops with opaque state transitions, uncontrollable execution recursion, and fragile deterministic state persistence.",
+      "slug": "agenticflow",
+      "solution": "A zero-dependency local deterministic agent orchestration engine written in Python 3.12, implementing an explicit finite-state machine reasoning loop, tool execution sandbox, and state journal.",
+      "target_user": "AI Systems Engineers and Local Automation Developers",
+      "technology": "Python 3.12",
+      "verification": "Automated test suite feeding cyclic tool execution graphs, malformed JSON reasoning outputs, resource exhaustion limits, and missing state keys to verify deterministic recovery."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261018T072636Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/main/java/factory/Core.java",
+    "src/main/java/factory/Main.java",
+    "src/test/java/factory/CoreTest.java",
+    "src/test/java/factory/IntegrationTest.java"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Standard userspace networking stacks hide packet routing mechanics and lack programmable flow control, deterministic queue management, and isolated congestion testing harnesses.",
+  "project_name": "EtherRoute",
+  "project_path": "projects/etherroute",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [
+    {
+      "idea": {
+        "category": "database",
+        "keywords": [
+          "systems-engineering",
+          "database",
+          "storage-engine",
+          "b-plus-tree",
+          "c11",
+          "systems-infrastructure"
+        ],
+        "major_features": [
+          "Custom SQL lexer and recursive-descent parser generating an explicit Abstract Syntax Tree",
+          "Cost-based query optimizer utilizing table statistics and catalog histograms",
+          "Lock-free page cache implementing clock-pro eviction algorithms with atomic handle tracking",
+          "Binary B+Tree index manager supporting variable-length keys and node splitting algorithms",
+          "Multi-Version Concurrency Control (MVCC) snapshot isolation engine for concurrent readers and writers",
+          "Slotted-page storage layout supporting variable-length record packing and fragmentation cleanup",
+          "Volcano-style physical execution iterator model processing tuple streams through relational operators",
+          "Deterministic crash-recovery subsystem replaying a binary Write-Ahead Log (WAL) with checksum validation"
+        ],
+        "name": "KernoSQL",
+        "pain": "Developers building local high-throughput applications lack an observable, modular relational storage engine with customizable access paths and explicit concurrency control mechanics.",
+        "problem": "Embedded relational databases often suffer from monolithic locking architectures, opaque query processing, and lack transparent cost-based optimization or lock-free buffer pool management.",
+        "slug": "kernosql",
+        "solution": "A zero-dependency relational database engine written in C11 featuring a custom SQL parser, an extensible cost-based optimizer, a lock-free page cache, and a binary B+Tree index manager.",
+        "target_user": "Systems Engineers and Database Developers",
+        "technology": "C11",
+        "verification": "Deterministic integration suite feeding malformed SQL syntax, out-of-order transaction histories, concurrent write contention spikes, and corrupted binary page files to verify recovery invariants."
+      },
+      "matched": "NexusQL Engine",
+      "reason": "duplicate",
+      "similarity": 0.542
+    }
+  ],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/test/java/factory/IntegrationTest.java:129: error: incompatible types: int cannot be converted to String\n                Core.parseIpAddress(\"10.1.2.50\")));\n                                   ^\nNote: Some messages have been simplified; recompile with -Xdiags:verbose to get full output\n1 error"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "systems-tool",
+    "keywords": [
+      "systems-engineering",
+      "networking",
+      "protocol-stack",
+      "tcp-ip",
+      "java-21",
+      "systems-infrastructure"
+    ],
+    "major_features": [
+      "Custom Ethernet frame and IPv4/IPv6 packet parser operating directly on raw byte buffers",
+      "Longest-Prefix Match (LPM) routing table lookup engine implemented using compressed trie structures",
+      "Reliable transport layer implementing sliding-window flow control and selective acknowledgment (SACK)",
+      "Congestion control state machine incorporating slow-start, congestion avoidance, and fast recovery loops",
+      "Non-blocking I/O multiplexer utilizing Java 21 Selector and SocketChannel primitives",
+      "Virtual network interface simulation harness supporting loopback packet injection and bridging",
+      "Deterministic network delay and jitter emulator injecting configurable latency profiles",
+      "Comprehensive traffic metrics collector logging packet loss ratios, retransmissions, and throughput"
+    ],
+    "name": "EtherRoute",
+    "pain": "Simulating complex packet loss, route calculation anomalies, and transport-layer reliability protocols locally requires heavy virtual machine infrastructure.",
+    "problem": "Standard userspace networking stacks hide packet routing mechanics and lack programmable flow control, deterministic queue management, and isolated congestion testing harnesses.",
+    "slug": "etherroute",
+    "solution": "A zero-dependency userspace network router and transport protocol stack implemented in Java 21, featuring a custom IP packet parser, routing table lookup engine, and reliable sliding-window transport layer.",
+    "target_user": "Network Protocol Engineers and Systems Architects",
+    "technology": "Java 21",
+    "verification": "Rigorous test suite injecting corrupted Ethernet frames, overlapping subnet masks, dropped packets, and out-of-order TCP segments into loopback socket channels to verify state machine robustness."
+  },
+  "slug": "etherroute",
+  "standalone_status": "PENDING",
+  "target_user": "Network Protocol Engineers and Systems Architects",
+  "technology": "Java 21",
+  "timestamp": "2026-10-18T07:26:36.630216+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-java architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "javac",
+        "-Xlint:all",
+        "-Werror",
+        "-d",
+        "build/classes",
+        "src/main/java/factory/Core.java",
+        "src/main/java/factory/Main.java",
+        "src/test/java/factory/CoreTest.java",
+        "src/test/java/factory/IntegrationTest.java"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.CoreTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running CoreTest Suite...\n[PASS] IP address parses to non-zero integer\n[PASS] IP address formatting roundtrips correctly\n[PASS] Ethernet frame parses correct ethertype\n[PASS] Ethernet frame serializes to correct length\n[PASS] LPM selects most specific route /24 over /8\n[PASS] LPM falls back to less specific /8 route\n[PASS] Congestion controller starts in SLOW_START\n[PASS] CWND increases in slow start upon ACK\n[PASS] CWND resets to 1.0 upon timeout\n[PASS] Congestion controller returns to SLOW_START on timeout\n[PASS] Metrics records sent packets correctly\n[PASS] Metrics records dropped packets correctly\nCoreTest completed successfully. Total checks passed: 12"
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.IntegrationTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running IntegrationTest Suite...\n[INTEGRATION PASS] Virtual interface successfully transmits packet through outbox\n[INTEGRATION PASS] Transmitted packet length is preserved across interface\n[INTEGRATION PASS] Overlapping routes correctly resolve to /24 prefix\n[INTEGRATION PASS] Overlapping routes correctly resolve to /16 prefix when /24 does not match\n[INTEGRATION PASS] Unmatched destination routes correctly to default gateway 0.0.0.0/0\n[INTEGRATION PASS] Congestion controller enters FAST_RECOVERY upon 3 duplicate ACKs\n[INTEGRATION PASS] Congestion controller transitions to CONGESTION_AVOIDANCE after new ACK in recovery\n[INTEGRATION PASS] Ethernet parser correctly rejects malformed frames under 14 bytes\n[INTEGRATION PASS] IPv4 parser correctly rejects malformed packets under 20 bytes\n[INTEGRATION PASS] IP address parsing succeeds for standard private range\nIntegrationTest completed successfully. Total checks passed: 10"
+    }
+  ]
+}
