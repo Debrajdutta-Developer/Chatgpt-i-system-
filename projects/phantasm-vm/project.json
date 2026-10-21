@@ -1,0 +1,31 @@
+{
+  "name": "Phantasm-VM",
+  "slug": "phantasm-vm",
+  "target_user": "Systems software engineers and compiler developers debugging deterministic execution and reverse step operations.",
+  "problem": "Debugging low-level assembly or custom bytecode routines is difficult when unexpected state corruption occurs deep in execution loops without time-travel step-back capabilities.",
+  "pain": "Standard debuggers only step forward, forcing developers to restart execution and reproduce fragile state transitions when chasing obscure memory corruption or stack drift.",
+  "solution": "A zero-dependency time-travel execution engine and debugger in C11 for a custom 32-bit register-based virtual instruction set, featuring differential state snapshotting, deterministic reverse execution, and page-level memory protection.",
+  "verification": "Automated test suite asserting opcode decoding accuracy, bit-exact snapshot restoration across 100,000 instruction steps, deterministic step-back verification, and error handling for malformed bytecode frames, unaligned memory access, and stack boundary overflows.",
+  "category": "compiler",
+  "keywords": [
+    "systems-engineering",
+    "virtual-machine",
+    "time-travel-debugging",
+    "c11",
+    "bytecode"
+  ],
+  "major_features": [
+    "Custom 32-bit register-based virtual instruction set architecture (ISA) with explicit opcode encoding",
+    "Bi-directional execution pipeline supporting step-forward and bit-exact deterministic step-back operations",
+    "Page-level copy-on-write memory diffing engine for efficient snapshot state compression",
+    "Register-file state checkpoint manager storing execution frames and flags delta histories",
+    "Interactive disassembler subsystem converting compiled binary opcode buffers into mnemonic instructions",
+    "Breakpoint predicate solver evaluating register and memory expressions before opcode execution",
+    "Memory access violation monitor trapping unaligned reads, out-of-bounds writes, and stack overflows",
+    "Deterministic instruction replay engine verifying state alignment against logged execution traces"
+  ],
+  "technology": "C11",
+  "factory_profile": "systems-c",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

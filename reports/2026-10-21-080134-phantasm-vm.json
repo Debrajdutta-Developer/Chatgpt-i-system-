@@ -1,0 +1,355 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "virtual-machine",
+        "time-travel-debugging",
+        "c11",
+        "bytecode"
+      ],
+      "major_features": [
+        "Custom 32-bit register-based virtual instruction set architecture (ISA) with explicit opcode encoding",
+        "Bi-directional execution pipeline supporting step-forward and bit-exact deterministic step-back operations",
+        "Page-level copy-on-write memory diffing engine for efficient snapshot state compression",
+        "Register-file state checkpoint manager storing execution frames and flags delta histories",
+        "Interactive disassembler subsystem converting compiled binary opcode buffers into mnemonic instructions",
+        "Breakpoint predicate solver evaluating register and memory expressions before opcode execution",
+        "Memory access violation monitor trapping unaligned reads, out-of-bounds writes, and stack overflows",
+        "Deterministic instruction replay engine verifying state alignment against logged execution traces"
+      ],
+      "name": "Phantasm-VM",
+      "pain": "Standard debuggers only step forward, forcing developers to restart execution and reproduce fragile state transitions when chasing obscure memory corruption or stack drift.",
+      "problem": "Debugging low-level assembly or custom bytecode routines is difficult when unexpected state corruption occurs deep in execution loops without time-travel step-back capabilities.",
+      "slug": "phantasm-vm",
+      "solution": "A zero-dependency time-travel execution engine and debugger in C11 for a custom 32-bit register-based virtual instruction set, featuring differential state snapshotting, deterministic reverse execution, and page-level memory protection.",
+      "target_user": "Systems software engineers and compiler developers debugging deterministic execution and reverse step operations.",
+      "technology": "C11",
+      "verification": "Automated test suite asserting opcode decoding accuracy, bit-exact snapshot restoration across 100,000 instruction steps, deterministic step-back verification, and error handling for malformed bytecode frames, unaligned memory access, and stack boundary overflows."
+    },
+    {
+      "category": "search-engine",
+      "keywords": [
+        "systems-engineering",
+        "geospatial-index",
+        "java21",
+        "r-tree",
+        "k-nn"
+      ],
+      "major_features": [
+        "Geohash and discrete global grid system (DGGS) encoder/decoder operating directly on primitives",
+        "R*-Tree spatial index implementation with dynamic quadratic node splitting heuristics",
+        "k-Nearest Neighbors (k-NN) query engine utilizing Haversine and Vincenty distance metrics",
+        "Spatial polygon rasterizer and containment evaluator for complex boundary intersections",
+        "Inverted text-attribute tag filter integrated directly into spatial index search nodes",
+        "Zero-copy memory-mapped file persistence tier for low-latency index loading and querying",
+        "Transactional mutation log with crash-recovery logic verifying spatial file checksums",
+        "Parallel bounding-box query evaluator utilizing Java 21 Virtual Threads for concurrent tile scanning"
+      ],
+      "name": "GeoMesh-Engine",
+      "pain": "Geospatial queries on traditional relational databases require heavy join queries and high memory allocation overhead for dynamic spatial boundary calculations.",
+      "problem": "Standard spatial index libraries rely on external GIS runtimes or struggle to combine high-dimensional spatial indexing with fast text-attribute filtering over raw binary data.",
+      "slug": "geomesh-engine",
+      "solution": "A zero-dependency geodesic spatial index and search engine in Java 21, combining Geohash tessellation, custom R*-Tree spatial partitioning, and vectorized bounding-box filtering over direct byte buffers.",
+      "target_user": "Location-intelligence developers and backend systems engineers requiring high-throughput, dependency-free spatial search.",
+      "technology": "Java 21",
+      "verification": "Deterministic integration tests validating spatial containment accuracy, k-NN distance calculations against exact Vincenty baselines, recovery from corrupted index binary files, and rejection of invalid coordinate inputs such as NaN or out-of-range latitude and longitude."
+    },
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "database-engine",
+        "c11",
+        "aries-recovery",
+        "b-plus-tree"
+      ],
+      "major_features": [
+        "Slotted-page binary storage manager supporting variable-length record packing and compaction",
+        "B+Tree index engine with concurrent node splitting, merging, and latch-crabbing synchronization",
+        "ARIES-compliant Write-Ahead Log (WAL) supporting Analysis, Redo, and Undo crash-recovery phases",
+        "Strict Two-Phase Locking (SS2PL) concurrency manager with Wait-Die deadlock prevention protocol",
+        "Buffer pool manager utilizing a CLOCK replacement strategy with dirty page flushing routines",
+        "Custom binary expression parser and predicate evaluator for row filtering without dynamic allocations",
+        "Transaction savepoints and partial rollback execution state machine",
+        "Deterministic fault-injection harness simulating disk write truncations and page checksum corruptions"
+      ],
+      "name": "AnvilDB",
+      "pain": "Developers building local system storage must choose between heavy relational servers or simple key-value engines that lack full transaction rollbacks and crash recovery.",
+      "problem": "Lightweight embedded databases frequently sacrifice strict ACID durability or employ coarse file locks that bottleneck high-concurrency writes.",
+      "slug": "anvildb",
+      "solution": "A zero-dependency C11 transactional B+Tree database engine implementing slotted-page layout, Strict Two-Phase Locking (SS2PL), and complete ARIES write-ahead logging with crash recovery.",
+      "target_user": "Embedded software engineers and storage infrastructure architects building deterministic transactional database runtimes.",
+      "technology": "C11",
+      "verification": "Automated chaos-injection suite running forced process terminations during active multi-threaded transactions, confirming complete state recovery via ARIES Analysis/Redo/Undo passes, lock table deadlock detection under high contention, and handling of corrupted log records."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "reinforcement-learning",
+        "q-learning",
+        "python312",
+        "contextual-bandit"
+      ],
+      "major_features": [
+        "Tabular and linear-function Q-Learning decision core with configurable learning rate decay",
+        "Upper Confidence Bound (UCB1) and Epsilon-Greedy contextual exploration algorithms",
+        "Explicit scalar feedback validation pipeline with anomaly detection and clipping limits",
+        "State feature vectorizer utilizing feature hashing for dynamic state-space dimensionality reduction",
+        "Deterministic experience replay buffer with prioritized trajectory sampling and size limits",
+        "Binary policy state persistence layer with CRC32 integrity verification",
+        "Policy drift monitor and automatic divergence detector for adaptive exploration resets",
+        "Isolated local evaluation sandbox executing synthetic benchmark loops without network access"
+      ],
+      "name": "KlarAgent RL",
+      "pain": "Heuristic rule engines stall on unforeseen workloads, while modern deep learning frameworks require massive dependencies, lack execution guarantees, and risk unexpected output behavior.",
+      "problem": "Local systems optimization like dynamic cache sizing or query path selection often relies on static heuristics that fail to adapt, or complex neural networks that are non-deterministic and heavy.",
+      "slug": "klaragent-rl",
+      "solution": "A zero-dependency Python 3.12 local learning agent engine utilizing tabular Q-Learning and Upper Confidence Bound (UCB1) contextual bandits to optimize local decisions based strictly on explicit scalar feedback.",
+      "target_user": "Systems optimization engineers and local autonomous software architects seeking safe, local decision-making engines.",
+      "technology": "Python 3.12",
+      "verification": "Deterministic unit tests verifying matrix state update accuracy under continuous scalar feedback loops, convergence on optimal policy paths within bounded iterations, immediate rejection of invalid reward signals such as out-of-range or NaN values, and policy state persistence validation."
+    },
+    {
+      "category": "cache-protocol",
+      "keywords": [
+        "systems-engineering",
+        "distributed-cache",
+        "python312",
+        "consistent-hashing",
+        "merkle-tree"
+      ],
+      "major_features": [
+        "Custom binary wire protocol with fixed-header framing, body payload verification, and stream multiplexing",
+        "Consistent hashing ring implementation with virtual nodes and bounded-load key distribution",
+        "Merkle tree key-space background sync engine for detecting and repairing lost key partitions",
+        "Lease-based distributed lock manager with monotonic fencing tokens to prevent stale writes",
+        "Frequency-based LRU-TinyLFU cache eviction engine for optimal hit-ratio under variable workloads",
+        "Asyncio TCP network reactor with non-blocking socket I/O and dynamic backpressure management",
+        "On-disk snapshot persistence tier using streaming binary serialization for rapid reboot recovery",
+        "Deterministic local network partition simulator injecting packet drops and socket delay spikes"
+      ],
+      "name": "AegisCache",
+      "pain": "Standard distributed caches degrade during network partitions due to unpredictable lock expiration drift and lack of key-space sync tools.",
+      "problem": "In-memory caching and lock services often require external processes that are opaque to debug and lack transparent anti-entropy verification.",
+      "slug": "aegiscache",
+      "solution": "A zero-dependency Python 3.12 distributed in-memory cache and lease-based locking service featuring dynamic consistent hashing, Merkle-tree key-space synchronization, and custom binary frame parsing over asyncio.",
+      "target_user": "Backend systems architects and distributed infrastructure engineers building resilient local service clusters.",
+      "technology": "Python 3.12",
+      "verification": "Integration test harness using local loopback sockets to verify framing correctness on malformed payloads, lock fencing token validity during partition recovery, Merkle-tree anti-entropy synchronization, and LRU-TinyLFU eviction under target memory thresholds."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261021T080134Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/engine.c",
+    "src/engine.h",
+    "src/main.c",
+    "tests/test_engine.c",
+    "tests/test_integration.c"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Debugging low-level assembly or custom bytecode routines is difficult when unexpected state corruption occurs deep in execution loops without time-travel step-back capabilities.",
+  "project_name": "Phantasm-VM",
+  "project_path": "projects/phantasm-vm",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "TEST_FAILURE",
+        "TEST_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "test_engine: tests/test_engine.c:50: main: Assertion `err == VM_OK' failed.",
+        "test_integration: tests/test_integration.c:25: main: Assertion `err == VM_OK' failed.",
+        "src/main.c: In function \u2018read_file\u2019:\nsrc/main.c:23:6: error: expected expression before \u2018}\u2019 token\n   23 |     *}\n      |      ^\nsrc/main.c: In function \u2018main\u2019:\nsrc/main.c:60:20: error: ISO C does not support the \u2018Z\u2019 gnu_printf length modifier [-Werror=format=]\n   60 |             printf(\"0x%04ZX: %s\\n\", offset, dis_buf);\n      |                    ^~~~~~~~~~~~~~~\ncc1: all warnings being treated as errors"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/engine.c: In function \u2018vm_step\u2019:\nsrc/engine.c:267:21: error: implicit declaration of function \u2018r1_val_cmp_helper\u2019 [-Werror=implicit-function-declaration]\n  267 |                 if (r1_val_cmp_helper(vm, arg) != VM_OK) return VM_ERR_INVALID_ARGUMENT;\n      |                     ^~~~~~~~~~~~~~~~~\nsrc/engine.c:345:11: error: \u2018r1_val_cmp_helper\u2019 undeclared (first use in this function)\n  345 |     (void)r1_val_cmp_helper;\n      |           ^~~~~~~~~~~~~~~~~\nsrc/engine.c:345:11: note: each undeclared identifier is reported only once for each function it appears in\nsrc/engine.c: At top level:\nsrc/engine.c:348:16: error: conflicting types for \u2018r1_val_cmp_helper\u2019; have \u2018VMError(VirtualMachine *, uint32_t)\u2019 {aka \u2018VMError(VirtualMachine *, unsigned int)\u2019}\n  348 | static VMError r1_val_cmp_helper(VirtualMachine *vm, uint32_t val) {\n      |                ^~~~~~~~~~~~~~~~~\nsrc/engine.c:267:21: note: previous implicit declaration of \u2018r1_val_cmp_helper\u2019 with type \u2018int()\u2019\n  267 |                 if (r1_val_cmp_helper(vm, arg) != VM_OK) return VM_ERR_INVALID_ARGUMENT;\n      |                     ^~~~~~~~~~~~~~~~~\nsrc/engine.c:348:16: error: \u2018r1_val_cmp_helper\u2019 defined but not used [-Werror=unused-function]\n  348 | static VMError r1_val_cmp_helper(VirtualMachine *vm, uint32_t val) {\n      |                ^~~~~~~~~~~~~~~~~\ncc1: all warnings being treated as errors",
+        "src/engine.c: In function \u2018vm_step\u2019:\nsrc/engine.c:267:21: error: implicit declaration of function \u2018r1_val_cmp_helper\u2019 [-Werror=implicit-function-declaration]\n  267 |                 if (r1_val_cmp_helper(vm, arg) != VM_OK) return VM_ERR_INVALID_ARGUMENT;\n      |                     ^~~~~~~~~~~~~~~~~\nsrc/engine.c:345:11: error: \u2018r1_val_cmp_helper\u2019 undeclared (first use in this function)\n  345 |     (void)r1_val_cmp_helper;\n      |           ^~~~~~~~~~~~~~~~~\nsrc/engine.c:345:11: note: each undeclared identifier is reported only once for each function it appears in\nsrc/engine.c: At top level:\nsrc/engine.c:348:16: error: conflicting types for \u2018r1_val_cmp_helper\u2019; have \u2018VMError(VirtualMachine *, uint32_t)\u2019 {aka \u2018VMError(VirtualMachine *, unsigned int)\u2019}\n  348 | static VMError r1_val_cmp_helper(VirtualMachine *vm, uint32_t val) {\n      |                ^~~~~~~~~~~~~~~~~\nsrc/engine.c:267:21: note: previous implicit declaration of \u2018r1_val_cmp_helper\u2019 with type \u2018int()\u2019\n  267 |                 if (r1_val_cmp_helper(vm, arg) != VM_OK) return VM_ERR_INVALID_ARGUMENT;\n      |                     ^~~~~~~~~~~~~~~~~\nsrc/engine.c:348:16: error: \u2018r1_val_cmp_helper\u2019 defined but not used [-Werror=unused-function]\n  348 | static VMError r1_val_cmp_helper(VirtualMachine *vm, uint32_t val) {\n      |                ^~~~~~~~~~~~~~~~~\ncc1: all warnings being treated as errors",
+        "src/engine.c: In function \u2018vm_step\u2019:\nsrc/engine.c:267:21: error: implicit declaration of function \u2018r1_val_cmp_helper\u2019 [-Werror=implicit-function-declaration]\n  267 |                 if (r1_val_cmp_helper(vm, arg) != VM_OK) return VM_ERR_INVALID_ARGUMENT;\n      |                     ^~~~~~~~~~~~~~~~~\nsrc/engine.c:345:11: error: \u2018r1_val_cmp_helper\u2019 undeclared (first use in this function)\n  345 |     (void)r1_val_cmp_helper;\n      |           ^~~~~~~~~~~~~~~~~\nsrc/engine.c:345:11: note: each undeclared identifier is reported only once for each function it appears in\nsrc/engine.c: At top level:\nsrc/engine.c:348:16: error: conflicting types for \u2018r1_val_cmp_helper\u2019; have \u2018VMError(VirtualMachine *, uint32_t)\u2019 {aka \u2018VMError(VirtualMachine *, unsigned int)\u2019}\n  348 | static VMError r1_val_cmp_helper(VirtualMachine *vm, uint32_t val) {\n      |                ^~~~~~~~~~~~~~~~~\nsrc/engine.c:267:21: note: previous implicit declaration of \u2018r1_val_cmp_helper\u2019 with type \u2018int()\u2019\n  267 |                 if (r1_val_cmp_helper(vm, arg) != VM_OK) return VM_ERR_INVALID_ARGUMENT;\n      |                     ^~~~~~~~~~~~~~~~~\nsrc/engine.c:348:16: error: \u2018r1_val_cmp_helper\u2019 defined but not used [-Werror=unused-function]\n  348 | static VMError r1_val_cmp_helper(VirtualMachine *vm, uint32_t val) {\n      |                ^~~~~~~~~~~~~~~~~\ncc1: all warnings being treated as errors"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "test_integration: tests/test_integration.c:44: main: Assertion `err == VM_OK' failed."
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "compiler",
+    "keywords": [
+      "systems-engineering",
+      "virtual-machine",
+      "time-travel-debugging",
+      "c11",
+      "bytecode"
+    ],
+    "major_features": [
+      "Custom 32-bit register-based virtual instruction set architecture (ISA) with explicit opcode encoding",
+      "Bi-directional execution pipeline supporting step-forward and bit-exact deterministic step-back operations",
+      "Page-level copy-on-write memory diffing engine for efficient snapshot state compression",
+      "Register-file state checkpoint manager storing execution frames and flags delta histories",
+      "Interactive disassembler subsystem converting compiled binary opcode buffers into mnemonic instructions",
+      "Breakpoint predicate solver evaluating register and memory expressions before opcode execution",
+      "Memory access violation monitor trapping unaligned reads, out-of-bounds writes, and stack overflows",
+      "Deterministic instruction replay engine verifying state alignment against logged execution traces"
+    ],
+    "name": "Phantasm-VM",
+    "pain": "Standard debuggers only step forward, forcing developers to restart execution and reproduce fragile state transitions when chasing obscure memory corruption or stack drift.",
+    "problem": "Debugging low-level assembly or custom bytecode routines is difficult when unexpected state corruption occurs deep in execution loops without time-travel step-back capabilities.",
+    "slug": "phantasm-vm",
+    "solution": "A zero-dependency time-travel execution engine and debugger in C11 for a custom 32-bit register-based virtual instruction set, featuring differential state snapshotting, deterministic reverse execution, and page-level memory protection.",
+    "target_user": "Systems software engineers and compiler developers debugging deterministic execution and reverse step operations.",
+    "technology": "C11",
+    "verification": "Automated test suite asserting opcode decoding accuracy, bit-exact snapshot restoration across 100,000 instruction steps, deterministic step-back verification, and error handling for malformed bytecode frames, unaligned memory access, and stack boundary overflows."
+  },
+  "slug": "phantasm-vm",
+  "standalone_status": "PENDING",
+  "target_user": "Systems software engineers and compiler developers debugging deterministic execution and reverse step operations.",
+  "technology": "C11",
+  "timestamp": "2026-10-21T08:01:34.011598+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-c architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_engine.c",
+        "-o",
+        "build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running Phantasm-VM Engine Unit Tests...\nAll 10 unit test assertions passed successfully."
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_integration.c",
+        "-o",
+        "build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running Phantasm-VM Integration Tests...\nAll 10 integration test assertions passed successfully."
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "src/main.c",
+        "-o",
+        "build/app"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    }
+  ]
+}
