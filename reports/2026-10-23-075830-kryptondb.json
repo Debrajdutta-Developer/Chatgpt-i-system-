@@ -1,0 +1,303 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "database",
+        "storage-engine",
+        "java"
+      ],
+      "major_features": [
+        "Custom query parser supporting JSON-path filtering and projection operators",
+        "B+Tree on-disk index manager with fixed-size node splitting and merging",
+        "Multi-Version Concurrency Control (MVCC) snapshot isolation for readers and writers",
+        "Binary Write-Ahead Log (WAL) with CRC32 checksums for transactional durability",
+        "Slotted-page storage allocator supporting variable-length document packing",
+        "Background checkpointing daemon to flush dirty cache pages and prune old WAL segments",
+        "Virtual Thread-based concurrent transaction coordinator handling lock escalation",
+        "Crash-recovery engine replaying transaction logs to restore consistent state"
+      ],
+      "name": "KryptonDB",
+      "pain": "Developers building local offline-first apps must choose between fragile flat files or heavy external database servers.",
+      "problem": "Embedded key-value stores lack native multi-document ACID transactions and rich query capabilities without pulling in bloated relational engines.",
+      "slug": "kryptondb",
+      "solution": "A zero-dependency embedded document database engine written in Java 21 featuring a custom JSON-like query parser, a B+Tree on-disk index manager, multi-version concurrency control (MVCC), and a crash-safe write-ahead log.",
+      "target_user": "Embedded systems engineers and local-first application developers",
+      "technology": "Java 21",
+      "verification": "Deterministic integration suite feeding malformed JSON documents, concurrent transaction rollbacks, and simulated disk corruption to verify atomic recovery."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "compiler",
+        "virtual-machine",
+        "c11"
+      ],
+      "major_features": [
+        "Custom lexer and recursive-descent parser producing an explicit Abstract Syntax Tree",
+        "Static semantic analyzer checking type compatibility, scoping rules, and variable shadowing",
+        "Bytecode compiler translating AST nodes into a dense stream of instruction opcodes",
+        "Stack-based virtual machine execution engine with explicit call stack and frame pointers",
+        "Custom heap allocator managing block metadata and type-tagged object headers",
+        "Mark-and-sweep garbage collector performing deterministic root-set tracing and reclamation",
+        "Lexical scope environment chaining supporting first-class closures and variable binding",
+        "Disassembler subsystem converting compiled bytecode streams back into readable mnemonics"
+      ],
+      "name": "ApexLang Interpreter",
+      "pain": "Studying language implementation requires navigating massive codebases with complex external build systems and dependencies.",
+      "problem": "Most interpreted language implementations hide memory management details, lexical analysis passes, and stack-frame layout mechanics behind runtime abstractions.",
+      "slug": "apexlang-interpreter",
+      "solution": "A zero-dependency tree-walk and bytecode interpreter implemented in C11 for a statically-typed expression language, complete with explicit scope resolution, a custom heap allocator, and a mark-and-sweep garbage collector.",
+      "target_user": "Compiler engineers and systems programming educators",
+      "technology": "C11",
+      "verification": "Automated regression test runner validating syntax errors, lexical edge cases, recursive closure captures, and intentional memory leaks under strict bounds checks."
+    },
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "database",
+        "olap",
+        "java"
+      ],
+      "major_features": [
+        "Columnar binary file writer with run-length encoding (RLE) and dictionary compression",
+        "Vectorized execution operators processing fixed-size value blocks to reduce virtual dispatch",
+        "Volcano iterator model (open/next/close) orchestrating query pipeline execution",
+        "Custom SQL-like expression parser supporting filtering, grouping, and aggregation",
+        "Cost-based query optimizer utilizing column statistics histograms for plan selection",
+        "Parallel scan coordinator leveraging Java 21 Virtual Threads for concurrent chunk retrieval",
+        "Hash-based aggregation engine operating directly on memory-mapped column segments",
+        "Dynamic schema evolution engine supporting zero-copy column additions and renames"
+      ],
+      "name": "TitanQuery",
+      "pain": "Running aggregations locally requires heavy distributed clusters that cannot fit on developer workstations.",
+      "problem": "Traditional disk-based analytics engines struggle with ad-hoc aggregations over massive streams because row-oriented memory layouts cause severe cache misses.",
+      "slug": "titanquery",
+      "solution": "A zero-dependency columnar analytics engine written in Java 21 that implements vectorized query execution, dictionary encoding, run-length compression, and a Volcano-style iterator model over raw binary columnar files.",
+      "target_user": "Data platform architects and analytics engineers",
+      "technology": "Java 21",
+      "verification": "Comprehensive test suite verifying numerical overflow handling, malformed compression chunks, mismatched schema joins, and projection boundary errors."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "message-queue",
+        "networking",
+        "java"
+      ],
+      "major_features": [
+        "Custom binary wire protocol supporting framed message streams and multiplexing",
+        "Segmented append-only on-disk log storage with byte-size and time-based rotation",
+        "Consumer group coordination engine implementing partition assignment and heartbeats",
+        "Explicit message acknowledgment (ACK) and offset tracking persistence loops",
+        "Non-blocking TCP network server utilizing Java 21 Selector and SocketChannel APIs",
+        "Configurable message retention policies enforcing background segment pruning",
+        "Zero-copy file transfer pipeline utilizing NIO FileChannel primitives",
+        "Deterministic simulation harness injecting socket delays and packet drops"
+      ],
+      "name": "NexusStream",
+      "pain": "Developers cannot easily spin up an isolated, deterministic event log broker for integration testing without heavy container overhead.",
+      "problem": "Modern event streaming brokers require complex external dependencies and cluster management tools, making local testing and development cumbersome.",
+      "slug": "nexusstream",
+      "solution": "A zero-dependency append-only event log server written in Java 21 featuring a custom binary wire protocol, segmented segment log storage, consumer group offset tracking, and non-blocking TCP socket multiplexing.",
+      "target_user": "Distributed systems engineers and backend developers",
+      "technology": "Java 21",
+      "verification": "Deterministic test harness simulating network packet fragmentation, abrupt client disconnections, offset out-of-bounds requests, and segment rotation limits."
+    },
+    {
+      "category": "search-engine",
+      "keywords": [
+        "systems-engineering",
+        "search-engine",
+        "information-retrieval",
+        "python"
+      ],
+      "major_features": [
+        "Inverted index builder supporting positional postings lists for exact phrase matching",
+        "Custom English Porter stemmer and tokenizer enforcing strict word normalization",
+        "Sparse BM25 scoring engine calculating term frequency and inverse document frequency",
+        "Boolean query parser supporting nested AND, OR, and NOT operator trees",
+        "On-disk binary serialization layout incorporating CRC32 integrity verification",
+        "Incremental document update and deletion pipeline maintaining index consistency",
+        "Wildcard and prefix term expansion engine querying dictionary terms efficiently",
+        "Snippet extraction highlighter generating contextual summaries around matched terms"
+      ],
+      "name": "SpectraIndex",
+      "pain": "Lightweight keyword search libraries lack phrase matching, positional indexing, and advanced relevance scoring algorithms.",
+      "problem": "Embedding full-text search capabilities into local applications usually requires heavy external search daemons that complicate distribution and packaging.",
+      "slug": "spectraindex",
+      "solution": "A zero-dependency full-text search engine written in Python 3.12 that builds inverted indexes with positional postings lists, implements a custom Porter stemmer, and calculates BM25 relevance scores.",
+      "target_user": "Search engineers and local-first software architects",
+      "technology": "Python 3.12",
+      "verification": "Unit test suite testing empty queries, malformed boolean nesting, special character escaping, and incremental document updates without index corruption."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261023T075830Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/main/java/factory/Core.java",
+    "src/main/java/factory/Main.java",
+    "src/test/java/factory/CoreTest.java",
+    "src/test/java/factory/IntegrationTest.java"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Embedded key-value stores lack native multi-document ACID transactions and rich query capabilities without pulling in bloated relational engines.",
+  "project_name": "KryptonDB",
+  "project_path": "projects/kryptondb",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:77: error: unclosed string literal\n                    return new Query(kv[0].trim(), kv[1].trim().replace(\"\\\", \"\"));\n                                                                              ^\n1 error"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "     ^\nsrc/test/java/factory/CoreTest.java:54: error: unclosed string literal\n            db.commit(tx, \"docX\", \"{\" + \\\"data\\\" + \":\" + \\\"valX\\\" + \"}\");\n                                                                      ^\nsrc/test/java/factory/CoreTest.java:20: error: 'try' without 'catch', 'finally' or resource declarations\n        try {\n        ^\nsrc/test/java/factory/CoreTest.java:61: error: illegal start of type\n        } catch (Exception e) {\n          ^\nsrc/test/java/factory/CoreTest.java:61: error: ';' expected\n        } catch (Exception e) {\n                            ^\nsrc/test/java/factory/CoreTest.java:67: error: class, interface, enum, or record expected\n}\n^\nsrc/test/java/factory/IntegrationTest.java:30: error: illegal character: '\\'\n            db1.commit(tx1, \"user:1\", \"{\" + \\\"role\\\" + \":\" + \\\"admin\\\" + \"}\");\n                                            ^\nsrc/test/java/factory/IntegrationTest.java:30: error: unclosed string literal\n            db1.commit(tx1, \"user:1\", \"{\" + \\\"role\\\" + \":\" + \\\"admin\\\" + \"}\");\n                                                                           ^\nsrc/test/java/factory/IntegrationTest.java:20: error: 'try' without 'catch', 'finally' or resource declarations\n        try {\n        ^\nsrc/test/java/factory/IntegrationTest.java:32: error: illegal character: '\\'\n            db1.commit(tx2, \"user:2\", \"{\" + \\\"role\\\" + \":\" + \\\"user\\\" + \"}\");\n                                            ^\nsrc/test/java/factory/IntegrationTest.java:32: error: unclosed string literal\n            db1.commit(tx2, \"user:2\", \"{\" + \\\"role\\\" + \":\" + \\\"user\\\" + \"}\");\n                                                                          ^\nsrc/test/java/factory/IntegrationTest.java:33: error: illegal start of type\n            db1.close();\n               ^\nsrc/test/java/factory/IntegrationTest.java:33: error: invalid method declaration; return type required\n            db1.close();\n                ^\nsrc/test/java/factory/IntegrationTest.java:38: error: invalid method declaration; return type required\n            check(u1 != null, \"Recovered database retrieves user:1\");\n            ^\nsrc/test/java/factory/IntegrationTest.java:38: error: <identifier> expected\n            check(u1 != null, \"Recovered database retrieves user:1\");\n                    ^\nsrc/test/java/factory/IntegrationTest.java:39: error: invalid method declaration; return type required\n            check(u1.contains(\"admin\"), \"Recovered user:1 content is correct\");\n            ^\nsrc/test/java/factory/IntegrationTest.java:39: error: <identifier> expected\n            check(u1.contains(\"admin\"), \"Recovered user:1 content is correct\");\n                             ^\nsrc/test/java/factory/IntegrationTest.java:42: error: invalid method declaration; return type required\n            check(u2 != null, \"Recovered database retrieves user:2\");\n            ^\nsrc/test/java/factory/IntegrationTest.java:42: error: <identifier> expected\n            check(u2 != null, \"Recovered database retrieves user:2\");\n                    ^\nsrc/test/java/factory/IntegrationTest.java:43: error: invalid method declaration; return type required\n            check(u2.contains(\"user\"), \"Recovered user:2 content is correct\");\n            ^\nsrc/test/java/factory/IntegrationTest.java:43: error: <identifier> expected\n            check(u2.contains(\"user\"), \"Recovered user:2 content is correct\");\n                             ^\nsrc/test/java/factory/IntegrationTest.java:47: error: invalid method declaration; return type required\n            check(admins.size() == 1, \"Query returns exactly 1 admin document\");\n            ^\nsrc/test/java/factory/IntegrationTest.java:47: error: <identifier> expected\n            check(admins.size() == 1, \"Query returns exactly 1 admin document\");\n                             ^\nsrc/test/java/factory/IntegrationTest.java:48: error: invalid method declaration; return type required\n            check(admins.get(0).contains(\"admin\"), \"Query result matches admin document\");\n            ^\nsrc/test/java/factory/IntegrationTest.java:48: error: <identifier> expected\n            check(admins.get(0).contains(\"admin\"), \"Query result matches admin document\");\n                            ^\nsrc/test/java/factory/IntegrationTest.java:52: error: <identifier> expected\n            db2.abort(tx3);\n                     ^\nsrc/test/java/factory/IntegrationTest.java:52: error: <identifier> expected\n            db2.abort(tx3);\n                         ^\nsrc/test/java/factory/IntegrationTest.java:55: error: invalid method declaration; return type required\n            check(allUsers.size() >= 2, \"Aborted transaction did not pollute state\");\n            ^\nsrc/test/java/factory/IntegrationTest.java:55: error: <identifier> expected\n            check(allUsers.size() >= 2, \"Aborted transaction did not pollute state\");\n                               ^\nsrc/test/java/factory/IntegrationTest.java:59: error: <identifier> expected\n            db2.commit(tx4, \"user:3\", \"{\" + \\\"role\\\" + \":\" + \\\"guest\\\" + \"}\");\n                      ^\nsrc/test/java/factory/IntegrationTest.java:59: error: <identifier> expected\n            db2.commit(tx4, \"user:3\", \"{\" + \\\"role\\\" + \":\" + \\\"guest\\\" + \"}\");\n                          ^\nsrc/test/java/factory/IntegrationTest.java:59: error: illegal start of type\n            db2.commit(tx4, \"user:3\", \"{\" + \\\"role\\\" + \":\" + \\\"guest\\\" + \"}\");\n                            ^\nsrc/test/java/factory/IntegrationTest.java:59: error: illegal character: '\\'\n            db2.commit(tx4, \"user:3\", \"{\" + \\\"role\\\" + \":\" + \\\"guest\\\" + \"}\");\n                                            ^\nsrc/test/java/factory/IntegrationTest.java:59: error: unclosed string literal\n            db2.commit(tx4, \"user:3\", \"{\" + \\\"role\\\" + \":\" + \\\"guest\\\" + \"}\");\n                                                                           ^\nsrc/test/java/factory/IntegrationTest.java:60: error: class, interface, enum, or record expected\n            check(db2.get(\"user:3\").contains(\"guest\"), \"New transaction after recovery commits successfully\");\n                 ^\nsrc/test/java/factory/IntegrationTest.java:62: error: class, interface, enum, or record expected\n            db2.close();\n            ^\nsrc/test/java/factory/IntegrationTest.java:63: error: class, interface, enum, or record expected\n            System.out.println(\"IntegrationTest completed successfully with \" + checksPassed + \" assertions verified.\");\n            ^\nsrc/test/java/factory/IntegrationTest.java:64: error: class, interface, enum, or record expected\n        } catch (Exception e) {\n        ^\nsrc/test/java/factory/IntegrationTest.java:66: error: class, interface, enum, or record expected\n            e.printStackTrace();\n            ^\nsrc/test/java/factory/IntegrationTest.java:67: error: class, interface, enum, or record expected\n            System.exit(1);\n            ^\nsrc/test/java/factory/IntegrationTest.java:68: error: class, interface, enum, or record expected\n        }\n        ^\n42 errors"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "Running KryptonDB Integration Tests...\nINTEGRATION TEST PASSED: WAL file persisted on disk after close\nINTEGRATION TEST FAILED: Recovered database retrieves user:1 from WAL"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "database",
+    "keywords": [
+      "systems-engineering",
+      "database",
+      "storage-engine",
+      "java"
+    ],
+    "major_features": [
+      "Custom query parser supporting JSON-path filtering and projection operators",
+      "B+Tree on-disk index manager with fixed-size node splitting and merging",
+      "Multi-Version Concurrency Control (MVCC) snapshot isolation for readers and writers",
+      "Binary Write-Ahead Log (WAL) with CRC32 checksums for transactional durability",
+      "Slotted-page storage allocator supporting variable-length document packing",
+      "Background checkpointing daemon to flush dirty cache pages and prune old WAL segments",
+      "Virtual Thread-based concurrent transaction coordinator handling lock escalation",
+      "Crash-recovery engine replaying transaction logs to restore consistent state"
+    ],
+    "name": "KryptonDB",
+    "pain": "Developers building local offline-first apps must choose between fragile flat files or heavy external database servers.",
+    "problem": "Embedded key-value stores lack native multi-document ACID transactions and rich query capabilities without pulling in bloated relational engines.",
+    "slug": "kryptondb",
+    "solution": "A zero-dependency embedded document database engine written in Java 21 featuring a custom JSON-like query parser, a B+Tree on-disk index manager, multi-version concurrency control (MVCC), and a crash-safe write-ahead log.",
+    "target_user": "Embedded systems engineers and local-first application developers",
+    "technology": "Java 21",
+    "verification": "Deterministic integration suite feeding malformed JSON documents, concurrent transaction rollbacks, and simulated disk corruption to verify atomic recovery."
+  },
+  "slug": "kryptondb",
+  "standalone_status": "PENDING",
+  "target_user": "Embedded systems engineers and local-first application developers",
+  "technology": "Java 21",
+  "timestamp": "2026-10-23T07:58:30.592800+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-java architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "javac",
+        "-Xlint:all",
+        "-Werror",
+        "-d",
+        "build/classes",
+        "src/main/java/factory/Core.java",
+        "src/main/java/factory/Main.java",
+        "src/test/java/factory/CoreTest.java",
+        "src/test/java/factory/IntegrationTest.java"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.CoreTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running KryptonDB Core Unit Tests...\nCHECK PASSED: Database should be open initially\nCHECK PASSED: Transaction ID should be positive\nCHECK PASSED: Retrieved value should match put value within active transaction\nCHECK PASSED: Committed value should persist across transactions\nCHECK PASSED: Rolled back document should not be present\nCHECK PASSED: B+Tree size should be 2 after insertions\nCHECK PASSED: B+Tree search should return correct value for key1\nCHECK PASSED: B+Tree size should be 1 after deletion\nCHECK PASSED: Deleted key should not be found in B+Tree\nCHECK PASSED: Parsed document should contain 2 fields\nCHECK PASSED: Parsed document field hello should equal world\nCHECK PASSED: Query parser should evaluate matching condition as true\nCHECK PASSED: Query parser should evaluate non-matching condition as false\nCHECK PASSED: Database should report closed state\nAll 14 Core unit tests passed successfully."
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.IntegrationTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running KryptonDB Integration Tests...\nINTEGRATION TEST PASSED: WAL file persisted on disk after close\nINTEGRATION TEST PASSED: Recovered database retrieves user:1 from WAL\nINTEGRATION TEST PASSED: Transaction 4 successfully reads transaction 3 write\nINTEGRATION TEST PASSED: Rolled back transaction data is completely isolated\nINTEGRATION TEST PASSED: Indexed document evaluates successfully via query parser\nINTEGRATION TEST PASSED: Malformed JSON document parses into empty map without crashing\nINTEGRATION TEST PASSED: WAL file has non-zero length before corruption test\nINTEGRATION TEST PASSED: Database successfully recovers despite minor WAL tail corruption\nINTEGRATION TEST PASSED: Database handles empty key storage correctly\nAll 9 Integration tests passed successfully."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "name": "KryptonDB",
+  "slug": "kryptondb",
+  "target_user": "Embedded systems engineers and local-first application developers",
+  "problem": "Embedded key-value stores lack native multi-document ACID transactions and rich query capabilities without pulling in bloated relational engines.",
+  "pain": "Developers building local offline-first apps must choose between fragile flat files or heavy external database servers.",
+  "solution": "A zero-dependency embedded document database engine written in Java 21 featuring a custom JSON-like query parser, a B+Tree on-disk index manager, multi-version concurrency control (MVCC), and a crash-safe write-ahead log.",
+  "verification": "Deterministic integration suite feeding malformed JSON documents, concurrent transaction rollbacks, and simulated disk corruption to verify atomic recovery.",
+  "category": "database",
+  "keywords": [
+    "systems-engineering",
+    "database",
+    "storage-engine",
+    "java"
+  ],
+  "major_features": [
+    "Custom query parser supporting JSON-path filtering and projection operators",
+    "B+Tree on-disk index manager with fixed-size node splitting and merging",
+    "Multi-Version Concurrency Control (MVCC) snapshot isolation for readers and writers",
+    "Binary Write-Ahead Log (WAL) with CRC32 checksums for transactional durability",
+    "Slotted-page storage allocator supporting variable-length document packing",
+    "Background checkpointing daemon to flush dirty cache pages and prune old WAL segments",
+    "Virtual Thread-based concurrent transaction coordinator handling lock escalation",
+    "Crash-recovery engine replaying transaction logs to restore consistent state"
+  ],
+  "technology": "Java 21",
+  "factory_profile": "systems-java",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}
