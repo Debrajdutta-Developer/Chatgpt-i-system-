@@ -1,0 +1,32 @@
+{
+  "name": "NeuroAdapt Engine",
+  "slug": "neuroadapt-engine",
+  "target_user": "AI systems engineers and local robotics researchers needing deterministic, zero-dependency reinforcement learning runtimes.",
+  "problem": "Standard machine learning frameworks rely on massive external C++ bindings and floating-point non-determinism, making isolated execution, local feedback adaptation, and strict safety validation impossible on restricted embedded devices.",
+  "pain": "Resource-constrained environments cannot afford the heavy memory overhead of PyTorch/TensorFlow, nor can they risk non-deterministic learning jumps or unsafe autonomous actions when adapting locally.",
+  "solution": "A zero-dependency Python 3.12 Q-learning and neural-policy engine that operates on pure standard library primitives. It includes custom matrix math routines, discrete state space discretization, Monte Carlo policy evaluation, and strict local feedback guardrails to prevent uncalibrated policy updates.",
+  "verification": "Deterministic unit tests verify matrix multiplication precision against reference outputs. Integration tests simulate corrupted environment state vectors, NaN reward injections, and unexpected negative feedback jumps to confirm the dynamic reward guardrail halts execution safely.",
+  "category": "agent-engine",
+  "keywords": [
+    "systems-engineering",
+    "reinforcement-learning",
+    "matrix-math",
+    "q-learning",
+    "policy-engine",
+    "safe-agent"
+  ],
+  "major_features": [
+    "Dependency-free matrix and tensor linear algebra execution engine built using standard Python float primitives",
+    "Deep Q-Network (DQN) architecture with experience replay buffer and target network synchronization logic",
+    "Tabular Q-learning backup solver with dynamic state-action space discretization and adjustable decay schedules",
+    "Strict local feedback loop evaluator requiring explicit validation signals before updating policy weights",
+    "Deterministic environment simulator interface supporting discrete state vectors and exact frame snapshotting",
+    "Monte Carlo policy evaluation engine executing safety-bounded simulation rollouts prior to state transition commits",
+    "On-disk binary serialization for network weight checkpoints, Q-tables, and experience replay buffer logs",
+    "Dynamic reward bounds guardrail throwing immediate runtime exceptions on NaN, infinite, or out-of-range feedback signals"
+  ],
+  "technology": "Python 3.12",
+  "factory_profile": "systems-python",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}
