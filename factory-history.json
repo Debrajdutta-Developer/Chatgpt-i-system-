@@ -1420,5 +1420,80 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "database",
+    "commit_hash": null,
+    "cycle": "cycle-20261028T090142Z",
+    "date": "2026-10-28",
+    "keywords": [
+      "systems-engineering",
+      "query-optimizer",
+      "relational-algebra",
+      "cascades-engine",
+      "cost-model",
+      "java-21"
+    ],
+    "major_features": [
+      "Custom relational algebra parser converting SQL projections, selections, and inner joins into explicit AST nodes",
+      "Memoization table architecture storing equivalent logical and physical expression trees with shared sub-plans",
+      "Rule-based transformation engine supporting predicate pushdown, constant folding, and join reordering",
+      "Cost-based exploration framework utilizing catalog statistics histograms to score physical execution plans",
+      "Dynamic programming join-order enumerator implementing Left-Deep and Bushy tree search spaces",
+      "Volcano-style property enforcer ensuring required sort orders and physical distribution traits are met",
+      "Plan visualizer generating hierarchical string representations and structural cost breakdowns for debugging",
+      "Deterministic verification harness validating optimizer output stability against mutated cardinality inputs"
+    ],
+    "name": "OmniQuery Planner",
+    "problem": "Traditional database cost-based optimizers hide their search space exploration and rewrite heuristics, making it impossible to study alternative plan generation and rule-based transformations without reading a monolithic commercial codebase.",
+    "purpose": "A zero-dependency relational query optimizer written in Java 21. It features a custom SQL-to-RelNode parser, Volcano/Cascades style equivalence-class rule engine, memoized search space container, and dynamic cost estimator.",
+    "quality_score": 100,
+    "report_path": "reports/2026-10-28-090142-omniquery-planner.json",
+    "slug": "omniquery-planner",
+    "technology": "Java 21",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "javac",
+          "-Xlint:all",
+          "-Werror",
+          "-d",
+          "build/classes",
+          "src/main/java/factory/Core.java",
+          "src/main/java/factory/Main.java",
+          "src/test/java/factory/CoreTest.java",
+          "src/test/java/factory/IntegrationTest.java"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "java",
+          "-ea",
+          "-cp",
+          "build/classes",
+          "factory.CoreTest"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "java",
+          "-ea",
+          "-cp",
+          "build/classes",
+          "factory.IntegrationTest"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]

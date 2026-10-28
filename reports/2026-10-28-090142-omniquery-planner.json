@@ -1,0 +1,305 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "query-optimizer",
+        "relational-algebra",
+        "cascades-engine",
+        "cost-model",
+        "java-21"
+      ],
+      "major_features": [
+        "Custom relational algebra parser converting SQL projections, selections, and inner joins into explicit AST nodes",
+        "Memoization table architecture storing equivalent logical and physical expression trees with shared sub-plans",
+        "Rule-based transformation engine supporting predicate pushdown, constant folding, and join reordering",
+        "Cost-based exploration framework utilizing catalog statistics histograms to score physical execution plans",
+        "Dynamic programming join-order enumerator implementing Left-Deep and Bushy tree search spaces",
+        "Volcano-style property enforcer ensuring required sort orders and physical distribution traits are met",
+        "Plan visualizer generating hierarchical string representations and structural cost breakdowns for debugging",
+        "Deterministic verification harness validating optimizer output stability against mutated cardinality inputs"
+      ],
+      "name": "OmniQuery Planner",
+      "pain": "Database engineers cannot easily inspect how relational algebra trees are transformed into execution graphs or how join-order dynamic programming behaves under different cardinality estimators.",
+      "problem": "Traditional database cost-based optimizers hide their search space exploration and rewrite heuristics, making it impossible to study alternative plan generation and rule-based transformations without reading a monolithic commercial codebase.",
+      "slug": "omniquery-planner",
+      "solution": "A zero-dependency relational query optimizer written in Java 21. It features a custom SQL-to-RelNode parser, Volcano/Cascades style equivalence-class rule engine, memoized search space container, and dynamic cost estimator.",
+      "target_user": "Database Systems Engineers and Compiler Researchers",
+      "technology": "Java 21",
+      "verification": "Deterministic integration suite feeding malformed relational expressions, cyclic join graphs, and zero-cardinality catalog statistics to verify robust optimizer fallback and cost bounds exceptions."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "stream-processing",
+        "windowing-semantics",
+        "watermarks",
+        "event-driven",
+        "java-21"
+      ],
+      "major_features": [
+        "Event timestamp extractor and watermark generator supporting punctuated and bounded-out-of-orderness heuristics",
+        "Tumbling and sliding time window aggregators maintaining incremental state without full memory recomputation",
+        "Session window operator dynamically merging active time gaps based on configurable inactivity thresholds",
+        "Stream-to-stream interval join engine evaluating temporal bounds across two distinct event feeds",
+        "In-memory state backend supporting keyed state partitions and checkpoint metadata snapshots",
+        "Late-data side-output routing mechanism capturing and diverting events arriving past watermark thresholds",
+        "Virtual Thread-based event ingestion pipeline orchestrating non-blocking source-to-sink dataflow",
+        "Deterministic unit verification suite validating aggregation correctness under shuffled event sequences"
+      ],
+      "name": "Titanium Stream Engine",
+      "pain": "Engineers lack an isolated, zero-dependency stream processing engine that implements sliding/tumbling windows and watermarks entirely from scratch for local event-driven testing.",
+      "problem": "Event stream processors often rely on massive distributed clusters and complex JVM configuration layers, preventing low-latency, single-node stream analytics with precise windowing semantics.",
+      "slug": "titanium-stream-engine",
+      "solution": "A zero-dependency stream processing and windowing engine written in Java 21. It processes raw event streams through tumbling and sliding time windows, manages late-data watermarks, and executes stream joins in-memory.",
+      "target_user": "Distributed Systems Developers and Real-Time Data Engineers",
+      "technology": "Java 21",
+      "verification": "Comprehensive test harness injecting out-of-order event streams, extreme clock skews, and malformed timestamp payloads to assert watermark progression and late-event side-output correctness."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "tensor-engine",
+        "automatic-differentiation",
+        "computational-graph",
+        "linear-algebra",
+        "python-3.12"
+      ],
+      "major_features": [
+        "Multi-dimensional tensor data structure managing contiguous and non-contiguous memory strides",
+        "Broadcasting rules engine automatically aligning shape dimensions for element-wise vector operations",
+        "Matrix multiplication kernel optimized with cache-friendly blocking and transpose caching",
+        "Dynamic computation graph tape recording operation nodes for reverse-mode automatic differentiation",
+        "Gradient accumulator managing multi-branch node accumulation and variable sharing",
+        "In-place tensor mutation checker preventing invalid gradient tracking on modified buffers",
+        "Binary serialization subsystem for saving and loading tensor weights and computation metadata",
+        "Comprehensive test harness validating gradient tape backpropagation against analytical derivatives"
+      ],
+      "name": "TensorCore VM",
+      "pain": "Developers studying deep learning primitives cannot inspect pure, dependency-free implementations of multi-dimensional tensor slicing, contiguous memory striding, and reverse-mode automatic differentiation.",
+      "problem": "Higher-level tensor libraries hide memory layout management, hardware-agnostic tensor broadcasting, and tape-based autodiff mechanics behind massive C++ runtimes, hindering direct study of numeric computation kernels.",
+      "slug": "tensorcore-vm",
+      "solution": "A zero-dependency multi-dimensional tensor computation engine and reverse-mode autodiff virtual machine written in Python 3.12. It implements contiguous and strided views, broadcast arithmetic, and a dynamic computation graph tape.",
+      "target_user": "Machine Learning Infrastructure Engineers and Compiler Devs",
+      "technology": "Python 3.12",
+      "verification": "Rigorous verification suite comparing computed gradients against numerical finite-difference approximations across edge-case shapes, zero-stride dimensions, and NaN-injected computation graphs."
+    },
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "storage-engine",
+        "buffer-pool",
+        "slotted-page",
+        "crash-recovery",
+        "java-21"
+      ],
+      "major_features": [
+        "Fixed-size file page manager allocating and tracking free-space bitmap pages on disk",
+        "Slotted-page record allocator packing variable-length binary byte arrays with offset redirection pointers",
+        "Buffer pool manager implementing clock-sweep page eviction and pin/unpin concurrency locking",
+        "Binary Write-Ahead Log (WAL) recording undo/redo transaction records with CRC32 checksum verification",
+        "Crash-recovery engine scanning log files to execute ARIES-style analysis, redo, and undo phases",
+        "Record-level iterator supporting sequential page scans and point-lookup record retrieval",
+        "Virtual Thread-based asynchronous background page flusher synchronizing dirty cache blocks to disk",
+        "Deterministic test harness injecting partial writes and corrupted page headers to validate error trapping"
+      ],
+      "name": "Apex Storage Engine",
+      "pain": "Systems engineers studying low-level storage architectures lack a modular, zero-dependency single-file database engine with custom slotted-page layouts and lock-free buffer pool management.",
+      "problem": "Key-value stores often couple storage layout directly to networking protocols, making it difficult to analyze pure page cache management, buffer pool eviction, and crash-safe WAL recovery in isolation.",
+      "slug": "apex-storage-engine",
+      "solution": "A zero-dependency disk-based storage engine written in Java 21. It manages fixed-size data pages, a slotted-page record layout for variable-length tuples, a clock-sweep buffer pool cache, and a binary write-ahead log.",
+      "target_user": "Storage Engine Architects and Database Developers",
+      "technology": "Java 21",
+      "verification": "Fault-injection verification harness simulating power failure mid-write, torn page segments, and buffer eviction races to confirm Write-Ahead Log recovery atomicity."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "routing-protocol",
+        "network-simulation",
+        "path-vector",
+        "topology-convergence",
+        "java-21"
+      ],
+      "major_features": [
+        "Graph-based network topology model simulating nodes, weighted edges, and duplex communication links",
+        "Path-vector routing table engine storing next-hop destinations, cost metrics, and full AS paths",
+        "Asynchronous message passing framework delivering serialized route advertisement packets between nodes",
+        "Split-horizon with poison reverse mechanism preventing routing loops on shared network segments",
+        "Link-state and distance-vector protocol state machines handling dynamic metric updates and node failures",
+        "Topology convergence detector tracking routing table stabilization epochs across network mutations",
+        "Simulated packet drop and latency injector introducing configurable network jitter and packet loss",
+        "Deterministic verification harness asserting loop-free convergence following arbitrary topology splits"
+      ],
+      "name": "Helix Routing Protocol",
+      "pain": "Engineers cannot test custom path-vector routing protocols, split-horizon poison reverse mechanics, and convergence stability under dynamic link failure without deploying physical hardware or heavy containers.",
+      "problem": "Network routing simulation tools are either overly simplified educational abstractions or massive network emulators that require root privileges and complex virtual interface configurations.",
+      "slug": "helix-routing-protocol",
+      "solution": "A zero-dependency path-vector routing protocol simulator and network engine written in Java 21. It implements asynchronous distance-vector route exchanges, split-horizon updates, and topology convergence detection over simulated loopback channels.",
+      "target_user": "Systems Engineers and Network Protocol Researchers",
+      "technology": "Java 21",
+      "verification": "Exhaustive simulation suite injecting network partitions, routing loops, oscillating link metrics, and malformed route advertisement packets to assert protocol stabilization and loop prevention."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261028T090142Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/main/java/factory/Core.java",
+    "src/main/java/factory/Main.java",
+    "src/test/java/factory/CoreTest.java",
+    "src/test/java/factory/IntegrationTest.java"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Traditional database cost-based optimizers hide their search space exploration and rewrite heuristics, making it impossible to study alternative plan generation and rule-based transformations without reading a monolithic commercial codebase.",
+  "project_name": "OmniQuery Planner",
+  "project_path": "projects/omniquery-planner",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:177: warning: [rawtypes] found raw type: ArrayList\n        public final List<RelNode> expressions = new ArrayList();\n                                                     ^\n  missing type arguments for generic class ArrayList<E>\n  where E is a type-variable:\n    E extends Object declared in class ArrayList\nsrc/main/java/factory/Core.java:177: warning: [unchecked] unchecked conversion\n        public final List<RelNode> expressions = new ArrayList();\n                                                 ^\n  required: List<RelNode>\n  found:    ArrayList\nerror: warnings found and -Werror specified\nsrc/test/java/factory/IntegrationTest.java:89: error: incompatible types: bad type in conditional expression\n        check(sortedCost > optimizer.optimize(join) != null ? costModel.estimateCost(optimizer.optimize(join), catalog) : 0.0, \"Sorted execution plan incurs additional sorting cost penalty\");\n                                                            ^\n    double cannot be converted to boolean\nsrc/test/java/factory/IntegrationTest.java:89: error: bad operand types for binary operator '>'\n        check(sortedCost > optimizer.optimize(join) != null ? costModel.estimateCost(optimizer.optimize(join), catalog) : 0.0, \"Sorted execution plan incurs additional sorting cost penalty\");\n                         ^\n  first type:  double\n  second type: RelNode\nNote: Some messages have been simplified; recompile with -Xdiags:verbose to get full output\n3 errors\n2 warnings"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/main/java/factory/Core.java:317: error: cannot find symbol\n            if (node == null) return Double.MAX_Value;\n                                           ^\n  symbol:   variable MAX_Value\n  location: class Double\n1 error"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "database",
+    "keywords": [
+      "systems-engineering",
+      "query-optimizer",
+      "relational-algebra",
+      "cascades-engine",
+      "cost-model",
+      "java-21"
+    ],
+    "major_features": [
+      "Custom relational algebra parser converting SQL projections, selections, and inner joins into explicit AST nodes",
+      "Memoization table architecture storing equivalent logical and physical expression trees with shared sub-plans",
+      "Rule-based transformation engine supporting predicate pushdown, constant folding, and join reordering",
+      "Cost-based exploration framework utilizing catalog statistics histograms to score physical execution plans",
+      "Dynamic programming join-order enumerator implementing Left-Deep and Bushy tree search spaces",
+      "Volcano-style property enforcer ensuring required sort orders and physical distribution traits are met",
+      "Plan visualizer generating hierarchical string representations and structural cost breakdowns for debugging",
+      "Deterministic verification harness validating optimizer output stability against mutated cardinality inputs"
+    ],
+    "name": "OmniQuery Planner",
+    "pain": "Database engineers cannot easily inspect how relational algebra trees are transformed into execution graphs or how join-order dynamic programming behaves under different cardinality estimators.",
+    "problem": "Traditional database cost-based optimizers hide their search space exploration and rewrite heuristics, making it impossible to study alternative plan generation and rule-based transformations without reading a monolithic commercial codebase.",
+    "slug": "omniquery-planner",
+    "solution": "A zero-dependency relational query optimizer written in Java 21. It features a custom SQL-to-RelNode parser, Volcano/Cascades style equivalence-class rule engine, memoized search space container, and dynamic cost estimator.",
+    "target_user": "Database Systems Engineers and Compiler Researchers",
+    "technology": "Java 21",
+    "verification": "Deterministic integration suite feeding malformed relational expressions, cyclic join graphs, and zero-cardinality catalog statistics to verify robust optimizer fallback and cost bounds exceptions."
+  },
+  "slug": "omniquery-planner",
+  "standalone_status": "PENDING",
+  "target_user": "Database Systems Engineers and Compiler Researchers",
+  "technology": "Java 21",
+  "timestamp": "2026-10-28T09:01:42.557385+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-java architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "javac",
+        "-Xlint:all",
+        "-Werror",
+        "-d",
+        "build/classes",
+        "src/main/java/factory/Core.java",
+        "src/main/java/factory/Main.java",
+        "src/test/java/factory/CoreTest.java",
+        "src/test/java/factory/IntegrationTest.java"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.CoreTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running CoreTest Suite...\n  [PASS] Parser returns valid SqlNode for normal query\n  [PASS] Parser throws IllegalArgumentException on empty query\n  [PASS] Analyzer produces PROJECT root for SELECT query\n  [PASS] Analyzer produces FILTER child under PROJECT\n  [PASS] Analyzer produces TABLE_SCAN under FILTER\n  [PASS] Catalog statistics correctly stores row count\n  [PASS] Catalog statistics returns default fallback for unknown table\n  [PASS] Rule engine executes rule transformations without error\n  [PASS] Cost model computes positive cost for table scan\n  [PASS] Optimizer selects valid best expression in root group\nCoreTest passed successfully with 10 assertions."
+    },
+    {
+      "command": [
+        "java",
+        "-ea",
+        "-cp",
+        "build/classes",
+        "factory.IntegrationTest"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running IntegrationTest Suite...\n  [PASS] Parser successfully parses JOIN query\n  [PASS] Analyzer constructs INNER_JOIN relational root node\n  [PASS] Inner join has exactly two child relations\n  [PASS] Left child of join is table scan\n  [PASS] Right child of join is table scan\n  [PASS] Users table row count correctly configured\n  [PASS] Orders table row count correctly configured\n  [PASS] Join query optimization successfully selects best expression\n  [PASS] Rule engine successfully generates HASH_JOIN alternative expression\n  [PASS] Verification harness successfully recovers from malformed SQL input\n  [PASS] Verification harness successfully handles zero-cardinality catalog stats\n  [PASS] Explain output contains INNER_JOIN operator label\n  [PASS] Explain output contains TABLE_SCAN operator label\nIntegrationTest passed successfully with 13 assertions."
+    }
+  ]
+}
