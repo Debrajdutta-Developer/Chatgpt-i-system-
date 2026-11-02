@@ -1,0 +1,289 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "static-analysis",
+        "abstract-interpretation",
+        "type-inference",
+        "ast-parser",
+        "hindley-milner"
+      ],
+      "major_features": [
+        "Control-Flow Graph (CFG) builder extracting basic blocks, edge predicates, and jump targets from standard ASTs",
+        "Unification-based Hindley-Milner type inference algorithm resolving variable types and function signatures",
+        "Flow-sensitive type narrowing engine evaluating isinstance checks, None assertions, and early return guards",
+        "Abstract domain interval analyzer tracking numeric integer bounds and string literal set constraints across basic blocks",
+        "Parametric polymorphism and generic type variable solver resolving bounded constraints",
+        "Structural subtyping checker validating Protocol compliance and duck-typing interfaces",
+        "Dead-code path detector flagging unreachable CFG blocks and unreachable conditional branches",
+        "Deterministic error reporting formatter emitting structural line-and-column diagnostic JSON reports"
+      ],
+      "name": "PyTypeInfer Engine",
+      "pain": "Developers building embedded script engines or code analysis tools cannot easily embed light, zero-dependency static type inference engines or inspect control-flow-dependent type narrowing step-by-step.",
+      "problem": "Dynamically-typed Python codebases suffer from latent type errors, while mainstream type checkers are monolithic, heavy external tools that hide their internal unification and abstract interpretation algorithms.",
+      "slug": "py-type-infer-engine",
+      "solution": "A zero-dependency static type inference and abstract interpretation engine written in Python 3.12 standard library. It parses Python ASTs, constructs control-flow graphs (CFGs), performs unification-based Hindley-Milner type inference, and tracks abstract domain value ranges without executing the code.",
+      "target_user": "Language runtime engineers, static analysis researchers, and Python tool developers",
+      "technology": "Python 3.12",
+      "verification": "A deterministic test suite validating type inference against malformed ASTs, deeply nested control-flow branches, recursive function type definitions, cyclic import dependency graphs, and contradictory variable assignments."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "virtual-filesystem",
+        "block-storage",
+        "aes-gcm",
+        "copy-on-write",
+        "journaling"
+      ],
+      "major_features": [
+        "Fixed-size 4KB block allocator with free-space bitmap management and dynamic file expansion",
+        "Pure C11 AES-256-GCM authenticated block encryption and decryption pipeline with unique per-block initialization vectors",
+        "Custom LZ-style byte compression and decompression engine operating directly on raw 4KB memory buffers",
+        "Copy-on-Write (CoW) allocation manager enabling instantaneous point-in-time read-only volume snapshots",
+        "Transactional Write-Ahead Block Journal with undo/redo log recovery on unclean unmounts",
+        "Merkle tree block integrity verifier automatically detecting and isolating silent bit-rot corruptions",
+        "Content-addressable block de-duplication table eliminating redundant data blocks across files",
+        "POSIX-like userspace VFS interface supporting open, read, write, seek, truncate, and directory traversal"
+      ],
+      "name": "BlockForge FS",
+      "pain": "Kernel-level storage modules are difficult to test deterministically locally, and standard file wrappers lack CoW (Copy-on-Write) snapshotting, AES block encryption, and silent bit-rot detection.",
+      "problem": "Application developers requiring embedded, resilient, encrypted storage engines are forced to choose between heavyweight OS-level FUSE mounts or simple unencrypted file archives lacking transactional integrity.",
+      "slug": "block-forge-fs",
+      "solution": "A zero-dependency userspace block-level virtual filesystem engine written in C11. It provides a POSIX-like API over a single container file, implementing fixed 4KB block allocations, AES-256-GCM block encryption, custom byte-level compression, CoW snapshots, and crash-resilient journaling.",
+      "target_user": "Systems programmers, storage software engineers, and security researchers",
+      "technology": "C11",
+      "verification": "Integration tests executing simulated abrupt power failures, truncated file headers, altered ciphertext bits, block checksum corruption, and dynamic volume expansion stress tests."
+    },
+    {
+      "category": "search-engine",
+      "keywords": [
+        "systems-engineering",
+        "full-text-search",
+        "finite-state-transducer",
+        "bm25-scoring",
+        "posting-list",
+        "java21"
+      ],
+      "major_features": [
+        "Finite State Transducer (FST) dictionary builder compressing string terms into compact byte state machines",
+        "Delta-encoded positional posting list storage using Variable-Byte integer compression for fast word distance queries",
+        "BM25 ranking scoring engine maintaining term-frequency and document-length statistics in memory",
+        "Levenshtein Automaton query solver running over the FST term dictionary for fuzzy string matching",
+        "WAND (Weak AND) dynamic query execution operator for fast top-k document retrieval without exhaustive scanning",
+        "Concurrent segment ingestion pipeline utilizing Java 21 Virtual Threads and lock-free atomic pointer swaps",
+        "Bitset-based document tombstoning and background segment merging/compaction daemon",
+        "Custom Boolean and phrase query parser producing execution plan operator trees"
+      ],
+      "name": "AxiomSearch Engine",
+      "pain": "Building embedded, microsecond-latency text search inside isolated applications requires lightweight custom indexing engines without towing in large third-party JAR dependencies.",
+      "problem": "Enterprise search engines rely on massive external frameworks (like Lucene) that hide memory-layout details, state-machine dictionary structures, and posting-list compression routines behind abstraction layers.",
+      "slug": "axiom-search-engine",
+      "solution": "A zero-dependency full-text search engine written in Java 21 using Finite State Transducers (FSTs) for term dictionary compression, delta-encoded positional posting lists, BM25 scoring, and real-time segment merging utilizing Java 21 Virtual Threads.",
+      "target_user": "Database engineers, search infrastructure builders, and Java systems developers",
+      "technology": "Java 21",
+      "verification": "Deterministic unit and integration suites testing UTF-8 boundary errors, malformed query syntax trees, corrupted segment headers, and scoring stability under dynamic document deletion."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "safe-agent",
+        "mcts-planning",
+        "reinforcement-learning",
+        "finite-state-automaton",
+        "local-feedback"
+      ],
+      "major_features": [
+        "Finite State Automaton (FSA) state guardrail enforcer blocking invalid or out-of-bounds action transitions",
+        "Tabular Q-learning and Temporal Difference (TD) state-action matrix solver with dynamic state space discretization",
+        "Monte Carlo Tree Search (MCTS) forward-planning engine calculating safety-bounded action decision trajectories",
+        "Explicit local user-feedback processing loop adjusting reward matrices deterministically without code modification",
+        "AC-3 Constraint Satisfaction Solver verifying action pre-conditions and environmental post-conditions",
+        "Prioritized experience replay buffer featuring reproducible pseudo-random seed controls for state rollouts",
+        "State trajectory serialization and differential snapshotting engine for step-by-step policy playback",
+        "Runtime anomaly guardrail throwing immediate exceptions on reward NaN values or infinite policy loops"
+      ],
+      "name": "HelixAgent Engine",
+      "pain": "Developers cannot deploy adaptive agents in restricted environments where execution of arbitrary code is prohibited and agent actions must strictly adhere to physical state safety invariants.",
+      "problem": "Standard reinforcement learning agents operate as black boxes, making illegal state jumps and requiring non-deterministic floating-point weights that cannot be bounded or adjusted through explicit local rules.",
+      "slug": "helix-agent-engine",
+      "solution": "A zero-dependency deterministic local learning and planning agent engine in Python 3.12 standard library. It combines Monte Carlo Tree Search (MCTS) planning with explicit state-transition automata guardrails and local human feedback integration loops without executing shell code or updating unconstrained weights.",
+      "target_user": "Robotics researchers, game AI developers, and safety-critical automation engineers",
+      "technology": "Python 3.12",
+      "verification": "Suite testing invalid state-transition blocking, immediate termination on contradictory feedback signals, seed-reproducible MCTS decision trees, and boundary enforcement against infinite transition loops."
+    },
+    {
+      "category": "cache-protocol",
+      "keywords": [
+        "systems-engineering",
+        "off-heap-memory",
+        "foreign-memory-api",
+        "zero-gc",
+        "lirs-eviction",
+        "resp-protocol"
+      ],
+      "major_features": [
+        "Off-heap slab memory allocator built with Java 21 Foreign Function & Memory API for zero-GC footprint",
+        "Lock-free open-addressing hash table operating directly on raw off-heap memory addresses via atomic VarHandles",
+        "Low Inter-reference Recency Set (LIRS) cache eviction algorithm preventing scan-resistant cache pollution",
+        "RESP2/RESP3 binary-compatible network server operating on non-blocking Java 21 Virtual Thread SocketChannels",
+        "Append-only binary Write-Ahead Log (WAL) with CRC32 checksums for snapshot persistence and point-in-time recovery",
+        "Lock-free ring buffer for asynchronous background persistence disk writes and telemetry logging",
+        "Variable-length binary key-value frame encoder/decoder with explicit memory alignment guards",
+        "Deterministic memory leak detector tracking allocation/free counter parity across all off-heap memory regions"
+      ],
+      "name": "TitanCache Engine",
+      "pain": "High-throughput applications experience unexpected tail-latency spikes due to GC stop-the-world pauses during frequent cache eviction cycles.",
+      "problem": "In-memory caching on the JVM suffers from severe Garbage Collection (GC) pauses when storing millions of objects, as object headers and reference graphs overload GC collectors.",
+      "slug": "titan-cache-engine",
+      "solution": "A zero-dependency, off-heap multi-tiered caching engine written in Java 21. Utilizing the Foreign Function & Memory API (`java.lang.foreign`), it manages raw memory slabs outside the JVM heap, implementing a lock-free open-addressing hash table, LIRS eviction, write-ahead logging, and a RESP protocol TCP listener.",
+      "target_user": "High-throughput systems engineers, JVM performance specialists, and database architects",
+      "technology": "Java 21",
+      "verification": "Stress tests asserting zero JVM heap allocation during read/write hot paths, off-heap memory leak detection checks, socket frame corruption handling, and crash recovery WAL verification."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261102T100730Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/cli.py",
+    "src/engine.py",
+    "tests/test_engine.py",
+    "tests/test_integration.py"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Dynamically-typed Python codebases suffer from latent type errors, while mainstream type checkers are monolithic, heavy external tools that hide their internal unification and abstract interpretation algorithms.",
+  "project_name": "PyTypeInfer Engine",
+  "project_path": "projects/py-type-infer-engine",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [],
+  "selected_idea": {
+    "category": "compiler",
+    "keywords": [
+      "systems-engineering",
+      "static-analysis",
+      "abstract-interpretation",
+      "type-inference",
+      "ast-parser",
+      "hindley-milner"
+    ],
+    "major_features": [
+      "Control-Flow Graph (CFG) builder extracting basic blocks, edge predicates, and jump targets from standard ASTs",
+      "Unification-based Hindley-Milner type inference algorithm resolving variable types and function signatures",
+      "Flow-sensitive type narrowing engine evaluating isinstance checks, None assertions, and early return guards",
+      "Abstract domain interval analyzer tracking numeric integer bounds and string literal set constraints across basic blocks",
+      "Parametric polymorphism and generic type variable solver resolving bounded constraints",
+      "Structural subtyping checker validating Protocol compliance and duck-typing interfaces",
+      "Dead-code path detector flagging unreachable CFG blocks and unreachable conditional branches",
+      "Deterministic error reporting formatter emitting structural line-and-column diagnostic JSON reports"
+    ],
+    "name": "PyTypeInfer Engine",
+    "pain": "Developers building embedded script engines or code analysis tools cannot easily embed light, zero-dependency static type inference engines or inspect control-flow-dependent type narrowing step-by-step.",
+    "problem": "Dynamically-typed Python codebases suffer from latent type errors, while mainstream type checkers are monolithic, heavy external tools that hide their internal unification and abstract interpretation algorithms.",
+    "slug": "py-type-infer-engine",
+    "solution": "A zero-dependency static type inference and abstract interpretation engine written in Python 3.12 standard library. It parses Python ASTs, constructs control-flow graphs (CFGs), performs unification-based Hindley-Milner type inference, and tracks abstract domain value ranges without executing the code.",
+    "target_user": "Language runtime engineers, static analysis researchers, and Python tool developers",
+    "technology": "Python 3.12",
+    "verification": "A deterministic test suite validating type inference against malformed ASTs, deeply nested control-flow branches, recursive function type definitions, cyclic import dependency graphs, and contradictory variable assignments."
+  },
+  "slug": "py-type-infer-engine",
+  "standalone_status": "PENDING",
+  "target_user": "Language runtime engineers, static analysis researchers, and Python tool developers",
+  "technology": "Python 3.12",
+  "timestamp": "2026-11-02T10:07:30.143492+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-python architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "compileall",
+        "-q",
+        "src",
+        "tests"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_engine.py",
+        "-v"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "test_binary_op_type_conflict (test_engine.TestEngineCore.test_binary_op_type_conflict) ... ok\ntest_dict_type_inference (test_engine.TestEngineCore.test_dict_type_inference) ... ok\ntest_function_signature_inference (test_engine.TestEngineCore.test_function_signature_inference) ... ok\ntest_heterogeneous_list_error (test_engine.TestEngineCore.test_heterogeneous_list_error) ... ok\ntest_interval_domain (test_engine.TestEngineCore.test_interval_domain) ... ok\ntest_list_type_inference (test_engine.TestEngineCore.test_list_type_inference) ... ok\ntest_primitive_inference (test_engine.TestEngineCore.test_primitive_inference) ... ok\ntest_reassignment_conflict (test_engine.TestEngineCore.test_reassignment_conflict) ... ok\ntest_syntax_error_handling (test_engine.TestEngineCore.test_syntax_error_handling) ... ok\ntest_unification_primitives (test_engine.TestEngineCore.test_unification_primitives) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_integration.py",
+        "-v"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "test_empty_source_code (test_integration.TestEngineIntegration.test_empty_source_code) ... ok\ntest_function_call_chain (test_integration.TestEngineIntegration.test_function_call_chain) ... ok\ntest_malformed_function_call_args (test_integration.TestEngineIntegration.test_malformed_function_call_args) ... ok\ntest_multiple_variables_and_arithmetic (test_integration.TestEngineIntegration.test_multiple_variables_and_arithmetic) ... ok\ntest_nested_control_flow (test_integration.TestEngineIntegration.test_nested_control_flow) ... ok\ntest_nested_list_structures (test_integration.TestEngineIntegration.test_nested_list_structures) ... ok\ntest_recursive_function_definition (test_integration.TestEngineIntegration.test_recursive_function_definition) ... ok\ntest_report_structure_keys (test_integration.TestEngineIntegration.test_report_structure_keys) ... ok\ntest_string_concatenation_valid (test_integration.TestEngineIntegration.test_string_concatenation_valid) ... ok\ntest_unused_dead_code_branch (test_integration.TestEngineIntegration.test_unused_dead_code_branch) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK"
+    }
+  ]
+}

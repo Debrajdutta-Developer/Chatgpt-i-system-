@@ -1,0 +1,32 @@
+{
+  "name": "PyTypeInfer Engine",
+  "slug": "py-type-infer-engine",
+  "target_user": "Language runtime engineers, static analysis researchers, and Python tool developers",
+  "problem": "Dynamically-typed Python codebases suffer from latent type errors, while mainstream type checkers are monolithic, heavy external tools that hide their internal unification and abstract interpretation algorithms.",
+  "pain": "Developers building embedded script engines or code analysis tools cannot easily embed light, zero-dependency static type inference engines or inspect control-flow-dependent type narrowing step-by-step.",
+  "solution": "A zero-dependency static type inference and abstract interpretation engine written in Python 3.12 standard library. It parses Python ASTs, constructs control-flow graphs (CFGs), performs unification-based Hindley-Milner type inference, and tracks abstract domain value ranges without executing the code.",
+  "verification": "A deterministic test suite validating type inference against malformed ASTs, deeply nested control-flow branches, recursive function type definitions, cyclic import dependency graphs, and contradictory variable assignments.",
+  "category": "compiler",
+  "keywords": [
+    "systems-engineering",
+    "static-analysis",
+    "abstract-interpretation",
+    "type-inference",
+    "ast-parser",
+    "hindley-milner"
+  ],
+  "major_features": [
+    "Control-Flow Graph (CFG) builder extracting basic blocks, edge predicates, and jump targets from standard ASTs",
+    "Unification-based Hindley-Milner type inference algorithm resolving variable types and function signatures",
+    "Flow-sensitive type narrowing engine evaluating isinstance checks, None assertions, and early return guards",
+    "Abstract domain interval analyzer tracking numeric integer bounds and string literal set constraints across basic blocks",
+    "Parametric polymorphism and generic type variable solver resolving bounded constraints",
+    "Structural subtyping checker validating Protocol compliance and duck-typing interfaces",
+    "Dead-code path detector flagging unreachable CFG blocks and unreachable conditional branches",
+    "Deterministic error reporting formatter emitting structural line-and-column diagnostic JSON reports"
+  ],
+  "technology": "Python 3.12",
+  "factory_profile": "systems-python",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}
