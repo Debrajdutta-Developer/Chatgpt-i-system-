@@ -1575,5 +1575,109 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "database",
+    "commit_hash": null,
+    "cycle": "cycle-20261103T100935Z",
+    "date": "2026-11-03",
+    "keywords": [
+      "systems-engineering",
+      "database",
+      "storage-engine",
+      "transactions",
+      "recovery",
+      "c11"
+    ],
+    "major_features": [
+      "ARIES-style recovery subsystem managing write-ahead logging, analysis, redo, and undo phases",
+      "Buffer pool manager implementing a clock-sweep page replacement algorithm with frame pinning",
+      "B+Tree on-disk index manager supporting concurrent node splitting, merging, and leaf node lookups",
+      "Lock manager featuring granular table, page, and tuple locks with wait-for graph deadlock detection",
+      "Custom SQL lexer, recursive-descent parser, and relational algebra AST generator",
+      "Cost-based query optimizer utilizing table statistics and index histograms for join ordering",
+      "Volcano-style physical execution engine supporting nested-loop joins, sequential scans, and projections",
+      "Crash-recovery verification harness injecting simulated power failures during active write transactions"
+    ],
+    "name": "Hyperion DB",
+    "problem": "Embedded transactional data stores struggle with maintaining strict ACID guarantees under power failure without incurring massive synchronous disk write overheads.",
+    "purpose": "A robust C11 storage engine implementing write-ahead logging with fuzzy checkpoints, page-level latching, lock management with deadlock detection, and a Volcano-style execution model.",
+    "quality_score": 100,
+    "report_path": "reports/2026-11-03-100935-hyperion-db.json",
+    "slug": "hyperion-db",
+    "technology": "C11",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_engine.c",
+          "-o",
+          "build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_integration.c",
+          "-o",
+          "build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "src/main.c",
+          "-o",
+          "build/app"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]

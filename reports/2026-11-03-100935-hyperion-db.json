@@ -1,0 +1,347 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "database",
+        "storage-engine",
+        "transactions",
+        "recovery",
+        "c11"
+      ],
+      "major_features": [
+        "ARIES-style recovery subsystem managing write-ahead logging, analysis, redo, and undo phases",
+        "Buffer pool manager implementing a clock-sweep page replacement algorithm with frame pinning",
+        "B+Tree on-disk index manager supporting concurrent node splitting, merging, and leaf node lookups",
+        "Lock manager featuring granular table, page, and tuple locks with wait-for graph deadlock detection",
+        "Custom SQL lexer, recursive-descent parser, and relational algebra AST generator",
+        "Cost-based query optimizer utilizing table statistics and index histograms for join ordering",
+        "Volcano-style physical execution engine supporting nested-loop joins, sequential scans, and projections",
+        "Crash-recovery verification harness injecting simulated power failures during active write transactions"
+      ],
+      "name": "Hyperion DB",
+      "pain": "Standard embedded stores either sacrifice atomicity and durability or rely on monolithic engines that consume excessive memory and lack deterministic recovery paths.",
+      "problem": "Embedded transactional data stores struggle with maintaining strict ACID guarantees under power failure without incurring massive synchronous disk write overheads.",
+      "slug": "hyperion-db",
+      "solution": "A robust C11 storage engine implementing write-ahead logging with fuzzy checkpoints, page-level latching, lock management with deadlock detection, and a Volcano-style execution model.",
+      "target_user": "Embedded systems engineers and database architects",
+      "technology": "C11",
+      "verification": "Deterministic integration suite testing crash recovery across simulated abrupt process termination, transaction rollback on constraint violations, and concurrent thread stress testing under memory pressure."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "compiler",
+        "jit",
+        "virtual-machine",
+        "runtime",
+        "c11"
+      ],
+      "major_features": [
+        "Custom lexer and recursive-descent parser building abstract syntax trees for control flow and functions",
+        "Static symbol table and lexical scope analyzer supporting nested block scopes and closures",
+        "Bytecode compiler emitting compact stack-based instructions into constant pools and code segments",
+        "Stack-based virtual machine execution engine with explicit operand and call stack frames",
+        "Native machine code emitter translating hot bytecode loops directly into executable memory pages",
+        "Dynamic type profiling and inline caching engine optimizing property lookups at runtime",
+        "Mark-and-sweep garbage collector tracing root sets and reclaiming heap-allocated object allocations",
+        "Interactive disassembler and execution tracer outputting mnemonic instructions and register states"
+      ],
+      "name": "VortexScript JIT",
+      "pain": "Studying dynamic code compilation requires understanding complex compiler infrastructure that obscures instruction emission, memory protection, and register allocation mechanics.",
+      "problem": "Interpreted dynamic languages offer slow execution speeds, while traditional JIT compilers are tightly coupled to massive, opaque runtime toolchains like LLVM or HotSpot.",
+      "slug": "vortexscript-jit",
+      "solution": "A standalone C11 compiler pipeline featuring a custom lexer, parser, static type checker, bytecode generator, and a baseline machine code emitter targeting basic CPU architectures.",
+      "target_user": "Compiler engineers and systems programming students",
+      "technology": "C11",
+      "verification": "Comprehensive test suite verifying numerical correctness, memory safety constraints, invalid opcode handling, and runtime execution parity between the interpreter and JIT paths."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "distributed-systems",
+        "event-log",
+        "consensus",
+        "networking",
+        "java-21"
+      ],
+      "major_features": [
+        "Custom binary wire protocol supporting framed message multiplexing and asynchronous connection streams",
+        "Segmented append-only on-disk log storage with configurable byte-size rotation and index files",
+        "Raft consensus protocol engine managing leader election, log replication, and term verification",
+        "Consumer group coordination engine handling dynamic partition rebalancing and heartbeat liveness",
+        "Zero-copy transfer subsystem utilizing Java NIO FileChannel and SocketChannel primitives",
+        "Explicit message acknowledgment (ACK) and negative acknowledgment (NACK) offset tracking loops",
+        "Configurable retention policy enforcement with background disk compaction and segment pruning",
+        "Network partition and packet delay simulator injecting faults locally into loopback cluster channels"
+      ],
+      "name": "NioStream Broker",
+      "pain": "Deploying streaming data architectures requires heavyweight infrastructure components that complicate local development, testing, and deterministic failure injection.",
+      "problem": "Lightweight event brokers lack robust partition replication, consumer group coordination, and durable message persistence without pulling in heavy external coordination clusters.",
+      "slug": "niostream-broker",
+      "solution": "A high-performance Java 21 broker implementing a binary wire protocol, zero-copy segment file transfers, consumer group offset tracking, and Raft consensus replication.",
+      "target_user": "Distributed systems engineers and backend infrastructure developers",
+      "technology": "Java 21",
+      "verification": "Deterministic testing framework simulating network partitions, packet loss, consumer crashes, and disk-full scenarios to validate consensus safety and offset commit invariants."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "agent-engine",
+        "reinforcement-learning",
+        "policy-engine",
+        "local-ai",
+        "python-3.12"
+      ],
+      "major_features": [
+        "Dependency-free matrix and linear algebra execution engine built using standard Python float primitives",
+        "Tabular and function-approximated Q-learning engines with adjustable discount and exploration schedules",
+        "Experience replay buffer supporting batch sampling, memory cap eviction, and binary persistence",
+        "Strict local feedback loop evaluator requiring explicit validation signals before updating policy weights",
+        "Deterministic environment simulator interface supporting discrete state vectors and exact frame rollback",
+        "Monte Carlo policy evaluation engine executing safety-bounded simulation rollouts prior to state commits",
+        "On-disk binary serialization for network weight checkpoints, Q-tables, and experience replay logs",
+        "Dynamic reward bounds guardrail throwing immediate runtime exceptions on NaN, infinite, or malformed signals"
+      ],
+      "name": "CognitiveAgent Core",
+      "pain": "Building adaptive local agents usually requires massive deep learning libraries that obscure reward mechanics, state discretization, and safety boundary enforcement.",
+      "problem": "Standard machine learning and agent frameworks rely on heavy external dependencies and floating-point non-determinism, preventing isolated execution and strict safety verification.",
+      "slug": "cognitiveagent-core",
+      "solution": "A pure Python 3.12 modular agent engine implementing custom tensor math, tabular and neural Q-learning, experience replay buffers, and strict local feedback validation bounds.",
+      "target_user": "AI systems researchers and local automation engineers",
+      "technology": "Python 3.12",
+      "verification": "Deterministic verification harness validating policy convergence, reward boundary exceptions, snapshot serialization roundtrips, and safe local feedback integration."
+    },
+    {
+      "category": "search-engine",
+      "keywords": [
+        "systems-engineering",
+        "search-engine",
+        "information-retrieval",
+        "bm25",
+        "vector-search",
+        "python-3.12"
+      ],
+      "major_features": [
+        "Inverted index builder with positional postings lists supporting phrase matching and proximity queries",
+        "Custom English Porter Stemmer and tokenizer implementing word normalization and stop-word filtering",
+        "Sparse BM25 scoring engine calculating term frequency, inverse document frequency, and field length norms",
+        "Dense vector index using Locality Sensitive Hashing (LSH) for high-dimensional cosine similarity search",
+        "Reciprocal Rank Fusion (RRF) rank merger combining lexical and vector search results with configurable weights",
+        "Boolean query parser supporting nested AND, OR, and NOT operator trees with precedence rules",
+        "On-disk binary serialization layout with CRC32 integrity verification for index persistence",
+        "Dynamic document update and deletion mechanics updating both sparse and dense indexes in-place"
+      ],
+      "name": "Synapse Search",
+      "pain": "Combining keyword precision with semantic vector similarity requires stitching together disjoint libraries that lack unified serialization and transactional updates.",
+      "problem": "Standard search engines require heavyweight distributed services, while embedded lexical-vector indexes lack robust phrase matching, stemming, and hybrid ranking algorithms.",
+      "slug": "synapse-search",
+      "solution": "A pure Python 3.12 search engine implementing positional posting lists, Porter stemming, BM25 scoring, locality-sensitive hashing for vectors, and RRF rank merging.",
+      "target_user": "Information retrieval engineers and search infrastructure developers",
+      "technology": "Python 3.12",
+      "verification": "Rigorous test suite checking phrase matching recall, boolean query correctness, index serialization integrity with CRC32 verification, and dynamic document mutation consistency."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261103T100935Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/engine.c",
+    "src/engine.h",
+    "src/main.c",
+    "tests/test_engine.c",
+    "tests/test_integration.c"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Embedded transactional data stores struggle with maintaining strict ACID guarantees under power failure without incurring massive synchronous disk write overheads.",
+  "project_name": "Hyperion DB",
+  "project_path": "projects/hyperion-db",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "test_integration: tests/test_integration.c:46: main: Assertion `st == HYP_OK' failed."
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "In file included from src/engine.c:2:\nsrc/engine.h:104:34: error: \u2018HYP_LOG_RECS\u2019 undeclared here (not in a function); did you mean \u2018HYP_LOG_CLR\u2019?\n  104 |     hyp_log_record_t log_records[HYP_LOG_RECS];\n      |                                  ^~~~~~~~~~~~\n      |                                  HYP_LOG_CLR\nsrc/engine.c: In function \u2018hyp_execute_sql\u2019:\nsrc/engine.c:346:50: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 4 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  346 |     if (sscanf(sql, \"INSERT INTO %31s VALUES (%lld, %lld)\", tname, &k, &v) == 3) {\n      |                                               ~~~^                 ~~\n      |                                                  |                 |\n      |                                                  long long int *   int64_t * {aka long int *}\n      |                                               %ld\nsrc/engine.c:346:56: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 5 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  346 |     if (sscanf(sql, \"INSERT INTO %31s VALUES (%lld, %lld)\", tname, &k, &v) == 3) {\n      |                                                     ~~~^               ~~\n      |                                                        |               |\n      |                                                        long long int * int64_t * {aka long int *}\n      |                                                     %ld\nsrc/engine.c:348:64: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 5 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  348 |     } else if (sscanf(sql, \"SELECT %31s FROM %31s WHERE key=%lld\", cmd, tname, &k) == 3 ||\n      |                                                             ~~~^               ~~\n      |                                                                |               |\n      |                                                                long long int * int64_t * {aka long int *}\n      |                                                             %ld\nsrc/engine.c:349:61: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 4 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  349 |                sscanf(sql, \"SELECT * FROM %31s WHERE key=%lld\", tname, &k) == 2) {\n      |                                                          ~~~^          ~~\n      |                                                             |          |\n      |                                                             |          int64_t * {aka long int *}\n      |                                                             long long int *\n      |                                                          %ld\ncc1: all warnings being treated as errors\nIn file included from tests/test_engine.c:1:\ntests/../src/engine.h:104:34: error: \u2018HYP_LOG_RECS\u2019 undeclared here (not in a function); did you mean \u2018HYP_LOG_CLR\u2019?\n  104 |     hyp_log_record_t log_records[HYP_LOG_RECS];\n      |                                  ^~~~~~~~~~~~\n      |                                  HYP_LOG_CLR",
+        "In file included from src/engine.c:2:\nsrc/engine.h:104:34: error: \u2018HYP_LOG_RECS\u2019 undeclared here (not in a function); did you mean \u2018HYP_LOG_CLR\u2019?\n  104 |     hyp_log_record_t log_records[HYP_LOG_RECS];\n      |                                  ^~~~~~~~~~~~\n      |                                  HYP_LOG_CLR\nsrc/engine.c: In function \u2018hyp_execute_sql\u2019:\nsrc/engine.c:346:50: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 4 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  346 |     if (sscanf(sql, \"INSERT INTO %31s VALUES (%lld, %lld)\", tname, &k, &v) == 3) {\n      |                                               ~~~^                 ~~\n      |                                                  |                 |\n      |                                                  long long int *   int64_t * {aka long int *}\n      |                                               %ld\nsrc/engine.c:346:56: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 5 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  346 |     if (sscanf(sql, \"INSERT INTO %31s VALUES (%lld, %lld)\", tname, &k, &v) == 3) {\n      |                                                     ~~~^               ~~\n      |                                                        |               |\n      |                                                        long long int * int64_t * {aka long int *}\n      |                                                     %ld\nsrc/engine.c:348:64: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 5 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  348 |     } else if (sscanf(sql, \"SELECT %31s FROM %31s WHERE key=%lld\", cmd, tname, &k) == 3 ||\n      |                                                             ~~~^               ~~\n      |                                                                |               |\n      |                                                                long long int * int64_t * {aka long int *}\n      |                                                             %ld\nsrc/engine.c:349:61: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 4 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  349 |                sscanf(sql, \"SELECT * FROM %31s WHERE key=%lld\", tname, &k) == 2) {\n      |                                                          ~~~^          ~~\n      |                                                             |          |\n      |                                                             |          int64_t * {aka long int *}\n      |                                                             long long int *\n      |                                                          %ld\ncc1: all warnings being treated as errors\nIn file included from tests/test_integration.c:1:\ntests/../src/engine.h:104:34: error: \u2018HYP_LOG_RECS\u2019 undeclared here (not in a function); did you mean \u2018HYP_LOG_CLR\u2019?\n  104 |     hyp_log_record_t log_records[HYP_LOG_RECS];\n      |                                  ^~~~~~~~~~~~\n      |                                  HYP_LOG_CLR",
+        "In file included from src/engine.c:2:\nsrc/engine.h:104:34: error: \u2018HYP_LOG_RECS\u2019 undeclared here (not in a function); did you mean \u2018HYP_LOG_CLR\u2019?\n  104 |     hyp_log_record_t log_records[HYP_LOG_RECS];\n      |                                  ^~~~~~~~~~~~\n      |                                  HYP_LOG_CLR\nsrc/engine.c: In function \u2018hyp_execute_sql\u2019:\nsrc/engine.c:346:50: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 4 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  346 |     if (sscanf(sql, \"INSERT INTO %31s VALUES (%lld, %lld)\", tname, &k, &v) == 3) {\n      |                                               ~~~^                 ~~\n      |                                                  |                 |\n      |                                                  long long int *   int64_t * {aka long int *}\n      |                                               %ld\nsrc/engine.c:346:56: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 5 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  346 |     if (sscanf(sql, \"INSERT INTO %31s VALUES (%lld, %lld)\", tname, &k, &v) == 3) {\n      |                                                     ~~~^               ~~\n      |                                                        |               |\n      |                                                        long long int * int64_t * {aka long int *}\n      |                                                     %ld\nsrc/engine.c:348:64: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 5 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  348 |     } else if (sscanf(sql, \"SELECT %31s FROM %31s WHERE key=%lld\", cmd, tname, &k) == 3 ||\n      |                                                             ~~~^               ~~\n      |                                                                |               |\n      |                                                                long long int * int64_t * {aka long int *}\n      |                                                             %ld\nsrc/engine.c:349:61: error: format \u2018%lld\u2019 expects argument of type \u2018long long int *\u2019, but argument 4 has type \u2018int64_t *\u2019 {aka \u2018long int *\u2019} [-Werror=format=]\n  349 |                sscanf(sql, \"SELECT * FROM %31s WHERE key=%lld\", tname, &k) == 2) {\n      |                                                          ~~~^          ~~\n      |                                                             |          |\n      |                                                             |          int64_t * {aka long int *}\n      |                                                             long long int *\n      |                                                          %ld\ncc1: all warnings being treated as errors\nIn file included from src/main.c:1:\nsrc/engine.h:104:34: error: \u2018HYP_LOG_RECS\u2019 undeclared here (not in a function); did you mean \u2018HYP_LOG_CLR\u2019?\n  104 |     hyp_log_record_t log_records[HYP_LOG_RECS];\n      |                                  ^~~~~~~~~~~~\n      |                                  HYP_LOG_CLR"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "database",
+    "keywords": [
+      "systems-engineering",
+      "database",
+      "storage-engine",
+      "transactions",
+      "recovery",
+      "c11"
+    ],
+    "major_features": [
+      "ARIES-style recovery subsystem managing write-ahead logging, analysis, redo, and undo phases",
+      "Buffer pool manager implementing a clock-sweep page replacement algorithm with frame pinning",
+      "B+Tree on-disk index manager supporting concurrent node splitting, merging, and leaf node lookups",
+      "Lock manager featuring granular table, page, and tuple locks with wait-for graph deadlock detection",
+      "Custom SQL lexer, recursive-descent parser, and relational algebra AST generator",
+      "Cost-based query optimizer utilizing table statistics and index histograms for join ordering",
+      "Volcano-style physical execution engine supporting nested-loop joins, sequential scans, and projections",
+      "Crash-recovery verification harness injecting simulated power failures during active write transactions"
+    ],
+    "name": "Hyperion DB",
+    "pain": "Standard embedded stores either sacrifice atomicity and durability or rely on monolithic engines that consume excessive memory and lack deterministic recovery paths.",
+    "problem": "Embedded transactional data stores struggle with maintaining strict ACID guarantees under power failure without incurring massive synchronous disk write overheads.",
+    "slug": "hyperion-db",
+    "solution": "A robust C11 storage engine implementing write-ahead logging with fuzzy checkpoints, page-level latching, lock management with deadlock detection, and a Volcano-style execution model.",
+    "target_user": "Embedded systems engineers and database architects",
+    "technology": "C11",
+    "verification": "Deterministic integration suite testing crash recovery across simulated abrupt process termination, transaction rollback on constraint violations, and concurrent thread stress testing under memory pressure."
+  },
+  "slug": "hyperion-db",
+  "standalone_status": "PENDING",
+  "target_user": "Embedded systems engineers and database architects",
+  "technology": "C11",
+  "timestamp": "2026-11-03T10:09:35.362159+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-c architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_engine.c",
+        "-o",
+        "build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running Hyperion Engine Unit Tests...\nAll 10 unit test assertions passed successfully!"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_integration.c",
+        "-o",
+        "build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running Hyperion Integration & SQL Tests...\nAll 10 integration test assertions passed successfully!"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "src/main.c",
+        "-o",
+        "build/app"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    }
+  ]
+}

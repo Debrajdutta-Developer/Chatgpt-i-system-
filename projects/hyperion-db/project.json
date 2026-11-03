@@ -1,0 +1,32 @@
+{
+  "name": "Hyperion DB",
+  "slug": "hyperion-db",
+  "target_user": "Embedded systems engineers and database architects",
+  "problem": "Embedded transactional data stores struggle with maintaining strict ACID guarantees under power failure without incurring massive synchronous disk write overheads.",
+  "pain": "Standard embedded stores either sacrifice atomicity and durability or rely on monolithic engines that consume excessive memory and lack deterministic recovery paths.",
+  "solution": "A robust C11 storage engine implementing write-ahead logging with fuzzy checkpoints, page-level latching, lock management with deadlock detection, and a Volcano-style execution model.",
+  "verification": "Deterministic integration suite testing crash recovery across simulated abrupt process termination, transaction rollback on constraint violations, and concurrent thread stress testing under memory pressure.",
+  "category": "database",
+  "keywords": [
+    "systems-engineering",
+    "database",
+    "storage-engine",
+    "transactions",
+    "recovery",
+    "c11"
+  ],
+  "major_features": [
+    "ARIES-style recovery subsystem managing write-ahead logging, analysis, redo, and undo phases",
+    "Buffer pool manager implementing a clock-sweep page replacement algorithm with frame pinning",
+    "B+Tree on-disk index manager supporting concurrent node splitting, merging, and leaf node lookups",
+    "Lock manager featuring granular table, page, and tuple locks with wait-for graph deadlock detection",
+    "Custom SQL lexer, recursive-descent parser, and relational algebra AST generator",
+    "Cost-based query optimizer utilizing table statistics and index histograms for join ordering",
+    "Volcano-style physical execution engine supporting nested-loop joins, sequential scans, and projections",
+    "Crash-recovery verification harness injecting simulated power failures during active write transactions"
+  ],
+  "technology": "C11",
+  "factory_profile": "systems-c",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}
