@@ -1,0 +1,16 @@
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p build
+      - run: cc -std=c11 -Wall -Wextra -Werror -pedantic -I src src/engine.c tests/test_engine.c -o build/test_engine
+      - run: ./build/test_engine
+      - run: cc -std=c11 -Wall -Wextra -Werror -pedantic -I src src/engine.c tests/test_integration.c -o build/test_integration
+      - run: ./build/test_integration
+      - run: cc -std=c11 -Wall -Wextra -Werror -pedantic -I src src/engine.c src/main.c -o build/app

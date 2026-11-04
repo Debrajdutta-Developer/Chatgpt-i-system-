@@ -1,0 +1,31 @@
+{
+  "name": "OmniParser Engine",
+  "slug": "omniparser-engine",
+  "target_user": "systems and compiler engineers",
+  "problem": "Traditional parser generators produce massive, opaque binary state machines that are impossible to debug interactively or modify dynamically at runtime.",
+  "pain": "Writing custom parsers for complex domain-specific languages requires boilerplate tokenizers, error recovery logic, and manual AST builders that are tedious and error-prone.",
+  "solution": "Provide a modular C11 parser framework with an interactive grammar validator, FIRST/FOLLOW set calculator, shift-reduce conflict resolver, and deterministic AST generator.",
+  "verification": "Unit tests validate grammar compilation correctness against ambiguous grammars, left-recursion detection, and malformed input token streams, emitting strict diagnostic exit codes.",
+  "category": "compiler",
+  "keywords": [
+    "compiler",
+    "parser",
+    "C11",
+    "grammar",
+    "systems-engineering"
+  ],
+  "major_features": [
+    "Custom regex-based lexer generator supporting user-defined token classes and literal patterns",
+    "LR(1) and LL(*) parse table construction engine calculating FIRST and FOLLOW sets automatically",
+    "Shift-reduce and reduce-reduce conflict detection and interactive resolution strategy harness",
+    "Explicit Abstract Syntax Tree (AST) node allocator with automatic memory pooling and type safety",
+    "Syntax-directed translation execution engine binding semantic actions directly to grammar productions",
+    "Panic-mode error recovery subsystem synchronizing token streams upon lexical and grammatical failures",
+    "Interactive parser state visualizer dumping deterministic state machine graphs to human-readable text",
+    "Comprehensive regression test suite validating malformed token inputs and boundary recursion limits"
+  ],
+  "technology": "C11",
+  "factory_profile": "systems-c",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

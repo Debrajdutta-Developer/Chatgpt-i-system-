@@ -1679,5 +1679,108 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "compiler",
+    "commit_hash": null,
+    "cycle": "cycle-20261104T095934Z",
+    "date": "2026-11-04",
+    "keywords": [
+      "compiler",
+      "parser",
+      "C11",
+      "grammar",
+      "systems-engineering"
+    ],
+    "major_features": [
+      "Custom regex-based lexer generator supporting user-defined token classes and literal patterns",
+      "LR(1) and LL(*) parse table construction engine calculating FIRST and FOLLOW sets automatically",
+      "Shift-reduce and reduce-reduce conflict detection and interactive resolution strategy harness",
+      "Explicit Abstract Syntax Tree (AST) node allocator with automatic memory pooling and type safety",
+      "Syntax-directed translation execution engine binding semantic actions directly to grammar productions",
+      "Panic-mode error recovery subsystem synchronizing token streams upon lexical and grammatical failures",
+      "Interactive parser state visualizer dumping deterministic state machine graphs to human-readable text",
+      "Comprehensive regression test suite validating malformed token inputs and boundary recursion limits"
+    ],
+    "name": "OmniParser Engine",
+    "problem": "Traditional parser generators produce massive, opaque binary state machines that are impossible to debug interactively or modify dynamically at runtime.",
+    "purpose": "Provide a modular C11 parser framework with an interactive grammar validator, FIRST/FOLLOW set calculator, shift-reduce conflict resolver, and deterministic AST generator.",
+    "quality_score": 100,
+    "report_path": "reports/2026-11-04-095934-omniparser-engine.json",
+    "slug": "omniparser-engine",
+    "technology": "C11",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_engine.c",
+          "-o",
+          "build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_integration.c",
+          "-o",
+          "build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "src/main.c",
+          "-o",
+          "build/app"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]

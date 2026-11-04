@@ -1,0 +1,359 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "compiler",
+      "keywords": [
+        "compiler",
+        "parser",
+        "C11",
+        "grammar",
+        "systems-engineering"
+      ],
+      "major_features": [
+        "Custom regex-based lexer generator supporting user-defined token classes and literal patterns",
+        "LR(1) and LL(*) parse table construction engine calculating FIRST and FOLLOW sets automatically",
+        "Shift-reduce and reduce-reduce conflict detection and interactive resolution strategy harness",
+        "Explicit Abstract Syntax Tree (AST) node allocator with automatic memory pooling and type safety",
+        "Syntax-directed translation execution engine binding semantic actions directly to grammar productions",
+        "Panic-mode error recovery subsystem synchronizing token streams upon lexical and grammatical failures",
+        "Interactive parser state visualizer dumping deterministic state machine graphs to human-readable text",
+        "Comprehensive regression test suite validating malformed token inputs and boundary recursion limits"
+      ],
+      "name": "OmniParser Engine",
+      "pain": "Writing custom parsers for complex domain-specific languages requires boilerplate tokenizers, error recovery logic, and manual AST builders that are tedious and error-prone.",
+      "problem": "Traditional parser generators produce massive, opaque binary state machines that are impossible to debug interactively or modify dynamically at runtime.",
+      "slug": "omniparser-engine",
+      "solution": "Provide a modular C11 parser framework with an interactive grammar validator, FIRST/FOLLOW set calculator, shift-reduce conflict resolver, and deterministic AST generator.",
+      "target_user": "systems and compiler engineers",
+      "technology": "C11",
+      "verification": "Unit tests validate grammar compilation correctness against ambiguous grammars, left-recursion detection, and malformed input token streams, emitting strict diagnostic exit codes."
+    },
+    {
+      "category": "database",
+      "keywords": [
+        "database",
+        "streaming",
+        "Java 21",
+        "log-structured",
+        "systems-engineering"
+      ],
+      "major_features": [
+        "Append-only segment file storage engine with configurable byte-size and time-based rotation rules",
+        "Real-time event stream ingestion pipeline utilizing Java 21 Virtual Threads for concurrent batching",
+        "Tumbling and sliding time-window aggregation engine computing sum, count, average, and percentiles",
+        "Watermarking mechanism handling out-of-order event delivery and late-arriving data corrections",
+        "Materialized view state store backed by an on-disk embedded B+Tree index structure",
+        "Custom binary wire protocol supporting framed event messages and multiplexed connection streams",
+        "Write-Ahead Log (WAL) with CRC32 integrity validation and automated crash-recovery replay",
+        "Deterministic integration test harness injecting network latency, packet loss, and disk-full errors"
+      ],
+      "name": "AetherStream DB",
+      "pain": "Managing separate message queues and analytical databases introduces high operational complexity, dual-write consistency failures, and excessive latency.",
+      "problem": "Standard relational databases lock up under high-throughput event ingestion, while message brokers lack real-time stream processing capabilities and durable state storage.",
+      "slug": "aetherstream-db",
+      "solution": "Combine high-throughput append-only log segments with a real-time stream aggregation engine powered by Java 21 Virtual Threads.",
+      "target_user": "distributed systems and database engineers",
+      "technology": "Java 21",
+      "verification": "Integration tests inject delayed and out-of-order event streams to verify windowed aggregation correctness, watermarking logic, and zero data loss on simulated crashes."
+    },
+    {
+      "category": "search-engine",
+      "keywords": [
+        "search-engine",
+        "information-retrieval",
+        "Python 3.12",
+        "BM25",
+        "systems-engineering"
+      ],
+      "major_features": [
+        "Positional inverted index builder mapping term frequencies and token offsets across documents",
+        "Custom tokenizer and linguistic normalizer handling case folding, punctuation stripping, and stemming",
+        "Sparse BM25 scoring engine calculating term frequency, inverse document frequency, and document length normalization",
+        "Boolean query parser and evaluator supporting nested AND, OR, NOT operators and phrase proximity queries",
+        "On-disk binary serialization layout packing postings lists and dictionary terms with CRC32 checksums",
+        "Dynamic document update and deletion pipeline supporting in-place index modifications and tombstoning",
+        "Segment-based index merger running background compaction to consolidate fragmented posting lists",
+        "Deterministic query performance analyzer logging execution time, hit counts, and score distributions"
+      ],
+      "name": "Krypton Search",
+      "pain": "Embedding fast, accurate full-text search into local desktop or edge applications usually requires heavy external dependencies like Java runtimes or native C++ bindings.",
+      "problem": "Enterprise search engines are monolithic clusters that require extensive configuration, while embedded search libraries often lack advanced relevance tuning and phrase matching capabilities.",
+      "slug": "krypton-search",
+      "solution": "A pure Python 3.12 search engine implementing efficient postings list compression, linguistic tokenization, and vector space ranking entirely from standard library primitives.",
+      "target_user": "search and information retrieval engineers",
+      "technology": "Python 3.12",
+      "verification": "Automated test suites verify scoring precision, boolean query evaluation correctness, and index serialization integrity against corruption or malformed query syntax."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-tool",
+        "networking",
+        "Java 21",
+        "protocols",
+        "systems-engineering"
+      ],
+      "major_features": [
+        "Custom binary packet parser and serializer handling header encapsulation and byte-level alignment",
+        "Reliable transport layer implementing sliding-window flow control and selective acknowledgments",
+        "Congestion control state machine incorporating slow-start, congestion avoidance, and fast recovery loops",
+        "Non-blocking I/O multiplexer utilizing Java 21 Selector and SocketChannel primitives for concurrency",
+        "Virtual network interface simulation harness supporting loopback packet injection and bridging",
+        "Deterministic network delay and jitter emulator injecting configurable latency distribution profiles",
+        "Comprehensive traffic metrics collector logging packet loss ratios, retransmissions, and throughput",
+        "Connection state machine manager handling graceful handshakes, keep-alives, and timeout teardowns"
+      ],
+      "name": "VortexRoute",
+      "pain": "Testing transport protocol behavior under adverse network conditions requires complex virtual machine setups or unreliable physical testbeds.",
+      "problem": "Userspace networking stacks are often tied to specific operating system kernels or heavy frameworks, making custom transport protocol experimentation slow and non-deterministic.",
+      "slug": "vortex-route",
+      "solution": "A pure Java 21 userspace protocol stack featuring explicit packet parsing, sliding window congestion control, and a simulated network delay harness.",
+      "target_user": "systems and network engineers",
+      "technology": "Java 21",
+      "verification": "Deterministic integration tests inject packet drops, reordering, and bandwidth throttling to verify TCP-like sliding window recovery and congestion avoidance correctness."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "agent-engine",
+        "reinforcement-learning",
+        "Python 3.12",
+        "safety",
+        "systems-engineering"
+      ],
+      "major_features": [
+        "Pure Python linear algebra and matrix operation engine built using standard float primitives",
+        "Tabular Q-learning backup solver featuring dynamic state-action discretization and adjustable decay schedules",
+        "Experience replay buffer with fixed-capacity ring-buffer storage and random batch sampling",
+        "Strict local feedback loop evaluator requiring explicit validation signals before updating policy weights",
+        "Deterministic environment simulator interface supporting discrete state vectors and exact frame snapshotting",
+        "Monte Carlo policy evaluation engine executing safety-bounded simulation rollouts prior to commits",
+        "On-disk binary serialization for policy checkpoints, Q-tables, and experience replay buffer logs",
+        "Dynamic reward bounds guardrail throwing immediate runtime exceptions on NaN, infinite, or out-of-range feedback"
+      ],
+      "name": "Chronos Agent",
+      "pain": "Existing agent libraries rely on massive tensor frameworks that obscure underlying algorithms and fail to provide deterministic safety bounds for local optimization tasks.",
+      "problem": "Local machine learning agents lack safety guarantees, often exhibiting erratic convergence or executing uncalibrated policy updates when fed noisy local telemetry.",
+      "slug": "chronos-agent",
+      "solution": "A pure Python 3.12 reinforcement learning engine built entirely from standard library primitives, featuring explicit safety bounds and immutable execution checkpoints.",
+      "target_user": "embedded AI and systems researchers",
+      "technology": "Python 3.12",
+      "verification": "Unit tests validate Q-table convergence rates, state space boundary enforcement, and immediate exception raising on NaN or infinite reward inputs."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261104T095934Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/engine.c",
+    "src/engine.h",
+    "src/main.c",
+    "tests/test_engine.c",
+    "tests/test_integration.c"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Traditional parser generators produce massive, opaque binary state machines that are impossible to debug interactively or modify dynamically at runtime.",
+  "project_name": "OmniParser Engine",
+  "project_path": "projects/omniparser-engine",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "In file included from src/engine.c:1:\nsrc/engine.h:30:7: error: expected \u2018;\u2019 before \u2018struct\u2019\n   30 | type_t struct OmniLexer OmniLexer;\n      |       ^~~~~~~\n      |       ;\nsrc/engine.h:122:5: error: expected specifier-qualifier-list before \u2018OmniLexer\u2019\n  122 |     OmniLexer lexer;\n      |     ^~~~~~~~~\nsrc/engine.h:127:22: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  127 | void omni_lexer_init(OmniLexer *lexer, const char *source);\n      |                      ^~~~~~~~~\nsrc/engine.h:128:26: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  128 | void omni_lexer_add_rule(OmniLexer *lexer, const char *pattern, OmniTokenType type);\n      |                          ^~~~~~~~~\nsrc/engine.h:129:27: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  129 | OmniToken omni_lexer_next(OmniLexer *lexer);\n      |                           ^~~~~~~~~\nsrc/engine.c:7:22: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n    7 | void omni_lexer_init(OmniLexer *lexer, const char *source) {\n      |                      ^~~~~~~~~\nsrc/engine.c:17:26: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n   17 | void omni_lexer_add_rule(OmniLexer *lexer, const char *pattern, OmniTokenType type) {\n      |                          ^~~~~~~~~\nsrc/engine.c:24:27: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n   24 | OmniToken omni_lexer_next(OmniLexer *lexer) {\n      |                           ^~~~~~~~~\nsrc/engine.c: In function \u2018omni_engine_init\u2019:\nsrc/engine.c:241:5: error: implicit declaration of function \u2018omni_lexer_init\u2019; did you mean \u2018omni_pool_init\u2019? [-Wimplicit-function-declaration]\n  241 |     omni_lexer_init(&engine->lexer, source);\n      |     ^~~~~~~~~~~~~~~\n      |     omni_pool_init\nsrc/engine.c:241:28: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  241 |     omni_lexer_init(&engine->lexer, source);\n      |                            ^~\nsrc/engine.c:243:27: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  243 |     omni_pool_init(&engine->pool, 65536);\n      |                           ^~\nsrc/engine.c:244:11: error: \u2018OmniEngine\u2019 has no member named \u2018panic_mode\u2019\n  244 |     engine->panic_mode = false;\n      |           ^~\nsrc/engine.c: In function \u2018omni_engine_parse\u2019:\nsrc/engine.c:249:53: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  249 |     OmniASTNode *root = omni_pool_alloc_node(&engine->pool, OMNI_AST_ROOT, \"Root\");\n      |                                                     ^~\nsrc/engine.c:252:21: error: implicit declaration of function \u2018omni_lexer_next\u2019 [-Wimplicit-function-declaration]\n  252 |     OmniToken tok = omni_lexer_next(&engine->lexer);\n      |                     ^~~~~~~~~~~~~~~\nsrc/engine.c:252:44: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  252 |     OmniToken tok = omni_lexer_next(&engine->lexer);\n      |                                            ^~\nsrc/engine.c:255:19: error: \u2018OmniEngine\u2019 has no member named \u2018panic_mode\u2019\n  255 |             engine->panic_mode = true;\n      |                   ^~\nsrc/engine.c:258:58: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  258 |         OmniASTNode *child = omni_pool_alloc_node(&engine->pool, OMNI_AST_EXPR, tok.lexeme);\n      |                                                          ^~\nsrc/engine.c:265:38: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  265 |         tok = omni_lexer_next(&engine->lexer);\n      |                                      ^~\nsrc/engine.c: In function \u2018omni_engine_free\u2019:\nsrc/engine.c:272:27: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  272 |     omni_pool_free(&engine->pool);\n      |                           ^~\nsrc/engine.c:273:34: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  273 |     for (size_t i = 0; i < engine->lexer.rule_count; i++) {\n      |                                  ^~\nsrc/engine.c:274:20: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  274 |         free(engine->lexer.rules[i].pattern);\n      |                    ^~\ntests/test_engine.c:3:10: fatal error: string: No such file or directory\n    3 | #include <string>\n      |          ^~~~~~~~\ncompilation terminated.",
+        "In file included from src/engine.c:1:\nsrc/engine.h:30:7: error: expected \u2018;\u2019 before \u2018struct\u2019\n   30 | type_t struct OmniLexer OmniLexer;\n      |       ^~~~~~~\n      |       ;\nsrc/engine.h:122:5: error: expected specifier-qualifier-list before \u2018OmniLexer\u2019\n  122 |     OmniLexer lexer;\n      |     ^~~~~~~~~\nsrc/engine.h:127:22: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  127 | void omni_lexer_init(OmniLexer *lexer, const char *source);\n      |                      ^~~~~~~~~\nsrc/engine.h:128:26: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  128 | void omni_lexer_add_rule(OmniLexer *lexer, const char *pattern, OmniTokenType type);\n      |                          ^~~~~~~~~\nsrc/engine.h:129:27: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  129 | OmniToken omni_lexer_next(OmniLexer *lexer);\n      |                           ^~~~~~~~~\nsrc/engine.c:7:22: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n    7 | void omni_lexer_init(OmniLexer *lexer, const char *source) {\n      |                      ^~~~~~~~~\nsrc/engine.c:17:26: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n   17 | void omni_lexer_add_rule(OmniLexer *lexer, const char *pattern, OmniTokenType type) {\n      |                          ^~~~~~~~~\nsrc/engine.c:24:27: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n   24 | OmniToken omni_lexer_next(OmniLexer *lexer) {\n      |                           ^~~~~~~~~\nsrc/engine.c: In function \u2018omni_engine_init\u2019:\nsrc/engine.c:241:5: error: implicit declaration of function \u2018omni_lexer_init\u2019; did you mean \u2018omni_pool_init\u2019? [-Wimplicit-function-declaration]\n  241 |     omni_lexer_init(&engine->lexer, source);\n      |     ^~~~~~~~~~~~~~~\n      |     omni_pool_init\nsrc/engine.c:241:28: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  241 |     omni_lexer_init(&engine->lexer, source);\n      |                            ^~\nsrc/engine.c:243:27: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  243 |     omni_pool_init(&engine->pool, 65536);\n      |                           ^~\nsrc/engine.c:244:11: error: \u2018OmniEngine\u2019 has no member named \u2018panic_mode\u2019\n  244 |     engine->panic_mode = false;\n      |           ^~\nsrc/engine.c: In function \u2018omni_engine_parse\u2019:\nsrc/engine.c:249:53: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  249 |     OmniASTNode *root = omni_pool_alloc_node(&engine->pool, OMNI_AST_ROOT, \"Root\");\n      |                                                     ^~\nsrc/engine.c:252:21: error: implicit declaration of function \u2018omni_lexer_next\u2019 [-Wimplicit-function-declaration]\n  252 |     OmniToken tok = omni_lexer_next(&engine->lexer);\n      |                     ^~~~~~~~~~~~~~~\nsrc/engine.c:252:44: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  252 |     OmniToken tok = omni_lexer_next(&engine->lexer);\n      |                                            ^~\nsrc/engine.c:255:19: error: \u2018OmniEngine\u2019 has no member named \u2018panic_mode\u2019\n  255 |             engine->panic_mode = true;\n      |                   ^~\nsrc/engine.c:258:58: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  258 |         OmniASTNode *child = omni_pool_alloc_node(&engine->pool, OMNI_AST_EXPR, tok.lexeme);\n      |                                                          ^~\nsrc/engine.c:265:38: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  265 |         tok = omni_lexer_next(&engine->lexer);\n      |                                      ^~\nsrc/engine.c: In function \u2018omni_engine_free\u2019:\nsrc/engine.c:272:27: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  272 |     omni_pool_free(&engine->pool);\n      |                           ^~\nsrc/engine.c:273:34: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  273 |     for (size_t i = 0; i < engine->lexer.rule_count; i++) {\n      |                                  ^~\nsrc/engine.c:274:20: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  274 |         free(engine->lexer.rules[i].pattern);\n      |                    ^~\nIn file included from tests/test_integration.c:5:\ntests/../src/engine.h:30:7: error: expected \u2018;\u2019 before \u2018struct\u2019\n   30 | type_t struct OmniLexer OmniLexer;\n      |       ^~~~~~~\n      |       ;\ntests/../src/engine.h:122:5: error: expected specifier-qualifier-list before \u2018OmniLexer\u2019\n  122 |     OmniLexer lexer;\n      |     ^~~~~~~~~\ntests/../src/engine.h:127:22: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  127 | void omni_lexer_init(OmniLexer *lexer, const char *source);\n      |                      ^~~~~~~~~\ntests/../src/engine.h:128:26: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  128 | void omni_lexer_add_rule(OmniLexer *lexer, const char *pattern, OmniTokenType type);\n      |                          ^~~~~~~~~\ntests/../src/engine.h:129:27: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  129 | OmniToken omni_lexer_next(OmniLexer *lexer);\n      |                           ^~~~~~~~~\nIn file included from tests/test_integration.c:4:\ntests/test_integration.c: In function \u2018main\u2019:\ntests/test_integration.c:13:18: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n   13 |     assert(engine.lexer.cursor == 0);\n      |                  ^\ntests/test_integration.c:15:18: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n   15 |     assert(engine.pool.capacity == 65536);\n      |                  ^\ntests/test_integration.c:16:18: error: \u2018OmniEngine\u2019 has no member named \u2018panic_mode\u2019\n   16 |     assert(engine.panic_mode == false);\n      |                  ^\ntests/test_integration.c:58:5: error: statement with no effect [-Werror=unused-value]\n   58 |     OmniLexer l2;\n      |     ^~~~~~~~~\ntests/test_integration.c:58:14: error: expected \u2018;\u2019 before \u2018l2\u2019\n   58 |     OmniLexer l2;\n      |              ^~~\n      |              ;\ntests/test_integration.c:59:5: error: implicit declaration of function \u2018omni_lexer_init\u2019; did you mean \u2018omni_pool_init\u2019? [-Wimplicit-function-declaration]\n   59 |     omni_lexer_init(&l2, \"x\\ny\");\n      |     ^~~~~~~~~~~~~~~\n      |     omni_pool_init\ntests/test_integration.c:59:22: error: \u2018l2\u2019 undeclared (first use in this function)\n   59 |     omni_lexer_init(&l2, \"x\\ny\");\n      |                      ^~\ntests/test_integration.c:59:22: note: each undeclared identifier is reported only once for each function it appears in\ntests/test_integration.c:60:22: error: implicit declaration of function \u2018omni_lexer_next\u2019 [-Wimplicit-function-declaration]\n   60 |     OmniToken tok1 = omni_lexer_next(&l2);\n      |                      ^~~~~~~~~~~~~~~\ntests/test_integration.c:78:18: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n   78 |     assert(engine.pool.buffer == NULL);\n      |                  ^\ncc1: all warnings being treated as errors",
+        "In file included from src/engine.c:1:\nsrc/engine.h:30:7: error: expected \u2018;\u2019 before \u2018struct\u2019\n   30 | type_t struct OmniLexer OmniLexer;\n      |       ^~~~~~~\n      |       ;\nsrc/engine.h:122:5: error: expected specifier-qualifier-list before \u2018OmniLexer\u2019\n  122 |     OmniLexer lexer;\n      |     ^~~~~~~~~\nsrc/engine.h:127:22: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  127 | void omni_lexer_init(OmniLexer *lexer, const char *source);\n      |                      ^~~~~~~~~\nsrc/engine.h:128:26: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  128 | void omni_lexer_add_rule(OmniLexer *lexer, const char *pattern, OmniTokenType type);\n      |                          ^~~~~~~~~\nsrc/engine.h:129:27: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  129 | OmniToken omni_lexer_next(OmniLexer *lexer);\n      |                           ^~~~~~~~~\nsrc/engine.c:7:22: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n    7 | void omni_lexer_init(OmniLexer *lexer, const char *source) {\n      |                      ^~~~~~~~~\nsrc/engine.c:17:26: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n   17 | void omni_lexer_add_rule(OmniLexer *lexer, const char *pattern, OmniTokenType type) {\n      |                          ^~~~~~~~~\nsrc/engine.c:24:27: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n   24 | OmniToken omni_lexer_next(OmniLexer *lexer) {\n      |                           ^~~~~~~~~\nsrc/engine.c: In function \u2018omni_engine_init\u2019:\nsrc/engine.c:241:5: error: implicit declaration of function \u2018omni_lexer_init\u2019; did you mean \u2018omni_pool_init\u2019? [-Wimplicit-function-declaration]\n  241 |     omni_lexer_init(&engine->lexer, source);\n      |     ^~~~~~~~~~~~~~~\n      |     omni_pool_init\nsrc/engine.c:241:28: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  241 |     omni_lexer_init(&engine->lexer, source);\n      |                            ^~\nsrc/engine.c:243:27: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  243 |     omni_pool_init(&engine->pool, 65536);\n      |                           ^~\nsrc/engine.c:244:11: error: \u2018OmniEngine\u2019 has no member named \u2018panic_mode\u2019\n  244 |     engine->panic_mode = false;\n      |           ^~\nsrc/engine.c: In function \u2018omni_engine_parse\u2019:\nsrc/engine.c:249:53: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  249 |     OmniASTNode *root = omni_pool_alloc_node(&engine->pool, OMNI_AST_ROOT, \"Root\");\n      |                                                     ^~\nsrc/engine.c:252:21: error: implicit declaration of function \u2018omni_lexer_next\u2019 [-Wimplicit-function-declaration]\n  252 |     OmniToken tok = omni_lexer_next(&engine->lexer);\n      |                     ^~~~~~~~~~~~~~~\nsrc/engine.c:252:44: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  252 |     OmniToken tok = omni_lexer_next(&engine->lexer);\n      |                                            ^~\nsrc/engine.c:255:19: error: \u2018OmniEngine\u2019 has no member named \u2018panic_mode\u2019\n  255 |             engine->panic_mode = true;\n      |                   ^~\nsrc/engine.c:258:58: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  258 |         OmniASTNode *child = omni_pool_alloc_node(&engine->pool, OMNI_AST_EXPR, tok.lexeme);\n      |                                                          ^~\nsrc/engine.c:265:38: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  265 |         tok = omni_lexer_next(&engine->lexer);\n      |                                      ^~\nsrc/engine.c: In function \u2018omni_engine_free\u2019:\nsrc/engine.c:272:27: error: \u2018OmniEngine\u2019 has no member named \u2018pool\u2019\n  272 |     omni_pool_free(&engine->pool);\n      |                           ^~\nsrc/engine.c:273:34: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  273 |     for (size_t i = 0; i < engine->lexer.rule_count; i++) {\n      |                                  ^~\nsrc/engine.c:274:20: error: \u2018OmniEngine\u2019 has no member named \u2018lexer\u2019\n  274 |         free(engine->lexer.rules[i].pattern);\n      |                    ^~\nIn file included from src/main.c:3:\nsrc/engine.h:30:7: error: expected \u2018;\u2019 before \u2018struct\u2019\n   30 | type_t struct OmniLexer OmniLexer;\n      |       ^~~~~~~\n      |       ;\nsrc/engine.h:122:5: error: expected specifier-qualifier-list before \u2018OmniLexer\u2019\n  122 |     OmniLexer lexer;\n      |     ^~~~~~~~~\nsrc/engine.h:127:22: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  127 | void omni_lexer_init(OmniLexer *lexer, const char *source);\n      |                      ^~~~~~~~~\nsrc/engine.h:128:26: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  128 | void omni_lexer_add_rule(OmniLexer *lexer, const char *pattern, OmniTokenType type);\n      |                          ^~~~~~~~~\nsrc/engine.h:129:27: error: expected declaration specifiers or \u2018...\u2019 before \u2018OmniLexer\u2019\n  129 | OmniToken omni_lexer_next(OmniLexer *lexer);\n      |                           ^~~~~~~~~"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/engine.c: In function \u2018omni_lexer_add_rule\u2019:\nsrc/engine.c:16:51: error: implicit declaration of function \u2018strdup\u2019; did you mean \u2018strcmp\u2019? [-Wimplicit-function-declaration]\n   16 |         lexer->rules[lexer->rule_count].pattern = strdup(pattern);\n      |                                                   ^~~~~~\n      |                                                   strcmp\nsrc/engine.c:16:49: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n   16 |         lexer->rules[lexer->rule_count].pattern = strdup(pattern);\n      |                                                 ^\nsrc/engine.c: In function \u2018omni_pool_alloc_node\u2019:\nsrc/engine.c:138:16: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  138 |     node->name = name ? strdup(name) : strdup(\"\");\n      |                ^\nsrc/engine.c: In function \u2018omni_grammar_add_production\u2019:\nsrc/engine.c:169:19: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  169 |         prod->lhs = strdup(lhs);\n      |                   ^\nsrc/engine.c:172:26: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  172 |             prod->rhs[i] = strdup(rhs[i]);\n      |                          ^\nsrc/engine.c:183:57: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  183 |             grammar->non_terminals[grammar->nt_count++] = strdup(lhs);\n      |                                                         ^",
+        "src/engine.c: In function \u2018omni_lexer_add_rule\u2019:\nsrc/engine.c:16:51: error: implicit declaration of function \u2018strdup\u2019; did you mean \u2018strcmp\u2019? [-Wimplicit-function-declaration]\n   16 |         lexer->rules[lexer->rule_count].pattern = strdup(pattern);\n      |                                                   ^~~~~~\n      |                                                   strcmp\nsrc/engine.c:16:49: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n   16 |         lexer->rules[lexer->rule_count].pattern = strdup(pattern);\n      |                                                 ^\nsrc/engine.c: In function \u2018omni_pool_alloc_node\u2019:\nsrc/engine.c:138:16: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  138 |     node->name = name ? strdup(name) : strdup(\"\");\n      |                ^\nsrc/engine.c: In function \u2018omni_grammar_add_production\u2019:\nsrc/engine.c:169:19: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  169 |         prod->lhs = strdup(lhs);\n      |                   ^\nsrc/engine.c:172:26: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  172 |             prod->rhs[i] = strdup(rhs[i]);\n      |                          ^\nsrc/engine.c:183:57: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  183 |             grammar->non_terminals[grammar->nt_count++] = strdup(lhs);\n      |                                                         ^",
+        "src/engine.c: In function \u2018omni_lexer_add_rule\u2019:\nsrc/engine.c:16:51: error: implicit declaration of function \u2018strdup\u2019; did you mean \u2018strcmp\u2019? [-Wimplicit-function-declaration]\n   16 |         lexer->rules[lexer->rule_count].pattern = strdup(pattern);\n      |                                                   ^~~~~~\n      |                                                   strcmp\nsrc/engine.c:16:49: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n   16 |         lexer->rules[lexer->rule_count].pattern = strdup(pattern);\n      |                                                 ^\nsrc/engine.c: In function \u2018omni_pool_alloc_node\u2019:\nsrc/engine.c:138:16: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  138 |     node->name = name ? strdup(name) : strdup(\"\");\n      |                ^\nsrc/engine.c: In function \u2018omni_grammar_add_production\u2019:\nsrc/engine.c:169:19: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  169 |         prod->lhs = strdup(lhs);\n      |                   ^\nsrc/engine.c:172:26: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  172 |             prod->rhs[i] = strdup(rhs[i]);\n      |                          ^\nsrc/engine.c:183:57: error: assignment to \u2018char *\u2019 from \u2018int\u2019 makes pointer from integer without a cast [-Wint-conversion]\n  183 |             grammar->non_terminals[grammar->nt_count++] = strdup(lhs);\n      |                                                         ^"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/engine.c: In function \u2018omni_pool_init\u2019:\nsrc/engine.c:253:32: error: \u2018omni_pool_block\u2019 undeclared (first use in this function)\n  253 |     pool->head = malloc(sizeof(omni_pool_block));\n      |                                ^~~~~~~~~~~~~~~\nsrc/engine.c:253:32: note: each undeclared identifier is reported only once for each function it appears in",
+        "src/engine.c: In function \u2018omni_pool_init\u2019:\nsrc/engine.c:253:32: error: \u2018omni_pool_block\u2019 undeclared (first use in this function)\n  253 |     pool->head = malloc(sizeof(omni_pool_block));\n      |                                ^~~~~~~~~~~~~~~\nsrc/engine.c:253:32: note: each undeclared identifier is reported only once for each function it appears in",
+        "src/engine.c: In function \u2018omni_pool_init\u2019:\nsrc/engine.c:253:32: error: \u2018omni_pool_block\u2019 undeclared (first use in this function)\n  253 |     pool->head = malloc(sizeof(omni_pool_block));\n      |                                ^~~~~~~~~~~~~~~\nsrc/engine.c:253:32: note: each undeclared identifier is reported only once for each function it appears in"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "compiler",
+    "keywords": [
+      "compiler",
+      "parser",
+      "C11",
+      "grammar",
+      "systems-engineering"
+    ],
+    "major_features": [
+      "Custom regex-based lexer generator supporting user-defined token classes and literal patterns",
+      "LR(1) and LL(*) parse table construction engine calculating FIRST and FOLLOW sets automatically",
+      "Shift-reduce and reduce-reduce conflict detection and interactive resolution strategy harness",
+      "Explicit Abstract Syntax Tree (AST) node allocator with automatic memory pooling and type safety",
+      "Syntax-directed translation execution engine binding semantic actions directly to grammar productions",
+      "Panic-mode error recovery subsystem synchronizing token streams upon lexical and grammatical failures",
+      "Interactive parser state visualizer dumping deterministic state machine graphs to human-readable text",
+      "Comprehensive regression test suite validating malformed token inputs and boundary recursion limits"
+    ],
+    "name": "OmniParser Engine",
+    "pain": "Writing custom parsers for complex domain-specific languages requires boilerplate tokenizers, error recovery logic, and manual AST builders that are tedious and error-prone.",
+    "problem": "Traditional parser generators produce massive, opaque binary state machines that are impossible to debug interactively or modify dynamically at runtime.",
+    "slug": "omniparser-engine",
+    "solution": "Provide a modular C11 parser framework with an interactive grammar validator, FIRST/FOLLOW set calculator, shift-reduce conflict resolver, and deterministic AST generator.",
+    "target_user": "systems and compiler engineers",
+    "technology": "C11",
+    "verification": "Unit tests validate grammar compilation correctness against ambiguous grammars, left-recursion detection, and malformed input token streams, emitting strict diagnostic exit codes."
+  },
+  "slug": "omniparser-engine",
+  "standalone_status": "PENDING",
+  "target_user": "systems and compiler engineers",
+  "technology": "C11",
+  "timestamp": "2026-11-04T09:59:34.666623+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-c architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_engine.c",
+        "-o",
+        "build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running OmniParser Engine Unit Tests...\nALL UNIT TESTS PASSED (23 assertions verified)."
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_integration.c",
+        "-o",
+        "build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running OmniParser Engine Integration Tests...\nALL INTEGRATION TESTS PASSED (15 assertions verified)."
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "src/main.c",
+        "-o",
+        "build/app"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    }
+  ]
+}
