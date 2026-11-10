@@ -1,0 +1,363 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "c11",
+        "automata",
+        "compiler",
+        "dfa-nfa",
+        "performance"
+      ],
+      "major_features": [
+        "Custom lexer and recursive-descent parser building an explicit Regular Expression Abstract Syntax Tree",
+        "Thompson NFA construction engine mapping concatenation, alternation, and Kleene star operators",
+        "Powerset construction algorithm transforming non-deterministic finite automata into deterministic DFA transition tables",
+        "Hopcroft's DFA state minimization algorithm compressing redundant states to optimize memory footprint",
+        "Deterministic linear-time $O(n)$ matching execution engine operating without recursion or stack growth",
+        "Bytecode emission subsystem compiling minimized DFA tables into dense executable instruction streams",
+        "Captured group extraction engine tracking sub-expression match offsets via virtual register tracking",
+        "Exhaustive regression test suite verifying protection against catastrophic backtracking (ReDoS) vulnerabilities"
+      ],
+      "name": "OmniRegex Engine",
+      "pain": "Developers suffer from hidden exponential-time execution bugs when matching complex nested patterns with standard backtracking regex engines.",
+      "problem": "Regular expression engines often rely on backtracking (NFA execution), making them susceptible to catastrophic catastrophic backtracking (ReDoS) and unpredictable latency spikes when processing complex patterns.",
+      "slug": "omniregex-engine",
+      "solution": "Build a rigorous C11 regex compiler that translates AST patterns into an explicit Thompson NFA, converts it via subset construction to a deterministic DFA, minimizes states, and executes matching safely within explicit memory limits.",
+      "target_user": "Systems Engineers and Compiler Authors",
+      "technology": "C11",
+      "verification": "Deterministic integration suite feeding malformed regex syntax, nested alternation loops, long adversarial strings, and invalid character class ranges to verify memory safety, correct matching boundaries, and immunity to catastrophic backtracking."
+    },
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "java-21",
+        "time-series",
+        "compression",
+        "storage-engine",
+        "database"
+      ],
+      "major_features": [
+        "Delta-of-delta timestamp compression algorithm reducing time-series storage overhead to fractions of a bit per sample",
+        "Gorilla-style XOR floating-point compression engine packing consecutive metric values into variable-length bitstreams",
+        "Append-only chunked time-bucket block writer maintaining strict min/max statistics for rapid pruning",
+        "Custom SQL-like temporal query parser supporting WINDOW, RANGE, INTERVAL, and aggregation functions",
+        "Vectorized query execution operator computing moving averages, rates of change, and percentiles over compressed blocks",
+        "Multi-Version Concurrency Control (MVCC) snapshot isolation managing concurrent metric ingestion and queries",
+        "Background segment compaction daemon merging small time-buckets into fixed-size historical archive files",
+        "Deterministic crash-recovery subsystem replaying an append-only write-ahead log to restore uncommitted chunks"
+      ],
+      "name": "KronoDB",
+      "pain": "Storing high-frequency telemetry data requires massive disk space and yields poor scan performance on traditional row-oriented storage engines.",
+      "problem": "Traditional relational databases consume excessive storage and I/O bandwidth when recording high-frequency metric streams, time-series data, or IoT sensor logs.",
+      "slug": "kronodb",
+      "solution": "Construct an append-only time-series engine leveraging Gorilla XOR compression for floats and delta compression for timestamps, combined with an interval-chunked disk index and a vectorized aggregation query processor.",
+      "target_user": "Embedded Systems Developers and Database Engineers",
+      "technology": "Java 21",
+      "verification": "Rigorous test harness injecting out-of-order data points, duplicate timestamps, corrupted block headers, and zero-variance float streams to validate compression ratios, memory bounds, and query correctness."
+    },
+    {
+      "category": "cache-protocol",
+      "keywords": [
+        "systems-engineering",
+        "java-21",
+        "message-queue",
+        "nio",
+        "binary-protocol",
+        "networking"
+      ],
+      "major_features": [
+        "Custom binary wire protocol supporting framed message payloads, multiplexed streams, and heartbeat control codes",
+        "Segmented append-only on-disk log storage with configurable byte-size rotation and index file mapping",
+        "Non-blocking TCP networking server utilizing Java 21 Selectors and SocketChannel multiplexing",
+        "Consumer group coordination engine implementing dynamic partition assignment and liveness tracking",
+        "Explicit message acknowledgment (ACK) and negative acknowledgment (NACK) offset tracking loops",
+        "Dead-Letter Queue (DLQ) diversion mechanism for messages exceeding maximum delivery retry thresholds",
+        "Configurable message retention policy enforcing background disk compaction and segment pruning",
+        "Deterministic network simulation harness injecting packet drops, socket delays, and malformed frame injections"
+      ],
+      "name": "FluxMQ Protocol",
+      "pain": "Engineers building local event-driven architectures must choose between heavyweight distributed brokers or naive in-memory queues that lose data during crashes.",
+      "problem": "Lightweight messaging brokers either lack reliable message persistence and consumer acknowledgments or require heavy external cluster coordination runtimes like ZooKeeper.",
+      "slug": "fluxmq-protocol",
+      "solution": "Implement a high-throughput binary messaging broker from scratch using Java 21 NIO channels, segmented append-only disk storage, and explicit consumer acknowledgment offset tracking loops.",
+      "target_user": "Distributed Systems Engineers",
+      "technology": "Java 21",
+      "verification": "Comprehensive integration suite simulating abrupt client disconnects, malformed binary frame headers, disk-full exceptions, and overlapping consumer group heartbeats to verify offset consistency and durability."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "python-3.12",
+        "static-analysis",
+        "ast",
+        "compiler",
+        "refactoring"
+      ],
+      "major_features": [
+        "Concrete Syntax Tree (CST) and Abstract Syntax Tree (AST) bidirectional parser and builder",
+        "Visitor pattern traversal engine supporting recursive node inspection and contextual mutation",
+        "Pattern-matching query language engine enabling structural node selection via wildcard expressions",
+        "Lexical scope resolver tracking variable bindings, symbol shadowing, and cross-reference graphs",
+        "Source-to-source refactoring transformer preserving original formatting, comments, and whitespace indentation",
+        "Diagnostic reporting engine emitting structured line-and-column diagnostic JSON reports",
+        "Rule dependency graph analyzer detecting circular rewrite rules and conflicting transformation passes",
+        "Deterministic regression harness verifying transformation idempotency across repeated execution runs"
+      ],
+      "name": "Syntactica Engine",
+      "pain": "Writing custom source-to-source code transformations or lint rules requires navigating bloated, undocumented compiler internal APIs.",
+      "problem": "Static analysis tools and linters are often tightly coupled to specific host languages, hard to inspect, and lack a modular, extensible architecture for custom grammar rule definitions.",
+      "slug": "syntactica-engine",
+      "solution": "Develop a pure Python 3.12 CST/AST traversal engine featuring pattern-matching visitors, lexical scope resolution, and deterministic rewrite rule application.",
+      "target_user": "Language Tooling and Compiler Engineers",
+      "technology": "Python 3.12",
+      "verification": "Test suite verifying syntax tree round-tripping, malformed source code recovery, conflicting rewrite rule resolution, and infinite recursion prevention during rule application."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "java-21",
+        "raft",
+        "consensus",
+        "distributed-systems",
+        "virtual-threads"
+      ],
+      "major_features": [
+        "Leader election state machine with randomized election timeouts managed by Java 21 Virtual Threads",
+        "Log replication engine enforcing index and term matching rules to maintain consistency across peers",
+        "Append-only binary commit log featuring CRC32 checksum validation for corruption detection",
+        "Snapshot installation protocol allowing lagging followers to catch up via compressed state transfers",
+        "Cluster membership configuration change protocol supporting joint consensus transitions",
+        "Non-blocking TCP transport layer implementing framed RPC message serialization and deserialization",
+        "State machine replication loop executing deterministic key-value state transitions upon commit",
+        "Deterministic network partition injector simulating packet drops, latency spikes, and socket delays locally"
+      ],
+      "name": "ApexRaft Core",
+      "pain": "Developers struggle to test consensus edge cases like split brains, network partitions, and leader flapping without writing extensive mock infrastructure.",
+      "problem": "Distributed consensus protocols are notoriously difficult to implement correctly, and existing libraries hide the underlying log replication mechanics behind complex RPC frameworks.",
+      "slug": "apexraft-core",
+      "solution": "Build a rigorous Raft consensus protocol implementation from scratch using Java 21 Virtual Threads, non-blocking network channels, and a durable on-disk append-only log.",
+      "target_user": "Distributed Systems Engineers",
+      "technology": "Java 21",
+      "verification": "Deterministic integration harness injecting network splits, packet reordering, delayed heartbeats, and disk write failures to verify safety and liveness invariants under adversarial conditions."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261110T103120Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/engine.c",
+    "src/engine.h",
+    "src/main.c",
+    "tests/test_engine.c",
+    "tests/test_integration.c"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Regular expression engines often rely on backtracking (NFA execution), making them susceptible to catastrophic catastrophic backtracking (ReDoS) and unpredictable latency spikes when processing complex patterns.",
+  "project_name": "OmniRegex Engine",
+  "project_path": "projects/omniregex-engine",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "In file included from src/engine.c:1:\nsrc/engine.h:5:10: fatal error: stdbool: No such file or directory\n    5 | #include <stdbool>\n      |          ^~~~~~~~~\ncompilation terminated.\nIn file included from tests/test_engine.c:1:\ntests/../src/engine.h:5:10: fatal error: stdbool: No such file or directory\n    5 | #include <stdbool>\n      |          ^~~~~~~~~\ncompilation terminated.",
+        "In file included from src/engine.c:1:\nsrc/engine.h:5:10: fatal error: stdbool: No such file or directory\n    5 | #include <stdbool>\n      |          ^~~~~~~~~\ncompilation terminated.\nIn file included from tests/test_integration.c:1:\ntests/../src/engine.h:5:10: fatal error: stdbool: No such file or directory\n    5 | #include <stdbool>\n      |          ^~~~~~~~~\ncompilation terminated.",
+        "In file included from src/engine.c:1:\nsrc/engine.h:5:10: fatal error: stdbool: No such file or directory\n    5 | #include <stdbool>\n      |          ^~~~~~~~~\ncompilation terminated.\nIn file included from src/main.c:1:\nsrc/engine.h:5:10: fatal error: stdbool: No such file or directory\n    5 | #include <stdbool>\n      |          ^~~~~~~~~\ncompilation terminated."
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "TEST_FAILURE",
+        "TEST_FAILURE"
+      ],
+      "summaries": [
+        "test_engine: tests/test_engine.c:63: main: Assertion `res6.start == 5' failed.",
+        "test_integration: tests/test_integration.c:45: main: Assertion `res3.start == 5' failed."
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/engine.c: In function \u2018lexer_next\u2019:\nsrc/engine.c:72:44: error: lvalue required as left operand of assignment\n   72 |             l->current.class_bits['_'] / 8 |= (1 << ('_' % 8)); // simplified\n      |                                            ^~\nsrc/engine.c: In function \u2018epsilon_closure\u2019:\nsrc/engine.c:484:24: error: initialization discards \u2018const\u2019 qualifier from pointer target type [-Werror=discarded-qualifiers]\n  484 |         NFAState *st = &nfa->states[u];\n      |                        ^\nsrc/engine.c: In function \u2018move_transition\u2019:\nsrc/engine.c:504:28: error: initialization discards \u2018const\u2019 qualifier from pointer target type [-Werror=discarded-qualifiers]\n  504 |             NFAState *st = &nfa->states[i];\n      |                            ^\nsrc/engine.c: In function \u2018minimize_dfa\u2019:\nsrc/engine.c:540:9: error: unused variable \u2018new_partition\u2019 [-Werror=unused-variable]\n  540 |     int new_partition[MAX_DFA_STATES];\n      |         ^~~~~~~~~~~~~\nsrc/engine.c: In function \u2018regex_match_ex\u2019:\nsrc/engine.c:775:9: error: unused variable \u2018best_match_end\u2019 [-Werror=unused-variable]\n  775 |     int best_match_end = -1;\n      |         ^~~~~~~~~~~~~~\ncc1: all warnings being treated as errors",
+        "src/engine.c: In function \u2018lexer_next\u2019:\nsrc/engine.c:72:44: error: lvalue required as left operand of assignment\n   72 |             l->current.class_bits['_'] / 8 |= (1 << ('_' % 8)); // simplified\n      |                                            ^~\nsrc/engine.c: In function \u2018epsilon_closure\u2019:\nsrc/engine.c:484:24: error: initialization discards \u2018const\u2019 qualifier from pointer target type [-Werror=discarded-qualifiers]\n  484 |         NFAState *st = &nfa->states[u];\n      |                        ^\nsrc/engine.c: In function \u2018move_transition\u2019:\nsrc/engine.c:504:28: error: initialization discards \u2018const\u2019 qualifier from pointer target type [-Werror=discarded-qualifiers]\n  504 |             NFAState *st = &nfa->states[i];\n      |                            ^\nsrc/engine.c: In function \u2018minimize_dfa\u2019:\nsrc/engine.c:540:9: error: unused variable \u2018new_partition\u2019 [-Werror=unused-variable]\n  540 |     int new_partition[MAX_DFA_STATES];\n      |         ^~~~~~~~~~~~~\nsrc/engine.c: In function \u2018regex_match_ex\u2019:\nsrc/engine.c:775:9: error: unused variable \u2018best_match_end\u2019 [-Werror=unused-variable]\n  775 |     int best_match_end = -1;\n      |         ^~~~~~~~~~~~~~\ncc1: all warnings being treated as errors",
+        "src/engine.c: In function \u2018lexer_next\u2019:\nsrc/engine.c:72:44: error: lvalue required as left operand of assignment\n   72 |             l->current.class_bits['_'] / 8 |= (1 << ('_' % 8)); // simplified\n      |                                            ^~\nsrc/engine.c: In function \u2018epsilon_closure\u2019:\nsrc/engine.c:484:24: error: initialization discards \u2018const\u2019 qualifier from pointer target type [-Werror=discarded-qualifiers]\n  484 |         NFAState *st = &nfa->states[u];\n      |                        ^\nsrc/engine.c: In function \u2018move_transition\u2019:\nsrc/engine.c:504:28: error: initialization discards \u2018const\u2019 qualifier from pointer target type [-Werror=discarded-qualifiers]\n  504 |             NFAState *st = &nfa->states[i];\n      |                            ^\nsrc/engine.c: In function \u2018minimize_dfa\u2019:\nsrc/engine.c:540:9: error: unused variable \u2018new_partition\u2019 [-Werror=unused-variable]\n  540 |     int new_partition[MAX_DFA_STATES];\n      |         ^~~~~~~~~~~~~\nsrc/engine.c: In function \u2018regex_match_ex\u2019:\nsrc/engine.c:775:9: error: unused variable \u2018best_match_end\u2019 [-Werror=unused-variable]\n  775 |     int best_match_end = -1;\n      |         ^~~~~~~~~~~~~~\ncc1: all warnings being treated as errors"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "compiler",
+    "keywords": [
+      "systems-engineering",
+      "c11",
+      "automata",
+      "compiler",
+      "dfa-nfa",
+      "performance"
+    ],
+    "major_features": [
+      "Custom lexer and recursive-descent parser building an explicit Regular Expression Abstract Syntax Tree",
+      "Thompson NFA construction engine mapping concatenation, alternation, and Kleene star operators",
+      "Powerset construction algorithm transforming non-deterministic finite automata into deterministic DFA transition tables",
+      "Hopcroft's DFA state minimization algorithm compressing redundant states to optimize memory footprint",
+      "Deterministic linear-time $O(n)$ matching execution engine operating without recursion or stack growth",
+      "Bytecode emission subsystem compiling minimized DFA tables into dense executable instruction streams",
+      "Captured group extraction engine tracking sub-expression match offsets via virtual register tracking",
+      "Exhaustive regression test suite verifying protection against catastrophic backtracking (ReDoS) vulnerabilities"
+    ],
+    "name": "OmniRegex Engine",
+    "pain": "Developers suffer from hidden exponential-time execution bugs when matching complex nested patterns with standard backtracking regex engines.",
+    "problem": "Regular expression engines often rely on backtracking (NFA execution), making them susceptible to catastrophic catastrophic backtracking (ReDoS) and unpredictable latency spikes when processing complex patterns.",
+    "slug": "omniregex-engine",
+    "solution": "Build a rigorous C11 regex compiler that translates AST patterns into an explicit Thompson NFA, converts it via subset construction to a deterministic DFA, minimizes states, and executes matching safely within explicit memory limits.",
+    "target_user": "Systems Engineers and Compiler Authors",
+    "technology": "C11",
+    "verification": "Deterministic integration suite feeding malformed regex syntax, nested alternation loops, long adversarial strings, and invalid character class ranges to verify memory safety, correct matching boundaries, and immunity to catastrophic backtracking."
+  },
+  "slug": "omniregex-engine",
+  "standalone_status": "PENDING",
+  "target_user": "Systems Engineers and Compiler Authors",
+  "technology": "C11",
+  "timestamp": "2026-11-10T10:31:20.889651+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-c architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_engine.c",
+        "-o",
+        "build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running unit tests... ALL UNIT TESTS PASSED."
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_integration.c",
+        "-o",
+        "build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running integration suites...\nALL INTEGRATION TESTS PASSED."
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "src/main.c",
+        "-o",
+        "build/app"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    }
+  ]
+}

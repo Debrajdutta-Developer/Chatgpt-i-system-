@@ -1782,5 +1782,109 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "compiler",
+    "commit_hash": null,
+    "cycle": "cycle-20261110T103120Z",
+    "date": "2026-11-10",
+    "keywords": [
+      "systems-engineering",
+      "c11",
+      "automata",
+      "compiler",
+      "dfa-nfa",
+      "performance"
+    ],
+    "major_features": [
+      "Custom lexer and recursive-descent parser building an explicit Regular Expression Abstract Syntax Tree",
+      "Thompson NFA construction engine mapping concatenation, alternation, and Kleene star operators",
+      "Powerset construction algorithm transforming non-deterministic finite automata into deterministic DFA transition tables",
+      "Hopcroft's DFA state minimization algorithm compressing redundant states to optimize memory footprint",
+      "Deterministic linear-time $O(n)$ matching execution engine operating without recursion or stack growth",
+      "Bytecode emission subsystem compiling minimized DFA tables into dense executable instruction streams",
+      "Captured group extraction engine tracking sub-expression match offsets via virtual register tracking",
+      "Exhaustive regression test suite verifying protection against catastrophic backtracking (ReDoS) vulnerabilities"
+    ],
+    "name": "OmniRegex Engine",
+    "problem": "Regular expression engines often rely on backtracking (NFA execution), making them susceptible to catastrophic catastrophic backtracking (ReDoS) and unpredictable latency spikes when processing complex patterns.",
+    "purpose": "Build a rigorous C11 regex compiler that translates AST patterns into an explicit Thompson NFA, converts it via subset construction to a deterministic DFA, minimizes states, and executes matching safely within explicit memory limits.",
+    "quality_score": 100,
+    "report_path": "reports/2026-11-10-103120-omniregex-engine.json",
+    "slug": "omniregex-engine",
+    "technology": "C11",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_engine.c",
+          "-o",
+          "build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_integration.c",
+          "-o",
+          "build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "src/main.c",
+          "-o",
+          "build/app"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]
