@@ -1,0 +1,31 @@
+{
+  "name": "ApexSim Engine",
+  "slug": "apexsim-engine",
+  "target_user": "Systems Engineers and Simulation Architects",
+  "problem": "Discrete event simulation frameworks in interpreted languages suffer from massive garbage collection overhead and lack precise deterministic priority queue coordination for millions of concurrent events.",
+  "pain": "Debugging complex multi-agent or hardware simulation timelines is slow when event queues bottleneck on locking overhead and lack fine-grained causality tracing.",
+  "solution": "A zero-dependency discrete event simulation (DES) engine written in Java 21 featuring a lock-free calendar queue, a custom domain-specific simulation scripting parser, time-dilation stepping, and automated causality violation detection.",
+  "verification": "Unit test suite simulating one million ordered events with injected random out-of-order scheduling attempts, verifying that causality violations throw immediate runtime exceptions and state replays match byte-for-byte.",
+  "category": "systems-tool",
+  "keywords": [
+    "systems-engineering",
+    "simulation",
+    "concurrency",
+    "event-driven",
+    "java-21"
+  ],
+  "major_features": [
+    "Custom calendar queue priority scheduler implementing O(1) expected-time event insertions and extractions",
+    "Domain-Specific Language (DSL) lexer and parser for defining simulation actor states and transition triggers",
+    "Virtual Thread-based parallel event dispatcher executing independent simulation steps concurrently",
+    "Causality tracking engine validating happened-before temporal constraints across asynchronous actor nodes",
+    "State-snapshotting checkpoint manager supporting time-travel debugging and forward-backward stepping",
+    "Deterministic pseudorandom number generator (PRNG) stream interleaving for reproducible stochastic runs",
+    "Append-only binary audit log recording every event execution path with CRC32 integrity validation",
+    "Real-time performance metrics collector monitoring event throughput, queue depth, and memory allocation rates"
+  ],
+  "technology": "Java 21",
+  "factory_profile": "systems-java",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

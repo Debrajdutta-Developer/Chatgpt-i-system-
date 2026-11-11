@@ -1886,5 +1886,79 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "systems-tool",
+    "commit_hash": null,
+    "cycle": "cycle-20261111T095452Z",
+    "date": "2026-11-11",
+    "keywords": [
+      "systems-engineering",
+      "simulation",
+      "concurrency",
+      "event-driven",
+      "java-21"
+    ],
+    "major_features": [
+      "Custom calendar queue priority scheduler implementing O(1) expected-time event insertions and extractions",
+      "Domain-Specific Language (DSL) lexer and parser for defining simulation actor states and transition triggers",
+      "Virtual Thread-based parallel event dispatcher executing independent simulation steps concurrently",
+      "Causality tracking engine validating happened-before temporal constraints across asynchronous actor nodes",
+      "State-snapshotting checkpoint manager supporting time-travel debugging and forward-backward stepping",
+      "Deterministic pseudorandom number generator (PRNG) stream interleaving for reproducible stochastic runs",
+      "Append-only binary audit log recording every event execution path with CRC32 integrity validation",
+      "Real-time performance metrics collector monitoring event throughput, queue depth, and memory allocation rates"
+    ],
+    "name": "ApexSim Engine",
+    "problem": "Discrete event simulation frameworks in interpreted languages suffer from massive garbage collection overhead and lack precise deterministic priority queue coordination for millions of concurrent events.",
+    "purpose": "A zero-dependency discrete event simulation (DES) engine written in Java 21 featuring a lock-free calendar queue, a custom domain-specific simulation scripting parser, time-dilation stepping, and automated causality violation detection.",
+    "quality_score": 100,
+    "report_path": "reports/2026-11-11-095452-apexsim-engine.json",
+    "slug": "apexsim-engine",
+    "technology": "Java 21",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "javac",
+          "-Xlint:all",
+          "-Werror",
+          "-d",
+          "build/classes",
+          "src/main/java/factory/Core.java",
+          "src/main/java/factory/Main.java",
+          "src/test/java/factory/CoreTest.java",
+          "src/test/java/factory/IntegrationTest.java"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "java",
+          "-ea",
+          "-cp",
+          "build/classes",
+          "factory.CoreTest"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "java",
+          "-ea",
+          "-cp",
+          "build/classes",
+          "factory.IntegrationTest"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]
