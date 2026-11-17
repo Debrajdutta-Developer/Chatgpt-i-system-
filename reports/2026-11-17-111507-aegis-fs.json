@@ -1,0 +1,385 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "content-addressable-storage",
+        "c11",
+        "deduplication",
+        "rabin-fingerprint",
+        "block-engine"
+      ],
+      "major_features": [
+        "Dynamic content-defined chunking (CDC) engine using Rabin fingerprinting over variable sliding byte windows",
+        "BLAKE3 and SHA-256 content-addressable hash indexing with automated collision resolution",
+        "Write-ahead transaction log and block journal supporting crash recovery and atomic commit guarantees",
+        "In-memory B+Tree metadata index mapping virtual file offsets to content hash blocks",
+        "Dictionary-based LZ compression engine compressing individual block payloads prior to disk allocation",
+        "Mark-and-sweep block garbage collector identifying and reclaiming unreferenced hash chunks",
+        "Read-repair integrity auditor scanning stored blocks against checksum manifests to detect bit rot",
+        "Deterministic simulation testbed injecting write interruptions, malformed headers, and truncated payload files"
+      ],
+      "name": "AegisFS",
+      "pain": "Duplicate datasets consume vast disk space, and unmonitored disk corruption remains undetected until applications fail unexpectedly.",
+      "problem": "Heavy distributed file systems introduce excessive operational complexity, while naive local storage engines waste space on duplicate byte sequences and lack content integrity auditing against bit rot.",
+      "slug": "aegis-fs",
+      "solution": "A zero-dependency user-space content-addressable storage (CAS) engine written in C11. It features dynamic Rabin fingerprinting for content-defined chunking, BLAKE3 content hashing, a B+Tree virtual file offset mapper, dictionary compression, and automated garbage collection.",
+      "target_user": "Systems engineers building resilient storage subsystems or data deduplication pipelines.",
+      "technology": "C11",
+      "verification": "Integration tests simulate bit-rot corruption by mutating disk blocks, write duplicate datasets to verify byte-exact deduplication ratios, and test emergency crash recovery by abruptly terminating write operations."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "sat-solver",
+        "smt-solver",
+        "cdcl",
+        "drat-proofs",
+        "python-3-12"
+      ],
+      "major_features": [
+        "DIMACS CNF and SMT-LIB2 standard input syntax parser building explicit logical clause trees",
+        "Conflict-Driven Clause Learning (CDCL) core engine with non-chronological clause backjumping",
+        "Two-Watched-Literals (2WL) indexing data structure for constant-time unit propagation updates",
+        "Variable State Independent Decaying Sum (VSIDS) decision heuristic managing literal branch selection",
+        "Literal Block Distance (LBD) heuristic evaluator for dynamic learned-clause pruning and memory reclamation",
+        "SMT theory solver integration supporting Difference Logic and Bit-Vector arithmetic theories",
+        "Resolution proof generator exporting machine-verifiable DRAT (Unsatisfiability) proof certificates",
+        "Deterministic fuzzing harness feeding malformed clauses, empty CNFs, and tautology edge cases"
+      ],
+      "name": "AstraSAT",
+      "pain": "Developers struggle to debug formal logic bounds and property checks when automated theorem provers act as black boxes with unpredictable non-deterministic solving times.",
+      "problem": "Mainstream formal verification solvers are monolithic C++ codebases that hide internal heuristic states, making custom theory integration and deterministic algorithm education difficult.",
+      "slug": "astrasat-solver",
+      "solution": "A zero-dependency Conflict-Driven Clause Learning (CDCL) Boolean Satisfiability (SAT) and Satisfiability Modulo Theories (SMT) engine written in Python 3.12 standard library primitives.",
+      "target_user": "Formal verification engineers, compiler authors, and automated reasoning researchers.",
+      "technology": "Python 3.12",
+      "verification": "Unit and property-based verification harness validating DRAT unsatisfiability proofs, testing random CNF formula mutations, and verifying exact satisfiability models against known benchmark suites."
+    },
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "stream-processing",
+        "complex-event-processing",
+        "java-21",
+        "chandy-lamport",
+        "nfa-pattern-matching"
+      ],
+      "major_features": [
+        "Streaming SQL query parser supporting TUMBLE, HOP, and SESSION window semantics",
+        "Non-Deterministic Finite Automaton (NFA) sequence pattern matching engine for temporal MATCH_RECOGNIZE queries",
+        "Watermark generator and out-of-order event reconciler handling out-of-sequence temporal arrivals",
+        "In-memory partitioned state store backed by Java 21 Virtual Threads for concurrent key-by aggregation",
+        "Incremental window aggregator computing rolling count, min/max, sum, and quantile statistics without full recalculation",
+        "Fault-tolerant distributed snapshotting engine implementing the Chandy-Lamport checkpointing algorithm",
+        "Reactive backpressure manager monitoring internal buffer bounds and dynamic producer throttling",
+        "Integration verification suite testing clock skew, corrupted frame streams, and recovery from forced worker thread crashes"
+      ],
+      "name": "VeloxStream",
+      "pain": "Complex streaming setups are hard to run, test, and debug locally when trying to evaluate temporal pattern matching and window aggregations under out-of-order event arrivals.",
+      "problem": "Enterprise stream processing frameworks require heavy JVM clusters and external coordinators, hiding low-level watermark tracking and out-of-order event reconciliation mechanics.",
+      "slug": "velox-stream",
+      "solution": "A zero-dependency Complex Event Processing (CEP) and sliding-window query engine in Java 21 using Virtual Threads. It parses streaming SQL statements, matches sequence patterns via dynamic NFAs, manages watermarks, and executes Chandy-Lamport state snapshotting.",
+      "target_user": "Event-driven systems engineers building real-time metrics pipelines or fraud detection engines.",
+      "technology": "Java 21",
+      "verification": "Integration tests inject out-of-order temporal streams, artificial network delay jitter, corrupted JSON/binary frames, and verify exact window aggregation results and fault-tolerant snapshot restoration."
+    },
+    {
+      "category": "search-engine",
+      "keywords": [
+        "systems-engineering",
+        "hnsw-index",
+        "vector-search",
+        "product-quantization",
+        "simd-java21",
+        "ann-retrieval"
+      ],
+      "major_features": [
+        "Multi-layer HNSW graph index construction algorithm with dynamic probability layer assignments",
+        "SIMD-accelerated distance engines for Cosine, Euclidean (L2), and Dot Product metrics utilizing Java 21 Vector API",
+        "Product Quantization (PQ) compression engine encoding high-dimensional float vectors into compact byte codes",
+        "Asymmetric Distance Computation (ADC) search algorithm querying raw vectors directly against quantized codes",
+        "Heuristic neighbor selection algorithm pruning redundant graph connections to maintain small-world properties",
+        "On-disk binary serialization layout supporting direct memory-mapped file indexing and zero-copy loading",
+        "Concurrent insertion and edge-rebalancing coordinator using Java 21 VarHandles for atomic pointer updates",
+        "Deterministic benchmark suite validating recall@K accuracy, handling zero-magnitude vectors, and detecting binary index corruption"
+      ],
+      "name": "SubspaceHNSW",
+      "pain": "Standard vector search engines lack transparent low-level tuning for Product Quantization and graph traversal heuristics, leading to opaque memory usage and unexpected recall drops.",
+      "problem": "Production vector databases bundle complex cloud dependencies and monolithic runtimes, masking the core geometry of high-dimensional index structures and SIMD distance calculations.",
+      "slug": "subspace-hnsw",
+      "solution": "A zero-dependency Hierarchical Navigable Small World (HNSW) vector index and approximate nearest neighbor (ANN) search engine built in Java 21. It uses Java 21 Vector API for SIMD distance calculations, Product Quantization (PQ) for vector compression, and Asymmetric Distance Computation for sub-millisecond retrieval.",
+      "target_user": "Search engineers, AI infrastructure developers, and vector retrieval specialists.",
+      "technology": "Java 21",
+      "verification": "Integration test harness comparing HNSW ANN recall@K against exhaustive linear brute-force ground truth on synthetic vector datasets, including NaN handling, zero-vector edge cases, and corrupt index files."
+    },
+    {
+      "category": "agent-engine",
+      "keywords": [
+        "systems-engineering",
+        "autonomous-navigation",
+        "lpa-star",
+        "safety-shield",
+        "q-learning",
+        "python-3-12"
+      ],
+      "major_features": [
+        "Dynamic occupancy grid builder converting simulated range sensor telemetry into spatial obstacle probability maps",
+        "Lifelong Planning A* (LPA*) incremental pathfinding engine updating optimal routes without full graph recalculation",
+        "Kinematic velocity and differential steering solver translating path vectors into physical motion commands",
+        "Tabular Q-learning adapter tuning local obstacle-clearance weights purely from explicit step-by-step reward signals",
+        "Deterministic kinematic safety shield validating planned velocity vectors against strict physical collision boundaries",
+        "Local physics and noise environment simulator simulating wheel slip, sensor occlusion, and variable friction",
+        "On-disk binary telemetry logger recording spatial trajectories, Q-table checkpoints, and safety violation events",
+        "Deterministic test harness testing agent resilience under corrupted sensor frames, infinite loop trajectories, and sudden wall spawns"
+      ],
+      "name": "PathAdapt Agent",
+      "pain": "Adapting local motion policies online without safety shields can lead to catastrophically erratic robot behaviors or illegal motion commands.",
+      "problem": "Autonomous navigation systems often rely on black-box neural networks that lack deterministic safety guarantees, risking unpredictable collisions when exposed to dynamic obstacles.",
+      "slug": "path-adapt-agent",
+      "solution": "A zero-dependency, local safety-constrained pathfinding and adaptation agent built in Python 3.12 standard library. It combines Lifelong Planning A* (LPA*) incremental pathfinding with an online local Q-learning parameter adapter, wrapped inside an immutable deterministic kinematic safety shield.",
+      "target_user": "Autonomous systems engineers, robotics developers, and safety-critical software designers.",
+      "technology": "Python 3.12",
+      "verification": "Integration test suite simulating noisy LiDAR/sonar telemetry, completely blocked corridors, dynamic obstacle spawns, and negative feedback rewards to verify that the agent never violates physical safety bounds."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261117T111507Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/engine.c",
+    "src/engine.h",
+    "src/main.c",
+    "tests/test_engine.c",
+    "tests/test_integration.c"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Heavy distributed file systems introduce excessive operational complexity, while naive local storage engines waste space on duplicate byte sequences and lack content integrity auditing against bit rot.",
+  "project_name": "AegisFS",
+  "project_path": "projects/aegis-fs",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "forbidden shell/dynamic execution capability found: system("
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 2,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "In file included from src/engine.c:1:\nsrc/engine.h:17:9: error: expected \u2018;\u2019 before \u2018struct\u2019\n   17 | ttypedef struct {\n      |         ^~~~~~~\n      |         ;\nsrc/engine.h:32:1: error: unknown type name \u2018ssize_t\u2019; did you mean \u2018size_t\u2019?\n   32 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size);\n      | ^~~~~~~\n      | size_t\nsrc/engine.c:21:9: error: expected specifier-qualifier-list before \u2018AegisExtent\u2019\n   21 |         AegisExtent extents[128];\n      |         ^~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_file_write\u2019:\nsrc/engine.c:124:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  124 |         repo->files[fidx].extent_count = 0;\n      |                          ^\nsrc/engine.c:125:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  125 |         repo->files[fidx].total_size = 0;\n      |                          ^\nsrc/engine.c:127:49: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  127 |         for (size_t i = 0; i < repo->files[fidx].extent_count; ++i) {\n      |                                                 ^\nsrc/engine.c:128:44: error: \u2018struct <anonymous>\u2019 has no member named \u2018extents\u2019\n  128 |             AegisHash h = repo->files[fidx].extents[i].hash;\n      |                                            ^\nsrc/engine.c:135:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  135 |         repo->files[fidx].extent_count = 0;\n      |                          ^\nsrc/engine.c:136:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  136 |         repo->files[fidx].total_size = 0;\n      |                          ^\nsrc/engine.c:172:30: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  172 |         if (repo->files[fidx].extent_count < 128) {\n      |                              ^\nsrc/engine.c:173:26: error: \u2018ext\u2019 undeclared (first use in this function); did you mean \u2018exit\u2019?\n  173 |             AegisExtent* ext = &repo->files[fidx].extents[repo->files[fidx].extent_count++];\n      |                          ^~~\n      |                          exit\nsrc/engine.c:173:26: note: each undeclared identifier is reported only once for each function it appears in\nsrc/engine.c:173:50: error: \u2018struct <anonymous>\u2019 has no member named \u2018extents\u2019\n  173 |             AegisExtent* ext = &repo->files[fidx].extents[repo->files[fidx].extent_count++];\n      |                                                  ^\nsrc/engine.c:173:76: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  173 |             AegisExtent* ext = &repo->files[fidx].extents[repo->files[fidx].extent_count++];\n      |                                                                            ^\nsrc/engine.c:181:22: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  181 |     repo->files[fidx].total_size = size;\n      |                      ^\nsrc/engine.c: At top level:\nsrc/engine.c:185:9: error: conflicting types for \u2018aegis_file_read\u2019; have \u2018ssize_t(AegisRepo *, const char *, uint8_t *, size_t)\u2019 {aka \u2018long int(AegisRepo *, const char *, unsigned char *, long unsigned int)\u2019}\n  185 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size) {\n      |         ^~~~~~~~~~~~~~~\nsrc/engine.h:32:9: note: previous declaration of \u2018aegis_file_read\u2019 with type \u2018int(AegisRepo *, const char *, uint8_t *, size_t)\u2019 {aka \u2018int(AegisRepo *, const char *, unsigned char *, long unsigned int)\u2019}\n   32 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size);\n      |         ^~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_file_read\u2019:\nsrc/engine.c:197:45: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  197 |     for (size_t e = 0; e < repo->files[fidx].extent_count; ++e) {\n      |                                             ^\nsrc/engine.c:198:22: error: \u2018ext\u2019 undeclared (first use in this function); did you mean \u2018exit\u2019?\n  198 |         AegisExtent* ext = &repo->files[fidx].extents[e];\n      |                      ^~~\n      |                      exit\nsrc/engine.c:198:46: error: \u2018struct <anonymous>\u2019 has no member named \u2018extents\u2019\n  198 |         AegisExtent* ext = &repo->files[fidx].extents[e];\n      |                                              ^\nsrc/engine.c: In function \u2018aegis_file_size\u2019:\nsrc/engine.c:228:34: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  228 |             return repo->files[i].total_size;\n      |                                  ^\nIn file included from tests/test_engine.c:1:\ntests/../src/engine.h:17:9: error: expected \u2018;\u2019 before \u2018struct\u2019\n   17 | ttypedef struct {\n      |         ^~~~~~~\n      |         ;\ntests/../src/engine.h:32:1: error: unknown type name \u2018ssize_t\u2019; did you mean \u2018size_t\u2019?\n   32 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size);\n      | ^~~~~~~\n      | size_t\ntests/test_engine.c: In function \u2018main\u2019:\ntests/test_engine.c:49:5: error: unknown type name \u2018ssize_t\u2019; did you mean \u2018size_t\u2019?\n   49 |     ssize_t read_bytes = aegis_file_read(repo, \"virtual_doc.bin\", read_buf, sizeof(sample_data));\n      |     ^~~~~~~\n      |     size_t\nIn file included from tests/test_engine.c:5:\ntests/test_engine.c:50:27: error: \u2018ssize_t\u2019 undeclared (first use in this function); did you mean \u2018size_t\u2019?\n   50 |     assert(read_bytes == (ssize_t)sizeof(sample_data));\n      |                           ^~~~~~~\ntests/test_engine.c:50:27: note: each undeclared identifier is reported only once for each function it appears in\ntests/test_engine.c:50:35: error: expected \u2018)\u2019 before \u2018sizeof\u2019\n   50 |     assert(read_bytes == (ssize_t)sizeof(sample_data));\n      |                                   ^~~~~~\ntests/test_engine.c:50:5: note: to match this \u2018(\u2019\n   50 |     assert(read_bytes == (ssize_t)sizeof(sample_data));\n      |     ^~~~~~",
+        "In file included from src/engine.c:1:\nsrc/engine.h:17:9: error: expected \u2018;\u2019 before \u2018struct\u2019\n   17 | ttypedef struct {\n      |         ^~~~~~~\n      |         ;\nsrc/engine.h:32:1: error: unknown type name \u2018ssize_t\u2019; did you mean \u2018size_t\u2019?\n   32 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size);\n      | ^~~~~~~\n      | size_t\nsrc/engine.c:21:9: error: expected specifier-qualifier-list before \u2018AegisExtent\u2019\n   21 |         AegisExtent extents[128];\n      |         ^~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_file_write\u2019:\nsrc/engine.c:124:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  124 |         repo->files[fidx].extent_count = 0;\n      |                          ^\nsrc/engine.c:125:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  125 |         repo->files[fidx].total_size = 0;\n      |                          ^\nsrc/engine.c:127:49: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  127 |         for (size_t i = 0; i < repo->files[fidx].extent_count; ++i) {\n      |                                                 ^\nsrc/engine.c:128:44: error: \u2018struct <anonymous>\u2019 has no member named \u2018extents\u2019\n  128 |             AegisHash h = repo->files[fidx].extents[i].hash;\n      |                                            ^\nsrc/engine.c:135:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  135 |         repo->files[fidx].extent_count = 0;\n      |                          ^\nsrc/engine.c:136:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  136 |         repo->files[fidx].total_size = 0;\n      |                          ^\nsrc/engine.c:172:30: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  172 |         if (repo->files[fidx].extent_count < 128) {\n      |                              ^\nsrc/engine.c:173:26: error: \u2018ext\u2019 undeclared (first use in this function); did you mean \u2018exit\u2019?\n  173 |             AegisExtent* ext = &repo->files[fidx].extents[repo->files[fidx].extent_count++];\n      |                          ^~~\n      |                          exit\nsrc/engine.c:173:26: note: each undeclared identifier is reported only once for each function it appears in\nsrc/engine.c:173:50: error: \u2018struct <anonymous>\u2019 has no member named \u2018extents\u2019\n  173 |             AegisExtent* ext = &repo->files[fidx].extents[repo->files[fidx].extent_count++];\n      |                                                  ^\nsrc/engine.c:173:76: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  173 |             AegisExtent* ext = &repo->files[fidx].extents[repo->files[fidx].extent_count++];\n      |                                                                            ^\nsrc/engine.c:181:22: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  181 |     repo->files[fidx].total_size = size;\n      |                      ^\nsrc/engine.c: At top level:\nsrc/engine.c:185:9: error: conflicting types for \u2018aegis_file_read\u2019; have \u2018ssize_t(AegisRepo *, const char *, uint8_t *, size_t)\u2019 {aka \u2018long int(AegisRepo *, const char *, unsigned char *, long unsigned int)\u2019}\n  185 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size) {\n      |         ^~~~~~~~~~~~~~~\nsrc/engine.h:32:9: note: previous declaration of \u2018aegis_file_read\u2019 with type \u2018int(AegisRepo *, const char *, uint8_t *, size_t)\u2019 {aka \u2018int(AegisRepo *, const char *, unsigned char *, long unsigned int)\u2019}\n   32 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size);\n      |         ^~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_file_read\u2019:\nsrc/engine.c:197:45: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  197 |     for (size_t e = 0; e < repo->files[fidx].extent_count; ++e) {\n      |                                             ^\nsrc/engine.c:198:22: error: \u2018ext\u2019 undeclared (first use in this function); did you mean \u2018exit\u2019?\n  198 |         AegisExtent* ext = &repo->files[fidx].extents[e];\n      |                      ^~~\n      |                      exit\nsrc/engine.c:198:46: error: \u2018struct <anonymous>\u2019 has no member named \u2018extents\u2019\n  198 |         AegisExtent* ext = &repo->files[fidx].extents[e];\n      |                                              ^\nsrc/engine.c: In function \u2018aegis_file_size\u2019:\nsrc/engine.c:228:34: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  228 |             return repo->files[i].total_size;\n      |                                  ^\nIn file included from tests/test_integration.c:1:\ntests/../src/engine.h:17:9: error: expected \u2018;\u2019 before \u2018struct\u2019\n   17 | ttypedef struct {\n      |         ^~~~~~~\n      |         ;\ntests/../src/engine.h:32:1: error: unknown type name \u2018ssize_t\u2019; did you mean \u2018size_t\u2019?\n   32 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size);\n      | ^~~~~~~\n      | size_t\ntests/test_integration.c: In function \u2018main\u2019:\ntests/test_integration.c:33:5: error: unknown type name \u2018ssize_t\u2019; did you mean \u2018size_t\u2019?\n   33 |     ssize_t r_bytes = aegis_file_read(repo, \"file_b.dat\", verify_b, dataset_size);\n      |     ^~~~~~~\n      |     size_t\nIn file included from tests/test_integration.c:5:\ntests/test_integration.c:34:24: error: \u2018ssize_t\u2019 undeclared (first use in this function); did you mean \u2018size_t\u2019?\n   34 |     assert(r_bytes == (ssize_t)dataset_size);\n      |                        ^~~~~~~\ntests/test_integration.c:34:24: note: each undeclared identifier is reported only once for each function it appears in\ntests/test_integration.c:34:32: error: expected \u2018)\u2019 before \u2018dataset_size\u2019\n   34 |     assert(r_bytes == (ssize_t)dataset_size);\n      |                                ^~~~~~~~~~~~\ntests/test_integration.c:34:5: note: to match this \u2018(\u2019\n   34 |     assert(r_bytes == (ssize_t)dataset_size);\n      |     ^~~~~~\ntests/test_integration.c:48:22: error: comparison of unsigned expression in \u2018>= 0\u2019 is always true [-Werror=type-limits]\n   48 |     assert(reclaimed >= 0);\n      |                      ^~\ncc1: all warnings being treated as errors",
+        "In file included from src/engine.c:1:\nsrc/engine.h:17:9: error: expected \u2018;\u2019 before \u2018struct\u2019\n   17 | ttypedef struct {\n      |         ^~~~~~~\n      |         ;\nsrc/engine.h:32:1: error: unknown type name \u2018ssize_t\u2019; did you mean \u2018size_t\u2019?\n   32 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size);\n      | ^~~~~~~\n      | size_t\nsrc/engine.c:21:9: error: expected specifier-qualifier-list before \u2018AegisExtent\u2019\n   21 |         AegisExtent extents[128];\n      |         ^~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_file_write\u2019:\nsrc/engine.c:124:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  124 |         repo->files[fidx].extent_count = 0;\n      |                          ^\nsrc/engine.c:125:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  125 |         repo->files[fidx].total_size = 0;\n      |                          ^\nsrc/engine.c:127:49: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  127 |         for (size_t i = 0; i < repo->files[fidx].extent_count; ++i) {\n      |                                                 ^\nsrc/engine.c:128:44: error: \u2018struct <anonymous>\u2019 has no member named \u2018extents\u2019\n  128 |             AegisHash h = repo->files[fidx].extents[i].hash;\n      |                                            ^\nsrc/engine.c:135:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  135 |         repo->files[fidx].extent_count = 0;\n      |                          ^\nsrc/engine.c:136:26: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  136 |         repo->files[fidx].total_size = 0;\n      |                          ^\nsrc/engine.c:172:30: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  172 |         if (repo->files[fidx].extent_count < 128) {\n      |                              ^\nsrc/engine.c:173:26: error: \u2018ext\u2019 undeclared (first use in this function); did you mean \u2018exit\u2019?\n  173 |             AegisExtent* ext = &repo->files[fidx].extents[repo->files[fidx].extent_count++];\n      |                          ^~~\n      |                          exit\nsrc/engine.c:173:26: note: each undeclared identifier is reported only once for each function it appears in\nsrc/engine.c:173:50: error: \u2018struct <anonymous>\u2019 has no member named \u2018extents\u2019\n  173 |             AegisExtent* ext = &repo->files[fidx].extents[repo->files[fidx].extent_count++];\n      |                                                  ^\nsrc/engine.c:173:76: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  173 |             AegisExtent* ext = &repo->files[fidx].extents[repo->files[fidx].extent_count++];\n      |                                                                            ^\nsrc/engine.c:181:22: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  181 |     repo->files[fidx].total_size = size;\n      |                      ^\nsrc/engine.c: At top level:\nsrc/engine.c:185:9: error: conflicting types for \u2018aegis_file_read\u2019; have \u2018ssize_t(AegisRepo *, const char *, uint8_t *, size_t)\u2019 {aka \u2018long int(AegisRepo *, const char *, unsigned char *, long unsigned int)\u2019}\n  185 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size) {\n      |         ^~~~~~~~~~~~~~~\nsrc/engine.h:32:9: note: previous declaration of \u2018aegis_file_read\u2019 with type \u2018int(AegisRepo *, const char *, uint8_t *, size_t)\u2019 {aka \u2018int(AegisRepo *, const char *, unsigned char *, long unsigned int)\u2019}\n   32 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size);\n      |         ^~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_file_read\u2019:\nsrc/engine.c:197:45: error: \u2018struct <anonymous>\u2019 has no member named \u2018extent_count\u2019\n  197 |     for (size_t e = 0; e < repo->files[fidx].extent_count; ++e) {\n      |                                             ^\nsrc/engine.c:198:22: error: \u2018ext\u2019 undeclared (first use in this function); did you mean \u2018exit\u2019?\n  198 |         AegisExtent* ext = &repo->files[fidx].extents[e];\n      |                      ^~~\n      |                      exit\nsrc/engine.c:198:46: error: \u2018struct <anonymous>\u2019 has no member named \u2018extents\u2019\n  198 |         AegisExtent* ext = &repo->files[fidx].extents[e];\n      |                                              ^\nsrc/engine.c: In function \u2018aegis_file_size\u2019:\nsrc/engine.c:228:34: error: \u2018struct <anonymous>\u2019 has no member named \u2018total_size\u2019\n  228 |             return repo->files[i].total_size;\n      |                                  ^\nIn file included from src/main.c:1:\nsrc/engine.h:17:9: error: expected \u2018;\u2019 before \u2018struct\u2019\n   17 | ttypedef struct {\n      |         ^~~~~~~\n      |         ;\nsrc/engine.h:32:1: error: unknown type name \u2018ssize_t\u2019; did you mean \u2018size_t\u2019?\n   32 | ssize_t aegis_file_read(AegisRepo* repo, const char* filename, uint8_t* buf, size_t max_size);\n      | ^~~~~~~\n      | size_t\nsrc/main.c: In function \u2018main\u2019:\nsrc/main.c:74:9: error: unknown type name \u2018ssize_t\u2019; did you mean \u2018size_t\u2019?\n   74 |         ssize_t r = aegis_file_read(repo, argv[3], buf, fsize);\n      |         ^~~~~~~\n      |         size_t\nsrc/main.c:86:37: error: format \u2018%zd\u2019 expects argument of type \u2018signed size_t\u2019, but argument 2 has type \u2018int\u2019 [-Werror=format=]\n   86 |         printf(\"Successfully read %zd bytes from virtual file %s\\n\", r, argv[3]);\n      |                                   ~~^                                ~\n      |                                     |                                |\n      |                                     long int                         int\n      |                                   %d\ncc1: all warnings being treated as errors"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 3,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "In file included from src/engine.c:2:\nsrc/engine.h:21:5: error: unknown type name \u2018off_t\u2019\n   21 |     off_t file_offset;\n      |     ^~~~~\nsrc/engine.c:4:20: error: extra tokens at end of \u2018#include\u2019 directive [-Werror]\n    4 | #include <stdlib.h><stdlib.h>\n      |                    ^~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_repo_init\u2019:\nsrc/engine.c:29:40: error: \u2018errno\u2019 undeclared (first use in this function)\n   29 |     if (mkdir(repo_path, 0777) != 0 && errno != EEXIST) {\n      |                                        ^~~~~\nsrc/engine.c:10:1: note: \u2018errno\u2019 is defined in header \u2018<errno.h>\u2019; this is probably fixable by adding \u2018#include <errno.h>\u2019\n    9 | #include <unistd.h>\n  +++ |+#include <errno.h>\n   10 | \nsrc/engine.c:29:40: note: each undeclared identifier is reported only once for each function it appears in\n   29 |     if (mkdir(repo_path, 0777) != 0 && errno != EEXIST) {\n      |                                        ^~~~~\nsrc/engine.c:29:49: error: \u2018EEXIST\u2019 undeclared (first use in this function)\n   29 |     if (mkdir(repo_path, 0777) != 0 && errno != EEXIST) {\n      |                                                 ^~~~~~\ncc1: all warnings being treated as errors\nIn file included from tests/test_engine.c:5:\ntests/../src/engine.h:21:5: error: unknown type name \u2018off_t\u2019\n   21 |     off_t file_offset;\n      |     ^~~~~",
+        "In file included from src/engine.c:2:\nsrc/engine.h:21:5: error: unknown type name \u2018off_t\u2019\n   21 |     off_t file_offset;\n      |     ^~~~~\nsrc/engine.c:4:20: error: extra tokens at end of \u2018#include\u2019 directive [-Werror]\n    4 | #include <stdlib.h><stdlib.h>\n      |                    ^~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_repo_init\u2019:\nsrc/engine.c:29:40: error: \u2018errno\u2019 undeclared (first use in this function)\n   29 |     if (mkdir(repo_path, 0777) != 0 && errno != EEXIST) {\n      |                                        ^~~~~\nsrc/engine.c:10:1: note: \u2018errno\u2019 is defined in header \u2018<errno.h>\u2019; this is probably fixable by adding \u2018#include <errno.h>\u2019\n    9 | #include <unistd.h>\n  +++ |+#include <errno.h>\n   10 | \nsrc/engine.c:29:40: note: each undeclared identifier is reported only once for each function it appears in\n   29 |     if (mkdir(repo_path, 0777) != 0 && errno != EEXIST) {\n      |                                        ^~~~~\nsrc/engine.c:29:49: error: \u2018EEXIST\u2019 undeclared (first use in this function)\n   29 |     if (mkdir(repo_path, 0777) != 0 && errno != EEXIST) {\n      |                                                 ^~~~~~\ncc1: all warnings being treated as errors\ntests/test_integration.c:1:2: error: \u2018#assert\u2019 is a GCC extension [-Werror=pedantic]\n    1 | #assert <assert.h>\n      |  ^~~~~~\ntests/test_integration.c:1:9: error: predicate must be an identifier\n    1 | #assert <assert.h>\n      |         ^\nIn file included from tests/test_integration.c:6:\ntests/../src/engine.h:21:5: error: unknown type name \u2018off_t\u2019\n   21 |     off_t file_offset;\n      |     ^~~~~\ncc1: all warnings being treated as errors",
+        "In file included from src/engine.c:2:\nsrc/engine.h:21:5: error: unknown type name \u2018off_t\u2019\n   21 |     off_t file_offset;\n      |     ^~~~~\nsrc/engine.c:4:20: error: extra tokens at end of \u2018#include\u2019 directive [-Werror]\n    4 | #include <stdlib.h><stdlib.h>\n      |                    ^~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_repo_init\u2019:\nsrc/engine.c:29:40: error: \u2018errno\u2019 undeclared (first use in this function)\n   29 |     if (mkdir(repo_path, 0777) != 0 && errno != EEXIST) {\n      |                                        ^~~~~\nsrc/engine.c:10:1: note: \u2018errno\u2019 is defined in header \u2018<errno.h>\u2019; this is probably fixable by adding \u2018#include <errno.h>\u2019\n    9 | #include <unistd.h>\n  +++ |+#include <errno.h>\n   10 | \nsrc/engine.c:29:40: note: each undeclared identifier is reported only once for each function it appears in\n   29 |     if (mkdir(repo_path, 0777) != 0 && errno != EEXIST) {\n      |                                        ^~~~~\nsrc/engine.c:29:49: error: \u2018EEXIST\u2019 undeclared (first use in this function)\n   29 |     if (mkdir(repo_path, 0777) != 0 && errno != EEXIST) {\n      |                                                 ^~~~~~\ncc1: all warnings being treated as errors\nIn file included from src/main.c:4:\nsrc/engine.h:21:5: error: unknown type name \u2018off_t\u2019\n   21 |     off_t file_offset;\n      |     ^~~~~"
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 4,
+      "failure_classes": [
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "forbidden shell/dynamic execution capability found: system("
+      ]
+    },
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 5,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "src/engine.c: In function \u2018aegis_store_block\u2019:\nsrc/engine.c:162:37: error: \u2018/blocks/\u2019 directive output may be truncated writing 8 bytes into a region of size between 1 and 512 [-Werror=format-truncation=]\n  162 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |                                     ^~~~~~~~\nsrc/engine.c:162:5: note: \u2018snprintf\u2019 output between 9 and 584 bytes into a destination of size 512\n  162 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_read_block\u2019:\nsrc/engine.c:207:37: error: \u2018/blocks/\u2019 directive output may be truncated writing 8 bytes into a region of size between 1 and 512 [-Werror=format-truncation=]\n  207 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |                                     ^~~~~~~~\nsrc/engine.c:207:5: note: \u2018snprintf\u2019 output between 9 and 584 bytes into a destination of size 512\n  207 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_write_file\u2019:\nsrc/engine.c:260:50: error: \u2018.meta\u2019 directive output may be truncated writing 5 bytes into a region of size between 0 and 511 [-Werror=format-truncation=]\n  260 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |                                                  ^~~~~\nsrc/engine.c:260:5: note: \u2018snprintf\u2019 output 7 or more bytes (assuming 518) into a destination of size 512\n  260 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_read_file\u2019:\nsrc/engine.c:292:50: error: \u2018.meta\u2019 directive output may be truncated writing 5 bytes into a region of size between 0 and 511 [-Werror=format-truncation=]\n  292 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |                                                  ^~~~~\nsrc/engine.c:292:5: note: \u2018snprintf\u2019 output 7 or more bytes (assuming 518) into a destination of size 512\n  292 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_verify_integrity\u2019:\nsrc/engine.c:343:49: error: \u2018/blocks\u2019 directive output may be truncated writing 7 bytes into a region of size between 1 and 512 [-Werror=format-truncation=]\n  343 |     snprintf(blocks_dir, sizeof(blocks_dir), \"%s/blocks\", ctx->root_path);\n      |                                                 ^~~~~~~\nsrc/engine.c:343:5: note: \u2018snprintf\u2019 output between 8 and 519 bytes into a destination of size 512\n  343 |     snprintf(blocks_dir, sizeof(blocks_dir), \"%s/blocks\", ctx->root_path);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c:353:42: error: \u2018%s\u2019 directive output may be truncated writing up to 255 bytes into a region of size between 0 and 511 [-Werror=format-truncation=]\n  353 |         snprintf(path, sizeof(path), \"%s/%s\", blocks_dir, entry->d_name);\n      |                                          ^~\nsrc/engine.c:353:9: note: \u2018snprintf\u2019 output between 2 and 768 bytes into a destination of size 512\n  353 |         snprintf(path, sizeof(path), \"%s/%s\", blocks_dir, entry->d_name);\n      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\ncc1: all warnings being treated as errors",
+        "src/engine.c: In function \u2018aegis_store_block\u2019:\nsrc/engine.c:162:37: error: \u2018/blocks/\u2019 directive output may be truncated writing 8 bytes into a region of size between 1 and 512 [-Werror=format-truncation=]\n  162 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |                                     ^~~~~~~~\nsrc/engine.c:162:5: note: \u2018snprintf\u2019 output between 9 and 584 bytes into a destination of size 512\n  162 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_read_block\u2019:\nsrc/engine.c:207:37: error: \u2018/blocks/\u2019 directive output may be truncated writing 8 bytes into a region of size between 1 and 512 [-Werror=format-truncation=]\n  207 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |                                     ^~~~~~~~\nsrc/engine.c:207:5: note: \u2018snprintf\u2019 output between 9 and 584 bytes into a destination of size 512\n  207 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_write_file\u2019:\nsrc/engine.c:260:50: error: \u2018.meta\u2019 directive output may be truncated writing 5 bytes into a region of size between 0 and 511 [-Werror=format-truncation=]\n  260 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |                                                  ^~~~~\nsrc/engine.c:260:5: note: \u2018snprintf\u2019 output 7 or more bytes (assuming 518) into a destination of size 512\n  260 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_read_file\u2019:\nsrc/engine.c:292:50: error: \u2018.meta\u2019 directive output may be truncated writing 5 bytes into a region of size between 0 and 511 [-Werror=format-truncation=]\n  292 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |                                                  ^~~~~\nsrc/engine.c:292:5: note: \u2018snprintf\u2019 output 7 or more bytes (assuming 518) into a destination of size 512\n  292 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_verify_integrity\u2019:\nsrc/engine.c:343:49: error: \u2018/blocks\u2019 directive output may be truncated writing 7 bytes into a region of size between 1 and 512 [-Werror=format-truncation=]\n  343 |     snprintf(blocks_dir, sizeof(blocks_dir), \"%s/blocks\", ctx->root_path);\n      |                                                 ^~~~~~~\nsrc/engine.c:343:5: note: \u2018snprintf\u2019 output between 8 and 519 bytes into a destination of size 512\n  343 |     snprintf(blocks_dir, sizeof(blocks_dir), \"%s/blocks\", ctx->root_path);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c:353:42: error: \u2018%s\u2019 directive output may be truncated writing up to 255 bytes into a region of size between 0 and 511 [-Werror=format-truncation=]\n  353 |         snprintf(path, sizeof(path), \"%s/%s\", blocks_dir, entry->d_name);\n      |                                          ^~\nsrc/engine.c:353:9: note: \u2018snprintf\u2019 output between 2 and 768 bytes into a destination of size 512\n  353 |         snprintf(path, sizeof(path), \"%s/%s\", blocks_dir, entry->d_name);\n      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\ncc1: all warnings being treated as errors",
+        "src/engine.c: In function \u2018aegis_store_block\u2019:\nsrc/engine.c:162:37: error: \u2018/blocks/\u2019 directive output may be truncated writing 8 bytes into a region of size between 1 and 512 [-Werror=format-truncation=]\n  162 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |                                     ^~~~~~~~\nsrc/engine.c:162:5: note: \u2018snprintf\u2019 output between 9 and 584 bytes into a destination of size 512\n  162 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_read_block\u2019:\nsrc/engine.c:207:37: error: \u2018/blocks/\u2019 directive output may be truncated writing 8 bytes into a region of size between 1 and 512 [-Werror=format-truncation=]\n  207 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |                                     ^~~~~~~~\nsrc/engine.c:207:5: note: \u2018snprintf\u2019 output between 9 and 584 bytes into a destination of size 512\n  207 |     snprintf(path, sizeof(path), \"%s/blocks/%s\", ctx->root_path, hex);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_write_file\u2019:\nsrc/engine.c:260:50: error: \u2018.meta\u2019 directive output may be truncated writing 5 bytes into a region of size between 0 and 511 [-Werror=format-truncation=]\n  260 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |                                                  ^~~~~\nsrc/engine.c:260:5: note: \u2018snprintf\u2019 output 7 or more bytes (assuming 518) into a destination of size 512\n  260 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_read_file\u2019:\nsrc/engine.c:292:50: error: \u2018.meta\u2019 directive output may be truncated writing 5 bytes into a region of size between 0 and 511 [-Werror=format-truncation=]\n  292 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |                                                  ^~~~~\nsrc/engine.c:292:5: note: \u2018snprintf\u2019 output 7 or more bytes (assuming 518) into a destination of size 512\n  292 |     snprintf(meta_path, sizeof(meta_path), \"%s/%s.meta\", ctx->root_path, filename);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018aegis_verify_integrity\u2019:\nsrc/engine.c:343:49: error: \u2018/blocks\u2019 directive output may be truncated writing 7 bytes into a region of size between 1 and 512 [-Werror=format-truncation=]\n  343 |     snprintf(blocks_dir, sizeof(blocks_dir), \"%s/blocks\", ctx->root_path);\n      |                                                 ^~~~~~~\nsrc/engine.c:343:5: note: \u2018snprintf\u2019 output between 8 and 519 bytes into a destination of size 512\n  343 |     snprintf(blocks_dir, sizeof(blocks_dir), \"%s/blocks\", ctx->root_path);\n      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nsrc/engine.c:353:42: error: \u2018%s\u2019 directive output may be truncated writing up to 255 bytes into a region of size between 0 and 511 [-Werror=format-truncation=]\n  353 |         snprintf(path, sizeof(path), \"%s/%s\", blocks_dir, entry->d_name);\n      |                                          ^~\nsrc/engine.c:353:9: note: \u2018snprintf\u2019 output between 2 and 768 bytes into a destination of size 512\n  353 |         snprintf(path, sizeof(path), \"%s/%s\", blocks_dir, entry->d_name);\n      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\ncc1: all warnings being treated as errors"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "systems-tool",
+    "keywords": [
+      "systems-engineering",
+      "content-addressable-storage",
+      "c11",
+      "deduplication",
+      "rabin-fingerprint",
+      "block-engine"
+    ],
+    "major_features": [
+      "Dynamic content-defined chunking (CDC) engine using Rabin fingerprinting over variable sliding byte windows",
+      "BLAKE3 and SHA-256 content-addressable hash indexing with automated collision resolution",
+      "Write-ahead transaction log and block journal supporting crash recovery and atomic commit guarantees",
+      "In-memory B+Tree metadata index mapping virtual file offsets to content hash blocks",
+      "Dictionary-based LZ compression engine compressing individual block payloads prior to disk allocation",
+      "Mark-and-sweep block garbage collector identifying and reclaiming unreferenced hash chunks",
+      "Read-repair integrity auditor scanning stored blocks against checksum manifests to detect bit rot",
+      "Deterministic simulation testbed injecting write interruptions, malformed headers, and truncated payload files"
+    ],
+    "name": "AegisFS",
+    "pain": "Duplicate datasets consume vast disk space, and unmonitored disk corruption remains undetected until applications fail unexpectedly.",
+    "problem": "Heavy distributed file systems introduce excessive operational complexity, while naive local storage engines waste space on duplicate byte sequences and lack content integrity auditing against bit rot.",
+    "slug": "aegis-fs",
+    "solution": "A zero-dependency user-space content-addressable storage (CAS) engine written in C11. It features dynamic Rabin fingerprinting for content-defined chunking, BLAKE3 content hashing, a B+Tree virtual file offset mapper, dictionary compression, and automated garbage collection.",
+    "target_user": "Systems engineers building resilient storage subsystems or data deduplication pipelines.",
+    "technology": "C11",
+    "verification": "Integration tests simulate bit-rot corruption by mutating disk blocks, write duplicate datasets to verify byte-exact deduplication ratios, and test emergency crash recovery by abruptly terminating write operations."
+  },
+  "slug": "aegis-fs",
+  "standalone_status": "PENDING",
+  "target_user": "Systems engineers building resilient storage subsystems or data deduplication pipelines.",
+  "technology": "C11",
+  "timestamp": "2026-11-17T11:15:07.972093+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-c architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_engine.c",
+        "-o",
+        "build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running AegisFS Unit Tests...\nAll unit tests passed successfully!"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_integration.c",
+        "-o",
+        "build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running AegisFS Integration Tests...\nAll integration tests passed successfully!"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "src/main.c",
+        "-o",
+        "build/app"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    }
+  ]
+}

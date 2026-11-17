@@ -1960,5 +1960,109 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "systems-tool",
+    "commit_hash": null,
+    "cycle": "cycle-20261117T111507Z",
+    "date": "2026-11-17",
+    "keywords": [
+      "systems-engineering",
+      "content-addressable-storage",
+      "c11",
+      "deduplication",
+      "rabin-fingerprint",
+      "block-engine"
+    ],
+    "major_features": [
+      "Dynamic content-defined chunking (CDC) engine using Rabin fingerprinting over variable sliding byte windows",
+      "BLAKE3 and SHA-256 content-addressable hash indexing with automated collision resolution",
+      "Write-ahead transaction log and block journal supporting crash recovery and atomic commit guarantees",
+      "In-memory B+Tree metadata index mapping virtual file offsets to content hash blocks",
+      "Dictionary-based LZ compression engine compressing individual block payloads prior to disk allocation",
+      "Mark-and-sweep block garbage collector identifying and reclaiming unreferenced hash chunks",
+      "Read-repair integrity auditor scanning stored blocks against checksum manifests to detect bit rot",
+      "Deterministic simulation testbed injecting write interruptions, malformed headers, and truncated payload files"
+    ],
+    "name": "AegisFS",
+    "problem": "Heavy distributed file systems introduce excessive operational complexity, while naive local storage engines waste space on duplicate byte sequences and lack content integrity auditing against bit rot.",
+    "purpose": "A zero-dependency user-space content-addressable storage (CAS) engine written in C11. It features dynamic Rabin fingerprinting for content-defined chunking, BLAKE3 content hashing, a B+Tree virtual file offset mapper, dictionary compression, and automated garbage collection.",
+    "quality_score": 100,
+    "report_path": "reports/2026-11-17-111507-aegis-fs.json",
+    "slug": "aegis-fs",
+    "technology": "C11",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_engine.c",
+          "-o",
+          "build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_integration.c",
+          "-o",
+          "build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "src/main.c",
+          "-o",
+          "build/app"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]
