@@ -1,0 +1,33 @@
+{
+  "name": "OmniLisp Interpreter",
+  "slug": "omnilisp-interpreter",
+  "target_user": "systems programmers and compiler engineers studying functional evaluation models",
+  "problem": "Standard scripting interpreters hide lexical closures, garbage collection roots, and evaluation environments behind heavy abstractions.",
+  "pain": "Difficulty studying pure functional evaluation, proper tail recursion optimization (TRO), and custom mark-and-sweep memory management without relying on external runtime libraries.",
+  "solution": "A zero-dependency Lisp interpreter and compiler implemented in C11. It features a custom S-expression lexer, recursive-descent parser, dynamic tagged-union object model, heap allocator with mark-and-sweep garbage collection, lexical environment chain resolver, Tail Call Optimization (TCO) evaluation loop, macro expansion engine, and interactive REPL environment.",
+  "verification": "Comprehensive test suite verifying macro expansion hygiene, tail-call recursion depth stability without stack overflow, mark-and-sweep memory reclamation under induced heap pressure, and syntactic error recovery on malformed parenthetical inputs.",
+  "category": "compiler",
+  "keywords": [
+    "systems-engineering",
+    "lisp",
+    "interpreter",
+    "garbage-collection",
+    "ast",
+    "tail-call-optimization",
+    "c11"
+  ],
+  "major_features": [
+    "Custom S-expression lexer and recursive-descent parser producing an explicit Abstract Syntax Tree",
+    "Dynamic tagged-union object model representing symbols, lists, numbers, booleans, and primitive procedures",
+    "Lexical environment chain resolver supporting nested lexical scopes and closure capture",
+    "Tail Call Optimization (TCO) evaluation engine converting tail-recursive loops into constant-space iterations",
+    "Heap allocator and custom mark-and-sweep garbage collector tracking root sets and reclaiming unreferenced cells",
+    "Macro expansion engine supporting syntactic abstraction and hygienic code transformation",
+    "Built-in primitive procedure bindings for core arithmetic, logical comparisons, and list manipulation",
+    "Interactive Read-Eval-Print Loop (REPL) featuring multi-line input buffering and diagnostic error formatting"
+  ],
+  "technology": "C11",
+  "factory_profile": "systems-c",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

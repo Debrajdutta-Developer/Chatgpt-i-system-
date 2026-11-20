@@ -2064,5 +2064,110 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "compiler",
+    "commit_hash": null,
+    "cycle": "cycle-20261120T103735Z",
+    "date": "2026-11-20",
+    "keywords": [
+      "systems-engineering",
+      "lisp",
+      "interpreter",
+      "garbage-collection",
+      "ast",
+      "tail-call-optimization",
+      "c11"
+    ],
+    "major_features": [
+      "Custom S-expression lexer and recursive-descent parser producing an explicit Abstract Syntax Tree",
+      "Dynamic tagged-union object model representing symbols, lists, numbers, booleans, and primitive procedures",
+      "Lexical environment chain resolver supporting nested lexical scopes and closure capture",
+      "Tail Call Optimization (TCO) evaluation engine converting tail-recursive loops into constant-space iterations",
+      "Heap allocator and custom mark-and-sweep garbage collector tracking root sets and reclaiming unreferenced cells",
+      "Macro expansion engine supporting syntactic abstraction and hygienic code transformation",
+      "Built-in primitive procedure bindings for core arithmetic, logical comparisons, and list manipulation",
+      "Interactive Read-Eval-Print Loop (REPL) featuring multi-line input buffering and diagnostic error formatting"
+    ],
+    "name": "OmniLisp Interpreter",
+    "problem": "Standard scripting interpreters hide lexical closures, garbage collection roots, and evaluation environments behind heavy abstractions.",
+    "purpose": "A zero-dependency Lisp interpreter and compiler implemented in C11. It features a custom S-expression lexer, recursive-descent parser, dynamic tagged-union object model, heap allocator with mark-and-sweep garbage collection, lexical environment chain resolver, Tail Call Optimization (TCO) evaluation loop, macro expansion engine, and interactive REPL environment.",
+    "quality_score": 100,
+    "report_path": "reports/2026-11-20-103735-omnilisp-interpreter.json",
+    "slug": "omnilisp-interpreter",
+    "technology": "C11",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_engine.c",
+          "-o",
+          "build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_integration.c",
+          "-o",
+          "build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "src/main.c",
+          "-o",
+          "build/app"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]
