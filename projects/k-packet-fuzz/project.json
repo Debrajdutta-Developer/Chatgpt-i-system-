@@ -1,0 +1,31 @@
+{
+  "name": "Kernel-Level Packet Fuzzer",
+  "slug": "k-packet-fuzz",
+  "target_user": "network protocol engineers",
+  "problem": "Network stacks are often tested with valid traffic, leaving edge-case vulnerabilities in TCP/IP parsing logic undiscovered.",
+  "pain": "Lack of deterministic, stateful protocol fuzzer that can inject malformed packets into a local loopback interface.",
+  "solution": "A C11 network fuzzer that crafts arbitrary Ethernet/IP/TCP frames, performs checksum manipulation, and monitors kernel-space socket state for crashes or hangs.",
+  "verification": "Deterministic replay of failed test sequences; validation of packet integrity against RFC standards; automated detection of socket-level resource leaks.",
+  "category": "systems-tool",
+  "keywords": [
+    "systems-engineering",
+    "networking",
+    "fuzzing",
+    "security-testing",
+    "kernel-interfaces"
+  ],
+  "major_features": [
+    "Raw socket capture and injection interface",
+    "Protocol-specific header field mutation engine",
+    "Checksum corruption and sequence number randomization",
+    "Stateful tracking of TCP connection lifecycle",
+    "Automated reproduction of crash-inducing packet sequences",
+    "Real-time packet capture and logging to pcap format",
+    "Configurable mutation rate and protocol segment selection",
+    "Deterministic test suite for kernel panic detection"
+  ],
+  "technology": "C11",
+  "factory_profile": "systems-c",
+  "difficulty": "HARD_OR_EXTREME",
+  "truth_policy": "Only validated behavior may be claimed as working."
+}

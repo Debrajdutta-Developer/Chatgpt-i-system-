@@ -2169,5 +2169,108 @@
         "status": "PASS"
       }
     ]
+  },
+  {
+    "category": "systems-tool",
+    "commit_hash": null,
+    "cycle": "cycle-20261121T101858Z",
+    "date": "2026-11-21",
+    "keywords": [
+      "systems-engineering",
+      "networking",
+      "fuzzing",
+      "security-testing",
+      "kernel-interfaces"
+    ],
+    "major_features": [
+      "Raw socket capture and injection interface",
+      "Protocol-specific header field mutation engine",
+      "Checksum corruption and sequence number randomization",
+      "Stateful tracking of TCP connection lifecycle",
+      "Automated reproduction of crash-inducing packet sequences",
+      "Real-time packet capture and logging to pcap format",
+      "Configurable mutation rate and protocol segment selection",
+      "Deterministic test suite for kernel panic detection"
+    ],
+    "name": "Kernel-Level Packet Fuzzer",
+    "problem": "Network stacks are often tested with valid traffic, leaving edge-case vulnerabilities in TCP/IP parsing logic undiscovered.",
+    "purpose": "A C11 network fuzzer that crafts arbitrary Ethernet/IP/TCP frames, performs checksum manipulation, and monitors kernel-space socket state for crashes or hangs.",
+    "quality_score": 100,
+    "report_path": "reports/2026-11-21-101858-k-packet-fuzz.json",
+    "slug": "k-packet-fuzz",
+    "technology": "C11",
+    "validation_profile": "hard-systems-v1",
+    "validation_summary": [
+      {
+        "command": [
+          "factory",
+          "static-product-check"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_engine.c",
+          "-o",
+          "build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_engine"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "tests/test_integration.c",
+          "-o",
+          "build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "./build/test_integration"
+        ],
+        "status": "PASS"
+      },
+      {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-Wall",
+          "-Wextra",
+          "-Werror",
+          "-pedantic",
+          "-I",
+          "src",
+          "src/engine.c",
+          "src/main.c",
+          "-o",
+          "build/app"
+        ],
+        "status": "PASS"
+      }
+    ]
   }
 ]

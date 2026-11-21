@@ -1,0 +1,331 @@
+{
+  "candidate_ideas": [
+    {
+      "category": "systems-tool",
+      "keywords": [
+        "systems-engineering",
+        "networking",
+        "fuzzing",
+        "security-testing",
+        "kernel-interfaces"
+      ],
+      "major_features": [
+        "Raw socket capture and injection interface",
+        "Protocol-specific header field mutation engine",
+        "Checksum corruption and sequence number randomization",
+        "Stateful tracking of TCP connection lifecycle",
+        "Automated reproduction of crash-inducing packet sequences",
+        "Real-time packet capture and logging to pcap format",
+        "Configurable mutation rate and protocol segment selection",
+        "Deterministic test suite for kernel panic detection"
+      ],
+      "name": "Kernel-Level Packet Fuzzer",
+      "pain": "Lack of deterministic, stateful protocol fuzzer that can inject malformed packets into a local loopback interface.",
+      "problem": "Network stacks are often tested with valid traffic, leaving edge-case vulnerabilities in TCP/IP parsing logic undiscovered.",
+      "slug": "k-packet-fuzz",
+      "solution": "A C11 network fuzzer that crafts arbitrary Ethernet/IP/TCP frames, performs checksum manipulation, and monitors kernel-space socket state for crashes or hangs.",
+      "target_user": "network protocol engineers",
+      "technology": "C11",
+      "verification": "Deterministic replay of failed test sequences; validation of packet integrity against RFC standards; automated detection of socket-level resource leaks."
+    },
+    {
+      "category": "database",
+      "keywords": [
+        "systems-engineering",
+        "storage-engine",
+        "b-tree",
+        "lsm-tree",
+        "disk-io"
+      ],
+      "major_features": [
+        "Custom B+Tree implementation for on-disk metadata",
+        "Page-aligned binary serialization for index nodes",
+        "Direct ByteBuffer-based I/O for zero-copy reads",
+        "Atomic page splitting and merging logic",
+        "Background LSM compaction worker using Virtual Threads",
+        "Bloom filter integration for index-level lookups",
+        "WAL-based recovery for incomplete page writes",
+        "Integrated performance monitor for I/O latency tracking"
+      ],
+      "name": "LSM-Tree Metadata Indexer",
+      "pain": "Difficulty in visualizing and optimizing the interaction between MemTable flushes and tiered storage compaction.",
+      "problem": "Large-scale LSM trees suffer from metadata overhead and slow point-lookups when index blocks are not perfectly aligned with disk pages.",
+      "slug": "lsm-meta-index",
+      "solution": "A Java 21 storage engine focusing on a custom B+Tree-on-LSM hybrid index, optimized for high-throughput metadata lookups with zero-copy I/O.",
+      "target_user": "database internals researchers",
+      "technology": "Java 21",
+      "verification": "Cross-verification of index state vs. physical byte-offset map; stress testing with non-sequential key insertions to ensure tree balance."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "sat-solver",
+        "logic",
+        "static-analysis",
+        "algorithms"
+      ],
+      "major_features": [
+        "DIMACS file format parser for CNF instances",
+        "DPLL algorithm with unit propagation",
+        "Pure literal elimination optimization",
+        "Conflict-driven clause learning (CDCL) engine",
+        "Backtracking search with variable heuristic branching",
+        "Interactive proof-trace generator for logic validation",
+        "Memory-efficient clause database management",
+        "Deterministic test harness for edge-case unsatisfiability"
+      ],
+      "name": "Symbolic Logic Solver",
+      "pain": "Existing solvers are too heavy to embed directly into lightweight analysis pipelines for local code verification.",
+      "problem": "Boolean satisfiability (SAT) solvers are often treated as black boxes, making them difficult to integrate into custom static analysis tools.",
+      "slug": "sym-logic-solver",
+      "solution": "A pure Python 3.12 DPLL-based SAT solver featuring a custom expression parser, clause learning, and conflict-driven clause analysis.",
+      "target_user": "compiler and static analysis engineers",
+      "technology": "Python 3.12",
+      "verification": "Validation against standard DIMACS CNF benchmarks; performance profiling on unsatisfiable vs. satisfiable problem sets."
+    },
+    {
+      "category": "other-systems",
+      "keywords": [
+        "systems-engineering",
+        "distributed-systems",
+        "consensus",
+        "scheduling",
+        "gossip-protocol"
+      ],
+      "major_features": [
+        "Gossip-based peer discovery and state propagation",
+        "Vector clock implementation for causal ordering",
+        "Lock-free priority queue for local event management",
+        "Virtual Thread-based network communication layer",
+        "Deterministic event execution logic for task triggers",
+        "Fault-tolerant membership management via failure detectors",
+        "Binary serialization for event message payloads",
+        "Network delay injection harness for consistency testing"
+      ],
+      "name": "Distributed Event Scheduler",
+      "pain": "Lack of a lightweight, decentralized scheduling mechanism that guarantees event ordering without a central master node.",
+      "problem": "Coordinating scheduled tasks across multiple isolated nodes is prone to race conditions and clock drift.",
+      "slug": "dist-event-sched",
+      "solution": "A Java 21 decentralized event scheduler using a custom gossip protocol and vector clocks to achieve consensus on task execution times.",
+      "target_user": "distributed systems architects",
+      "technology": "Java 21",
+      "verification": "Simulation of network partitions to ensure event consistency; stress testing clock drift scenarios to verify causality preservation."
+    },
+    {
+      "category": "compiler",
+      "keywords": [
+        "systems-engineering",
+        "jit",
+        "bytecode",
+        "register-allocation",
+        "language-design"
+      ],
+      "major_features": [
+        "Recursive-descent parser for custom language grammar",
+        "Intermediate Representation (IR) generation with SSA form",
+        "Register allocation using graph coloring algorithm",
+        "Custom bytecode instruction set design",
+        "Disassembler for human-readable bytecode inspection",
+        "Static analysis pass for type and scope checking",
+        "Memory-mapped bytecode execution buffer",
+        "Comprehensive test suite for malformed syntax handling"
+      ],
+      "name": "JIT-Ready Bytecode Compiler",
+      "pain": "The gap between high-level ASTs and low-level machine code is too large, hiding register allocation and stack management details.",
+      "problem": "Compilers often emit raw machine code that is difficult to introspect or optimize dynamically without a JIT layer.",
+      "slug": "jit-ready-compiler",
+      "solution": "A C11 compiler front-end that transforms a custom high-level language into an intermediate register-based bytecode, ready for a JIT backend.",
+      "target_user": "language implementers",
+      "technology": "C11",
+      "verification": "Verification of bytecode correctness via a reference interpreter; exhaustive testing of register allocation bounds."
+    }
+  ],
+  "commit": null,
+  "cycle_id": "cycle-20261121T101858Z",
+  "discovery_mode": "gemini",
+  "dry_run": false,
+  "end_to_end_status": "PENDING",
+  "files_created": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "README.md",
+    "project.json",
+    "src/engine.c",
+    "src/engine.h",
+    "src/main.c",
+    "tests/test_engine.c",
+    "tests/test_integration.c"
+  ],
+  "final_score": 100,
+  "final_status": "SUCCESS",
+  "known_limitations": [
+    "Gemini discovery reasons from model knowledge; the factory does not claim live market research or verified market demand.",
+    "A passing systems release proves the generated source compiled or byte-compiled and its factory-required unit/integration suites passed; it does not by itself prove production-scale reliability, security certification, or benchmark superiority.",
+    "Generated systems projects intentionally use standard-library-only Java 21, C11, or Python 3.12 profiles so validation can be deterministic and does not depend on unverifiable third-party packages.",
+    "Hard projects are scoped implementations of real mechanisms, not claims of complete compatibility with Redis, full SQL standards, industrial compilers, or frontier machine-learning systems unless the tests and documentation explicitly demonstrate that scope."
+  ],
+  "problem": "Network stacks are often tested with valid traffic, leaving edge-case vulnerabilities in TCP/IP parsing logic undiscovered.",
+  "project_name": "Kernel-Level Packet Fuzzer",
+  "project_path": "projects/k-packet-fuzz",
+  "quality_scores": {
+    "correctness": 25,
+    "documentation": 10,
+    "feature_depth": 5,
+    "integration_testing": 13,
+    "real_problem": 10,
+    "reproducible_build": 10,
+    "systems_architecture": 15,
+    "unit_testing": 12
+  },
+  "reason": "project passed critical systems compilation/testing and the quality gate",
+  "rejected_candidate_ideas": [],
+  "release_threshold": 95,
+  "remote_status": "READY_FOR_WORKFLOW_COMMIT",
+  "repair_attempts": [
+    {
+      "action": "regenerated systems project with bounded validation feedback",
+      "attempt": 1,
+      "failure_classes": [
+        "BUILD_FAILURE",
+        "BUILD_FAILURE",
+        "BUILD_FAILURE"
+      ],
+      "summaries": [
+        "payload_len);\n      |                                                     ^~~\n      |                                                     |\n      |                                                     struct tcphdr *\nsrc/engine.c:66:82: note: expected \u2018const struct tcphdr *\u2019 but argument is of type \u2018struct tcphdr *\u2019\n   66 | uint16_t kpf_calculate_tcp_checksum(const struct iphdr *ip, const struct tcphdr *tcp, const uint8_t *payload, size_t payload_len) {\n      |                                                             ~~~~~~~~~~~~~~~~~~~~~^~~\nsrc/engine.c: In function \u2018kpf_inject_packet\u2019:\nsrc/engine.c:218:24: error: storage size of \u2018socket_address\u2019 isn\u2019t known\n  218 |     struct sockaddr_ll socket_address;\n      |                        ^~~~~~~~~~~~~~\nsrc/engine.c:219:39: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct sockaddr_ll\u2019\n  219 |     memset(&socket_address, 0, sizeof(struct sockaddr_ll));\n      |                                       ^~~~~~\nsrc/engine.c:227:70: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct sockaddr_ll\u2019\n  227 |                           (struct sockaddr *)&socket_address, sizeof(struct sockaddr_ll));\n      |                                                                      ^~~~~~\nsrc/engine.c:218:24: error: unused variable \u2018socket_address\u2019 [-Werror=unused-variable]\n  218 |     struct sockaddr_ll socket_address;\n      |                        ^~~~~~~~~~~~~~\nsrc/engine.c: At top level:\nsrc/engine.c:238:75: error: \u2018struct tcphdr\u2019 declared inside parameter list will not be visible outside of this definition or declaration [-Werror]\n  238 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp) {\n      |                                                                           ^~~~~~\nsrc/engine.c:238:17: error: conflicting types for \u2018kpf_track_tcp_state\u2019; have \u2018kpf_tcp_state_t(kpf_tcp_state_t,  const struct tcphdr *)\u2019\n  238 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp) {\n      |                 ^~~~~~~~~~~~~~~~~~~\nsrc/engine.h:85:17: note: previous declaration of \u2018kpf_track_tcp_state\u2019 with type \u2018kpf_tcp_state_t(kpf_tcp_state_t,  const struct tcphdr *)\u2019\n   85 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp);\n      |                 ^~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018kpf_track_tcp_state\u2019:\nsrc/engine.c:243:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  243 |             if (tcp->syn && !tcp->ack) return KPF_TCP_SYN_SENT;\n      |                    ^~\nsrc/engine.c:243:33: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  243 |             if (tcp->syn && !tcp->ack) return KPF_TCP_SYN_SENT;\n      |                                 ^~\nsrc/engine.c:246:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  246 |             if (tcp->syn && tcp->ack) return KPF_TCP_ESTABLISHED;\n      |                    ^~\nsrc/engine.c:246:32: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  246 |             if (tcp->syn && tcp->ack) return KPF_TCP_ESTABLISHED;\n      |                                ^~\nsrc/engine.c:247:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  247 |             if (tcp->rst) return KPF_TCP_CLOSED;\n      |                    ^~\nsrc/engine.c:250:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  250 |             if (tcp->fin) return KPF_TCP_FIN_WAIT;\n      |                    ^~\nsrc/engine.c:251:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  251 |             if (tcp->rst) return KPF_TCP_CLOSED;\n      |                    ^~\nsrc/engine.c:254:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  254 |             if (tcp->ack) return KPF_TCP_CLOSED;\n      |                    ^~\ncc1: all warnings being treated as errors\nIn file included from tests/test_engine.c:1:\ntests/../src/engine.h:45:25: error: \u2018IFNAMSIZ\u2019 undeclared here (not in a function); did you mean \u2018IF_NAMESIZE\u2019?\n   45 |     char interface_name[IFNAMSIZ];\n      |                         ^~~~~~~~\n      |                         IF_NAMESIZE\ntests/../src/engine.h:80:74: error: \u2018struct tcphdr\u2019 declared inside parameter list will not be visible outside of this definition or declaration [-Werror]\n   80 | uint16_t kpf_calculate_tcp_checksum(const struct iphdr *ip, const struct tcphdr *tcp, const uint8_t *payload, size_t payload_len);\n      |                                                                          ^~~~~~\ntests/../src/engine.h:85:75: error: \u2018struct tcphdr\u2019 declared inside parameter list will not be visible outside of this definition or declaration [-Werror]\n   85 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp);\n      |                                                                           ^~~~~~\ntests/test_engine.c: In function \u2018main\u2019:\ntests/test_engine.c:47:126: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct tcphdr\u2019\n   47 |     uint16_t tcp_csum = kpf_calculate_tcp_checksum(ip, tcp, ctx.data + sizeof(struct ethhdr) + sizeof(struct iphdr) + sizeof(struct tcphdr), 16);\n      |                                                                                                                              ^~~~~~\ntests/test_engine.c:47:56: error: passing argument 2 of \u2018kpf_calculate_tcp_checksum\u2019 from incompatible pointer type [-Wincompatible-pointer-types]\n   47 |     uint16_t tcp_csum = kpf_calculate_tcp_checksum(ip, tcp, ctx.data + sizeof(struct ethhdr) + sizeof(struct iphdr) + sizeof(struct tcphdr), 16);\n      |                                                        ^~~\n      |                                                        |\n      |                                                        struct tcphdr *\ntests/../src/engine.h:80:82: note: expected \u2018const struct tcphdr *\u2019 but argument is of type \u2018struct tcphdr *\u2019\n   80 | uint16_t kpf_calculate_tcp_checksum(const struct iphdr *ip, const struct tcphdr *tcp, const uint8_t *payload, size_t payload_len);\n      |                                                             ~~~~~~~~~~~~~~~~~~~~~^~~\ntests/test_engine.c:53:70: error: passing argument 2 of \u2018kpf_track_tcp_state\u2019 from incompatible pointer type [-Wincompatible-pointer-types]\n   53 |     kpf_tcp_state_t next_state = kpf_track_tcp_state(KPF_TCP_CLOSED, tcp);\n      |                                                                      ^~~\n      |                                                                      |\n      |                                                                      struct tcphdr *\ntests/../src/engine.h:85:83: note: expected \u2018const struct tcphdr *\u2019 but argument is of type \u2018struct tcphdr *\u2019\n   85 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp);\n      |                                                              ~~~~~~~~~~~~~~~~~~~~~^~~\ncc1: all warnings being treated as errors",
+        "eof(struct tcphdr) ? ctx->length - eth_ip_len - sizeof(struct tcphdr) : 0;\n      |                                                                                                                   ^~~~~~\nsrc/engine.c:203:12: error: invalid use of undefined type \u2018struct tcphdr\u2019\n  203 |         tcp->check = 0;\n      |            ^~\nsrc/engine.c:204:12: error: invalid use of undefined type \u2018struct tcphdr\u2019\n  204 |         tcp->check = kpf_calculate_tcp_checksum(ip, tcp, ctx->data + eth_ip_len + sizeof(struct tcphdr), payload_len);\n      |            ^~\nsrc/engine.c:204:90: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct tcphdr\u2019\n  204 |         tcp->check = kpf_calculate_tcp_checksum(ip, tcp, ctx->data + eth_ip_len + sizeof(struct tcphdr), payload_len);\n      |                                                                                          ^~~~~~\nsrc/engine.c:204:53: error: passing argument 2 of \u2018kpf_calculate_tcp_checksum\u2019 from incompatible pointer type [-Wincompatible-pointer-types]\n  204 |         tcp->check = kpf_calculate_tcp_checksum(ip, tcp, ctx->data + eth_ip_len + sizeof(struct tcphdr), payload_len);\n      |                                                     ^~~\n      |                                                     |\n      |                                                     struct tcphdr *\nsrc/engine.c:66:82: note: expected \u2018const struct tcphdr *\u2019 but argument is of type \u2018struct tcphdr *\u2019\n   66 | uint16_t kpf_calculate_tcp_checksum(const struct iphdr *ip, const struct tcphdr *tcp, const uint8_t *payload, size_t payload_len) {\n      |                                                             ~~~~~~~~~~~~~~~~~~~~~^~~\nsrc/engine.c: In function \u2018kpf_inject_packet\u2019:\nsrc/engine.c:218:24: error: storage size of \u2018socket_address\u2019 isn\u2019t known\n  218 |     struct sockaddr_ll socket_address;\n      |                        ^~~~~~~~~~~~~~\nsrc/engine.c:219:39: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct sockaddr_ll\u2019\n  219 |     memset(&socket_address, 0, sizeof(struct sockaddr_ll));\n      |                                       ^~~~~~\nsrc/engine.c:227:70: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct sockaddr_ll\u2019\n  227 |                           (struct sockaddr *)&socket_address, sizeof(struct sockaddr_ll));\n      |                                                                      ^~~~~~\nsrc/engine.c:218:24: error: unused variable \u2018socket_address\u2019 [-Werror=unused-variable]\n  218 |     struct sockaddr_ll socket_address;\n      |                        ^~~~~~~~~~~~~~\nsrc/engine.c: At top level:\nsrc/engine.c:238:75: error: \u2018struct tcphdr\u2019 declared inside parameter list will not be visible outside of this definition or declaration [-Werror]\n  238 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp) {\n      |                                                                           ^~~~~~\nsrc/engine.c:238:17: error: conflicting types for \u2018kpf_track_tcp_state\u2019; have \u2018kpf_tcp_state_t(kpf_tcp_state_t,  const struct tcphdr *)\u2019\n  238 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp) {\n      |                 ^~~~~~~~~~~~~~~~~~~\nsrc/engine.h:85:17: note: previous declaration of \u2018kpf_track_tcp_state\u2019 with type \u2018kpf_tcp_state_t(kpf_tcp_state_t,  const struct tcphdr *)\u2019\n   85 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp);\n      |                 ^~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018kpf_track_tcp_state\u2019:\nsrc/engine.c:243:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  243 |             if (tcp->syn && !tcp->ack) return KPF_TCP_SYN_SENT;\n      |                    ^~\nsrc/engine.c:243:33: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  243 |             if (tcp->syn && !tcp->ack) return KPF_TCP_SYN_SENT;\n      |                                 ^~\nsrc/engine.c:246:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  246 |             if (tcp->syn && tcp->ack) return KPF_TCP_ESTABLISHED;\n      |                    ^~\nsrc/engine.c:246:32: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  246 |             if (tcp->syn && tcp->ack) return KPF_TCP_ESTABLISHED;\n      |                                ^~\nsrc/engine.c:247:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  247 |             if (tcp->rst) return KPF_TCP_CLOSED;\n      |                    ^~\nsrc/engine.c:250:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  250 |             if (tcp->fin) return KPF_TCP_FIN_WAIT;\n      |                    ^~\nsrc/engine.c:251:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  251 |             if (tcp->rst) return KPF_TCP_CLOSED;\n      |                    ^~\nsrc/engine.c:254:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  254 |             if (tcp->ack) return KPF_TCP_CLOSED;\n      |                    ^~\ncc1: all warnings being treated as errors\nIn file included from tests/test_integration.c:1:\ntests/../src/engine.h:45:25: error: \u2018IFNAMSIZ\u2019 undeclared here (not in a function); did you mean \u2018IF_NAMESIZE\u2019?\n   45 |     char interface_name[IFNAMSIZ];\n      |                         ^~~~~~~~\n      |                         IF_NAMESIZE\ntests/../src/engine.h:80:74: error: \u2018struct tcphdr\u2019 declared inside parameter list will not be visible outside of this definition or declaration [-Werror]\n   80 | uint16_t kpf_calculate_tcp_checksum(const struct iphdr *ip, const struct tcphdr *tcp, const uint8_t *payload, size_t payload_len);\n      |                                                                          ^~~~~~\ntests/../src/engine.h:85:75: error: \u2018struct tcphdr\u2019 declared inside parameter list will not be visible outside of this definition or declaration [-Werror]\n   85 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp);\n      |                                                                           ^~~~~~\nIn file included from tests/test_integration.c:5:\ntests/test_integration.c: In function \u2018main\u2019:\ntests/test_integration.c:29:80: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct tcphdr\u2019\n   29 |     assert(ctx.length == sizeof(struct ethhdr) + sizeof(struct iphdr) + sizeof(struct tcphdr) + 16);\n      |                                                                                ^~~~~~\ntests/test_integration.c:53:19: error: storage size of \u2018test_tcp\u2019 isn\u2019t known\n   53 |     struct tcphdr test_tcp;\n      |                   ^~~~~~~~\ntests/test_integration.c:54:33: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct tcphdr\u2019\n   54 |     memset(&test_tcp, 0, sizeof(struct tcphdr));\n      |                                 ^~~~~~\ntests/test_integration.c:53:19: error: unused variable \u2018test_tcp\u2019 [-Werror=unused-variable]\n   53 |     struct tcphdr test_tcp;\n      |                   ^~~~~~~~\ncc1: all warnings being treated as errors",
+        "of\u2019 to incomplete type \u2018struct tcphdr\u2019\n  202 |         size_t payload_len = ctx->length > eth_ip_len + sizeof(struct tcphdr) ? ctx->length - eth_ip_len - sizeof(struct tcphdr) : 0;\n      |                                                                                                                   ^~~~~~\nsrc/engine.c:203:12: error: invalid use of undefined type \u2018struct tcphdr\u2019\n  203 |         tcp->check = 0;\n      |            ^~\nsrc/engine.c:204:12: error: invalid use of undefined type \u2018struct tcphdr\u2019\n  204 |         tcp->check = kpf_calculate_tcp_checksum(ip, tcp, ctx->data + eth_ip_len + sizeof(struct tcphdr), payload_len);\n      |            ^~\nsrc/engine.c:204:90: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct tcphdr\u2019\n  204 |         tcp->check = kpf_calculate_tcp_checksum(ip, tcp, ctx->data + eth_ip_len + sizeof(struct tcphdr), payload_len);\n      |                                                                                          ^~~~~~\nsrc/engine.c:204:53: error: passing argument 2 of \u2018kpf_calculate_tcp_checksum\u2019 from incompatible pointer type [-Wincompatible-pointer-types]\n  204 |         tcp->check = kpf_calculate_tcp_checksum(ip, tcp, ctx->data + eth_ip_len + sizeof(struct tcphdr), payload_len);\n      |                                                     ^~~\n      |                                                     |\n      |                                                     struct tcphdr *\nsrc/engine.c:66:82: note: expected \u2018const struct tcphdr *\u2019 but argument is of type \u2018struct tcphdr *\u2019\n   66 | uint16_t kpf_calculate_tcp_checksum(const struct iphdr *ip, const struct tcphdr *tcp, const uint8_t *payload, size_t payload_len) {\n      |                                                             ~~~~~~~~~~~~~~~~~~~~~^~~\nsrc/engine.c: In function \u2018kpf_inject_packet\u2019:\nsrc/engine.c:218:24: error: storage size of \u2018socket_address\u2019 isn\u2019t known\n  218 |     struct sockaddr_ll socket_address;\n      |                        ^~~~~~~~~~~~~~\nsrc/engine.c:219:39: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct sockaddr_ll\u2019\n  219 |     memset(&socket_address, 0, sizeof(struct sockaddr_ll));\n      |                                       ^~~~~~\nsrc/engine.c:227:70: error: invalid application of \u2018sizeof\u2019 to incomplete type \u2018struct sockaddr_ll\u2019\n  227 |                           (struct sockaddr *)&socket_address, sizeof(struct sockaddr_ll));\n      |                                                                      ^~~~~~\nsrc/engine.c:218:24: error: unused variable \u2018socket_address\u2019 [-Werror=unused-variable]\n  218 |     struct sockaddr_ll socket_address;\n      |                        ^~~~~~~~~~~~~~\nsrc/engine.c: At top level:\nsrc/engine.c:238:75: error: \u2018struct tcphdr\u2019 declared inside parameter list will not be visible outside of this definition or declaration [-Werror]\n  238 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp) {\n      |                                                                           ^~~~~~\nsrc/engine.c:238:17: error: conflicting types for \u2018kpf_track_tcp_state\u2019; have \u2018kpf_tcp_state_t(kpf_tcp_state_t,  const struct tcphdr *)\u2019\n  238 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp) {\n      |                 ^~~~~~~~~~~~~~~~~~~\nsrc/engine.h:85:17: note: previous declaration of \u2018kpf_track_tcp_state\u2019 with type \u2018kpf_tcp_state_t(kpf_tcp_state_t,  const struct tcphdr *)\u2019\n   85 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp);\n      |                 ^~~~~~~~~~~~~~~~~~~\nsrc/engine.c: In function \u2018kpf_track_tcp_state\u2019:\nsrc/engine.c:243:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  243 |             if (tcp->syn && !tcp->ack) return KPF_TCP_SYN_SENT;\n      |                    ^~\nsrc/engine.c:243:33: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  243 |             if (tcp->syn && !tcp->ack) return KPF_TCP_SYN_SENT;\n      |                                 ^~\nsrc/engine.c:246:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  246 |             if (tcp->syn && tcp->ack) return KPF_TCP_ESTABLISHED;\n      |                    ^~\nsrc/engine.c:246:32: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  246 |             if (tcp->syn && tcp->ack) return KPF_TCP_ESTABLISHED;\n      |                                ^~\nsrc/engine.c:247:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  247 |             if (tcp->rst) return KPF_TCP_CLOSED;\n      |                    ^~\nsrc/engine.c:250:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  250 |             if (tcp->fin) return KPF_TCP_FIN_WAIT;\n      |                    ^~\nsrc/engine.c:251:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  251 |             if (tcp->rst) return KPF_TCP_CLOSED;\n      |                    ^~\nsrc/engine.c:254:20: error: invalid use of undefined type \u2018const struct tcphdr\u2019\n  254 |             if (tcp->ack) return KPF_TCP_CLOSED;\n      |                    ^~\ncc1: all warnings being treated as errors\nIn file included from src/main.c:1:\nsrc/engine.h:45:25: error: \u2018IFNAMSIZ\u2019 undeclared here (not in a function); did you mean \u2018IF_NAMESIZE\u2019?\n   45 |     char interface_name[IFNAMSIZ];\n      |                         ^~~~~~~~\n      |                         IF_NAMESIZE\nsrc/engine.h:80:74: error: \u2018struct tcphdr\u2019 declared inside parameter list will not be visible outside of this definition or declaration [-Werror]\n   80 | uint16_t kpf_calculate_tcp_checksum(const struct iphdr *ip, const struct tcphdr *tcp, const uint8_t *payload, size_t payload_len);\n      |                                                                          ^~~~~~\nsrc/engine.h:85:75: error: \u2018struct tcphdr\u2019 declared inside parameter list will not be visible outside of this definition or declaration [-Werror]\n   85 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp);\n      |                                                                           ^~~~~~\nsrc/main.c: In function \u2018main\u2019:\nsrc/main.c:72:88: error: passing argument 2 of \u2018kpf_track_tcp_state\u2019 from incompatible pointer type [-Wincompatible-pointer-types]\n   72 |         mutation_ctx.observed_state = kpf_track_tcp_state(mutation_ctx.expected_state, tcp);\n      |                                                                                        ^~~\n      |                                                                                        |\n      |                                                                                        struct tcphdr *\nsrc/engine.h:85:83: note: expected \u2018const struct tcphdr *\u2019 but argument is of type \u2018struct tcphdr *\u2019\n   85 | kpf_tcp_state_t kpf_track_tcp_state(kpf_tcp_state_t current, const struct tcphdr *tcp);\n      |                                                              ~~~~~~~~~~~~~~~~~~~~~^~~\ncc1: all warnings being treated as errors"
+      ]
+    }
+  ],
+  "selected_idea": {
+    "category": "systems-tool",
+    "keywords": [
+      "systems-engineering",
+      "networking",
+      "fuzzing",
+      "security-testing",
+      "kernel-interfaces"
+    ],
+    "major_features": [
+      "Raw socket capture and injection interface",
+      "Protocol-specific header field mutation engine",
+      "Checksum corruption and sequence number randomization",
+      "Stateful tracking of TCP connection lifecycle",
+      "Automated reproduction of crash-inducing packet sequences",
+      "Real-time packet capture and logging to pcap format",
+      "Configurable mutation rate and protocol segment selection",
+      "Deterministic test suite for kernel panic detection"
+    ],
+    "name": "Kernel-Level Packet Fuzzer",
+    "pain": "Lack of deterministic, stateful protocol fuzzer that can inject malformed packets into a local loopback interface.",
+    "problem": "Network stacks are often tested with valid traffic, leaving edge-case vulnerabilities in TCP/IP parsing logic undiscovered.",
+    "slug": "k-packet-fuzz",
+    "solution": "A C11 network fuzzer that crafts arbitrary Ethernet/IP/TCP frames, performs checksum manipulation, and monitors kernel-space socket state for crashes or hangs.",
+    "target_user": "network protocol engineers",
+    "technology": "C11",
+    "verification": "Deterministic replay of failed test sequences; validation of packet integrity against RFC standards; automated detection of socket-level resource leaks."
+  },
+  "slug": "k-packet-fuzz",
+  "standalone_status": "PENDING",
+  "target_user": "network protocol engineers",
+  "technology": "C11",
+  "timestamp": "2026-11-21T10:18:58.812906+00:00",
+  "validation_profile": "hard-systems-v1",
+  "validation_results": [
+    {
+      "command": [
+        "factory",
+        "static-product-check"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "systems-c architecture, depth, safety and documentation gates passed"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_engine.c",
+        "-o",
+        "build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_engine"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running engine unit tests...\nAll engine unit tests passed successfully (10 assertions verified)."
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "tests/test_integration.c",
+        "-o",
+        "build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    },
+    {
+      "command": [
+        "./build/test_integration"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": "Running integration tests...\nAll integration tests passed successfully (10 assertions verified)."
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-I",
+        "src",
+        "src/engine.c",
+        "src/main.c",
+        "-o",
+        "build/app"
+      ],
+      "critical": true,
+      "exit_code": 0,
+      "failure_class": null,
+      "status": "PASS",
+      "summary": ""
+    }
+  ]
+}
